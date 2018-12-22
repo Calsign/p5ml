@@ -14,9 +14,10 @@ type event =
 
 module type Renderer = sig
   type buffer
-  type painter = paint -> buffer -> unit
+  type painter
 
   val create_buffer : unit -> buffer
+  val create_painter : (paint -> buffer -> unit) -> painter
   val paint : buffer -> paint -> painter -> unit
   val synchronize : buffer -> unit
   val clear : buffer -> unit
@@ -34,5 +35,6 @@ end
 
 module BaseRenderer (R : Renderer) = struct
   type painter = paint -> R.buffer -> unit
+  let create_painter func = func
   let paint buffer paint painter = painter paint buffer
 end

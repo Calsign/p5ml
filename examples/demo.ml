@@ -9,7 +9,6 @@ module TestSketch = struct
   let setup conf = {x = 0}
 
   let loop conf st =
-    (*if st.x = 300 then raise Exit else*)
     {x = ((st.x + 2) mod (conf.width))}
 
   let draw conf st = comp [
@@ -26,7 +25,7 @@ module TestSketch = struct
 
   let key_pressed conf st =
     (match conf.key with
-    | k when k = Key.return -> print_endline "return"
+    | k when k = Key.return -> print_endline "return"; raise Exit
     | _ -> ()); st
 end
 

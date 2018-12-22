@@ -21,13 +21,17 @@ module Canvas (R : Renderer) : sig
   val no_stroke : R.painter -> R.painter
   val stroke_weight : float -> R.painter -> R.painter
 end = struct
-  let comp painters paint buffer = List.iter (fun painter -> painter paint buffer) painters
+  let comp painters =
+    R.create_painter (fun paint buffer -> List.iter (R.paint buffer paint) painters)
 
-  let fill color painter paint = painter (Paint.fill color paint)
-  let stroke color painter paint = painter (Paint.stroke color paint)
-  let no_fill painter paint = painter (Paint.no_fill paint)
-  let no_stroke painter paint = painter (Paint.no_stroke paint)
-  let stroke_weight weight painter paint = painter (Paint.stroke_weight weight paint)
+  let create_paint_mutator mutator painter =
+    R.create_painter (fun paint buffer -> R.paint buffer (mutator paint) painter)
+
+  let fill color = Paint.fill color |> create_paint_mutator
+  let stroke color = Paint.stroke color |> create_paint_mutator
+  let no_fill = Paint.no_fill |> create_paint_mutator
+  let no_stroke = Paint.no_stroke |> create_paint_mutator
+  let stroke_weight weight = Paint.stroke_weight weight |> create_paint_mutator
 
   let point = R.point
   let line = R.line
@@ -38,5 +42,7 @@ end = struct
   let triangle x1 y1 x2 y2 x3 y3 = poly [(x1, y1); (x2, y2); (x3, y3)]
   let quad x1 y1 x2 y2 x3 y3 x4 y4 = poly [(x1, y1); (x2, y2); (x3, y3); (x4, y4)]
 
-  let background color paint buffer = comp [rect 0 0 (R.width buffer) (R.height buffer) |> fill color] paint buffer
+  let background color = R.create_painter
+      (fun paint buffer -> R.paint buffer paint
+          (comp [rect 0 0 (R.width buffer) (R.height buffer) |> fill color |> stroke color]))
 end
