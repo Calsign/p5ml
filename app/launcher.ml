@@ -17,7 +17,7 @@ let check_file filename =
 
 let make_sketch_dir () =
   let dir = build_dir ()
-  in execute (Printf.sprintf "rm %s -rf && mkdir -p %s && cd %s" dir dir dir)
+  in execute (Printf.sprintf "rm -rf %s && mkdir -p %s && cd %s" dir dir dir)
 
 let compile comp filename =
   let dir = build_dir ()
