@@ -80,7 +80,6 @@ end = struct
     in let state'' = S.loop config' state'
     in let painter = S.draw config'' state''
     in let base_paint = Paint.create
-    (* TODO implement mouse and keyboard events *)
     in begin
       S.R.clear buffer;
       S.R.paint buffer base_paint painter;
