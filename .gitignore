@@ -1,0 +1,19 @@
+# OCaml
+*.cmo
+*.cma
+*.cmi
+*.out
+*.cmx
+*.native
+*.byte
+_build
+
+# Generated
+docs.public
+docs.private
+
+# Temporary files
+*.swp
+*~
+\#*\#
+.DS_Store

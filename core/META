@@ -1,0 +1,6 @@
+name="p5ml"
+description="Processing OCaml"
+version="0.1"
+requires="unix,graphics"
+archive(byte)="p5.cma"
+archive(native)="p5.cmxa"
