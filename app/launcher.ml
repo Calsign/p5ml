@@ -7,7 +7,7 @@ let execute cmd =
   else failwith (Printf.sprintf "Command '%s' failed with error code %d" cmd result)
 
 let build_dir () =
-  Filename.get_temp_dir_name () ^ Filename.dir_sep ^ "p5ml/"
+  Filename.concat (Filename.get_temp_dir_name ()) ("p5ml" ^ Filename.dir_sep)
 
 let check_file filename =
   if Sys.file_exists filename then () else failwith "File does not exist!";
@@ -28,18 +28,18 @@ let compile comp filename =
   in let command =
        Printf.sprintf
          ("cp %s %s && cd %s "
-          ^^ "&& ocamlfind %s -package p5ml unix.%s graphics.%s p5.%s %s.ml -o sketch ")
+          ^^ "&& ocamlfind %s -thread -package p5ml unix.%s graphics.%s p5.%s %s.ml -o sketch ")
          filename dir dir compiler ext ext ext base_filename
   in execute command
 
 let launch_sketch () =
   let dir = build_dir ()
-  in ignore (Sys.command (Printf.sprintf "cd %s && ./sketch" dir))
+  in ignore (Sys.command (Printf.sprintf "cd %s && .%ssketch" dir Filename.dir_sep))
 
 let launch filename =
   check_file filename;
   make_sketch_dir ();
-  compile OPT filename;
+  compile BYTE filename;
   launch_sketch ()
 
 let () =
