@@ -19,7 +19,7 @@ module type Renderer = sig
   val create_painter : (paint -> buffer -> unit) -> painter
   val paint : buffer -> paint -> painter -> unit
 
-  val create_buffer : unit -> buffer
+  val create_buffer : float -> buffer
   val begin_draw : buffer -> unit
   val end_draw : buffer -> unit
   val clear : buffer -> unit

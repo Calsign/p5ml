@@ -12,8 +12,8 @@ module rec Gtk_cairo : Renderer = struct
     {
       window : GWindow.window;
       draw : GMisc.drawing_area;
-      record : Surface.t;
-      context : Cairo.context;
+      mutable recorder : Surface.t;
+      mutable context : Cairo.context;
       mutex : Mutex.t;
     }
 
@@ -25,12 +25,16 @@ module rec Gtk_cairo : Renderer = struct
   let expose buffer draw ev =
     Mutex.lock buffer.mutex;
     let context = Cairo_gtk.create draw#misc#window
-    in set_source_surface context buffer.record 0. 0.;
-    rectangle context 0. 0. (width buffer |> float_of_int) (height buffer |> float_of_int);
+    in set_source_surface context buffer.recorder 0. 0.;
+    rectangle context 0. 0.
+      (width buffer |> float_of_int) (height buffer |> float_of_int);
     Cairo.fill context;
     Mutex.unlock buffer.mutex; true
 
-  let create_buffer () =
+  let redraw_trigger buffer () =
+    GtkBase.Widget.queue_draw (buffer.window#as_widget); true
+
+  let create_buffer frame_rate =
     ignore (GMain.init ());
     let window = GWindow.window ()
     in ignore (window#connect#destroy ~callback:GMain.quit);
@@ -41,20 +45,30 @@ module rec Gtk_cairo : Renderer = struct
          {
            window = window;
            draw = draw;
-           record = surface;
+           recorder = surface;
            context = context;
            mutex = Mutex.create ();
          }
     in ignore (draw#event#connect#expose
                  ~callback:(expose buffer draw));
-    ignore (GMain.Timeout.add (int_of_float ((1. /. 60.) *. 1000.)) (fun () -> GtkBase.Widget.queue_draw (buffer.window#as_widget); true));
+    let timeout = 1. /. frame_rate *. 1000.
+    in ignore (GMain.Timeout.add
+                 (int_of_float timeout) (redraw_trigger buffer));
     window#show (); ignore (Thread.create GMain.main ()); buffer
 
-  let begin_draw buffer = Mutex.lock buffer.mutex
+  let begin_draw buffer =
+    Mutex.lock buffer.mutex;
+    Cairo.Surface.finish buffer.recorder;
+    buffer.recorder <- Cairo.Recording.create Cairo.COLOR_ALPHA;
+    buffer.context <- Cairo.create buffer.recorder
+
   let end_draw buffer = Mutex.unlock buffer.mutex
+
   let clear buffer = ()
 
-  let event_queue buffer = WindowResized {width = width buffer; height = height buffer} :: []
+  let event_queue buffer =
+    (* todo events *)
+    WindowResized {width = width buffer; height = height buffer} :: []
 
   let draw_path paint buffer =
     let apply_color color = set_source_rgba buffer.context

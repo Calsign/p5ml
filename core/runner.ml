@@ -29,7 +29,7 @@ end = struct
       key_pressed = false;
     }
 
-  let frame_rate = 60.
+  let frame_rate () = 60.
 
   let loop_config config =
     {
@@ -85,14 +85,13 @@ end = struct
       S.R.clear buffer;
       S.R.paint buffer base_paint painter;
       S.R.end_draw buffer;
-      Unix.gettimeofday () -. start |> ( *. ) 10000. |> int_of_float |> string_of_int |> print_endline;
-      Unix.sleepf (max 0.005 (1. /. frame_rate -. (Unix.gettimeofday () -. start)));
+      Unix.sleepf (max 0.005 (1. /. (frame_rate ()) -. (Unix.gettimeofday () -. start)));
       loop buffer config'' state''
     end
 
   let run () =
     try begin
-      let buffer = S.R.create_buffer ()
+      let buffer = S.R.create_buffer (frame_rate ())
       in let config = create_config buffer
       in let state = S.setup config
       in loop buffer config state

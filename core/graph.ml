@@ -8,7 +8,7 @@ module rec Graph : Renderer = struct
 
   include BaseRenderer (Graph)
 
-  let create_buffer () =
+  let create_buffer _ =
     Graphics.open_graph "";
     Graphics.auto_synchronize false
 
