@@ -81,9 +81,11 @@ end = struct
     in let painter = S.draw config'' state''
     in let base_paint = Paint.create
     in begin
+      S.R.begin_draw buffer;
       S.R.clear buffer;
       S.R.paint buffer base_paint painter;
-      S.R.synchronize buffer;
+      S.R.end_draw buffer;
+      Unix.gettimeofday () -. start |> ( *. ) 10000. |> int_of_float |> string_of_int |> print_endline;
       Unix.sleepf (max 0.005 (1. /. frame_rate -. (Unix.gettimeofday () -. start)));
       loop buffer config'' state''
     end

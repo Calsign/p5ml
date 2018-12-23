@@ -1,3 +1,7 @@
 B _build
+B +threads
 PKG oUnit
 PKG graphics
+PKG cairo2
+PKG lablgtk2
+PKG cairo2-gtk

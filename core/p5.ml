@@ -18,3 +18,14 @@ module Graph = struct
 
   include Canvas
 end
+
+module Gtkc = struct
+  include Core
+
+  open Gtk_cairo
+
+  module Base = Sketch.Base (Gtk_cairo)
+  module Canvas = Canvas.Canvas (Gtk_cairo)
+
+  include Canvas
+end

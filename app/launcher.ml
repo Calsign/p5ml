@@ -22,14 +22,15 @@ let make_sketch_dir () =
 let compile comp filename =
   let dir = build_dir ()
   in let compiler, ext = match comp with
-    | BYTE -> "ocamlopt", "cmxa"
-    | OPT -> "ocamlc", "cma"
+    | OPT -> "ocamlopt", "cmxa"
+    | BYTE -> "ocamlc", "cma"
   in let base_filename = Filename.chop_suffix (Filename.basename filename) ".ml"
   in let command =
        Printf.sprintf
-         ("cp %s %s && cd %s "
-          ^^ "&& ocamlfind %s -thread -package p5ml unix.%s graphics.%s p5.%s %s.ml -o sketch ")
-         filename dir dir compiler ext ext ext base_filename
+         ("cp %s %s && cd %s && "
+          ^^ "ocamlfind %s -thread -package p5ml -package unix -package graphics "
+          ^^ "-package cairo2 -package lablgtk2 -package cairo2-gtk -linkpkg %s.ml -o sketch")
+         filename dir dir compiler base_filename
   in execute command
 
 let launch_sketch () =
@@ -39,7 +40,7 @@ let launch_sketch () =
 let launch filename =
   check_file filename;
   make_sketch_dir ();
-  compile BYTE filename;
+  compile OPT filename;
   launch_sketch ()
 
 let () =

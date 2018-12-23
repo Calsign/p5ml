@@ -4,6 +4,7 @@ Paint
 Renderer
 Canvas
 Graph
+Gtk_cairo
 Config
 Sketch
 Runner

@@ -1,6 +1,6 @@
 name="p5ml"
 description="Processing OCaml"
 version="0.1"
-requires="unix,graphics"
+requires="unix,graphics,threads,cairo2,lablgtk2,cairo2-gtk"
 archive(byte)="p5.cma"
 archive(native)="p5.cmxa"

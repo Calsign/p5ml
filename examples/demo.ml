@@ -1,5 +1,5 @@
 
-open P5.Graph
+open P5.Gtkc
 
 module TestSketch = struct
   include Base

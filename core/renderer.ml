@@ -16,10 +16,12 @@ module type Renderer = sig
   type buffer
   type painter
 
-  val create_buffer : unit -> buffer
   val create_painter : (paint -> buffer -> unit) -> painter
   val paint : buffer -> paint -> painter -> unit
-  val synchronize : buffer -> unit
+
+  val create_buffer : unit -> buffer
+  val begin_draw : buffer -> unit
+  val end_draw : buffer -> unit
   val clear : buffer -> unit
 
   val event_queue : buffer -> event list

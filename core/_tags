@@ -1,1 +1,2 @@
-true: package(oUnit), package(graphics)
+true: package(oUnit), package(graphics), package(threads), package(cairo2), package(lablgtk2), package(cairo2-gtk)
+true: thread

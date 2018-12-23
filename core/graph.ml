@@ -12,7 +12,8 @@ module rec Graph : Renderer = struct
     Graphics.open_graph "";
     Graphics.auto_synchronize false
 
-  let synchronize () = Graphics.synchronize ()
+  let begin_draw () = ()
+  let end_draw () = Graphics.synchronize ()
 
   let clear () = Graphics.clear_graph ()
 
