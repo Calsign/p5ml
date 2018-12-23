@@ -12,8 +12,7 @@ module rec Gtk_cairo : Renderer = struct
     {
       window : GWindow.window;
       draw : GMisc.drawing_area;
-      mutable recorder : Surface.t;
-      mutable context : Cairo.context;
+      painters : (Cairo.context -> unit) Queue.t;
       mutex : Mutex.t;
     }
 
@@ -22,13 +21,13 @@ module rec Gtk_cairo : Renderer = struct
   let width buffer = buffer.draw#misc#allocation.Gtk.width
   let height buffer =  buffer.draw#misc#allocation.Gtk.height
 
+  let push_painter buffer painter =
+    Queue.push painter buffer.painters
+
   let expose buffer draw ev =
     Mutex.lock buffer.mutex;
     let context = Cairo_gtk.create draw#misc#window
-    in set_source_surface context buffer.recorder 0. 0.;
-    rectangle context 0. 0.
-      (width buffer |> float_of_int) (height buffer |> float_of_int);
-    Cairo.fill context;
+    in Seq.iter (fun painter -> painter context) (Queue.to_seq buffer.painters);
     Mutex.unlock buffer.mutex; true
 
   let redraw_trigger buffer () =
@@ -39,14 +38,11 @@ module rec Gtk_cairo : Renderer = struct
     let window = GWindow.window ()
     in ignore (window#connect#destroy ~callback:GMain.quit);
     let draw = GMisc.drawing_area ~packing:window#add ()
-    in let surface = Cairo.Recording.create Cairo.COLOR_ALPHA
-    in let context = Cairo.create surface
     in let buffer =
          {
            window = window;
            draw = draw;
-           recorder = surface;
-           context = context;
+           painters = Queue.create ();
            mutex = Mutex.create ();
          }
     in ignore (draw#event#connect#expose
@@ -58,11 +54,10 @@ module rec Gtk_cairo : Renderer = struct
 
   let begin_draw buffer =
     Mutex.lock buffer.mutex;
-    Cairo.Surface.finish buffer.recorder;
-    buffer.recorder <- Cairo.Recording.create Cairo.COLOR_ALPHA;
-    buffer.context <- Cairo.create buffer.recorder
+    Queue.clear buffer.painters
 
-  let end_draw buffer = Mutex.unlock buffer.mutex
+  let end_draw buffer =
+    Mutex.unlock buffer.mutex
 
   let clear buffer = ()
 
@@ -70,21 +65,21 @@ module rec Gtk_cairo : Renderer = struct
     (* todo events *)
     WindowResized {width = width buffer; height = height buffer} :: []
 
-  let draw_path paint buffer =
-    let apply_color color = set_source_rgba buffer.context
+  let draw_path paint context =
+    let apply_color color = set_source_rgba context
         (float_of_int color.red /. 255.) (float_of_int color.green /. 255.)
         (float_of_int color.blue /. 255.) (float_of_int color.alpha /. 255.) in
     begin
       match extr_fill paint with
-      | Some color -> apply_color color; fill_preserve buffer.context
+      | Some color -> apply_color color; fill_preserve context
       | None -> ()
     end;
     begin
       match extr_stroke paint with
-      | Some color -> apply_color color; stroke_preserve buffer.context
+      | Some color -> apply_color color; stroke_preserve context
       | None -> ()
     end;
-    Path.clear buffer.context
+    Path.clear context
 
   let point x y paint buffer = ()
 
@@ -96,10 +91,13 @@ module rec Gtk_cairo : Renderer = struct
     in match pointsf with
     | [] -> ()
     | (x, y) :: tl ->
-      move_to buffer.context x y;
-      List.iter (fun (x, y) -> line_to buffer.context x y) tl;
-      Path.close buffer.context;
-      draw_path paint buffer
+      push_painter buffer
+        begin fun context ->
+          move_to context x y;
+          List.iter (fun (x, y) -> line_to context x y) tl;
+          Path.close context;
+          draw_path paint context
+        end
 
   let ellipse x y w h paint buffer = ()
 end
