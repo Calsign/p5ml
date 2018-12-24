@@ -1,5 +1,6 @@
 
 open Paint
+open Bezier
 
 type mouse_coords = {x : int; y : int}
 
@@ -36,6 +37,7 @@ module type Renderer = sig
   val arc : int -> int -> ?align : [`Corner | `Center] -> int -> int ->
     ?stroke_mode:[`Closed | `Open] ->
     ?fill_mode:[`Pie | `Chord] -> float -> float -> painter
+  val bezier : Bezier.t -> painter
 end
 
 module BaseRenderer (R : Renderer) = struct

@@ -4,6 +4,7 @@ module Core = struct
   include Config
   include Color
   include Key
+  include Bezier
   include Runner
 
   module type Sketch = Sketch.Sketch

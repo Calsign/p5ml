@@ -203,7 +203,7 @@ module rec Gtk_cairo : Renderer = struct
       begin fun context ->
         move_to context x1f y1f;
         line_to context x2f y2f;
-        draw_path paint context;
+        draw_path (no_fill paint) context;
       end
 
   let poly points paint buffer =
@@ -252,5 +252,17 @@ module rec Gtk_cairo : Renderer = struct
           | `Closed -> path_fill context;
         end;
         draw_path_sep paint empty_paint context;
+      end
+
+  let bezier ((x1, y1), (x2, y2), (x3, y3), (x4, y4)) paint buffer =
+    let x1f, y1f = float_of_int x1, float_of_int y1
+    in let x2f, y2f = float_of_int x2, float_of_int y2
+    in let x3f, y3f = float_of_int x3, float_of_int y3
+    in let x4f, y4f = float_of_int x4, float_of_int y4
+    in push_painter buffer
+      begin fun context ->
+        move_to context x1f y1f;
+        curve_to context x2f y2f x3f y3f x4f y4f;
+        draw_path (no_fill paint) context;
       end
 end

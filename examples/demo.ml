@@ -24,6 +24,7 @@ module TestSketch = struct
       rect 100 400 100 100 |> stroke (rgb 0 255 255) |> no_fill |> stroke_weight 30. |> stroke_join `Bevel;
       arc 500 100 100 100 0. ~stroke_mode:`Closed ~fill_mode:`Pie
         (Math.half_pi *. 3.) |> stroke_weight 10. |> stroke (rgb 255 0 0);
+      bezier (Bezier.create 700 100 800 50 800 250 700 200) |> stroke (gray 255);
     ]
 
   let mouse_pressed conf st =

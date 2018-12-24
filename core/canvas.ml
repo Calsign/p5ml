@@ -2,6 +2,7 @@
 open Color
 open Paint
 open Math
+open Bezier
 open Renderer
 
 module Canvas (R : Renderer) : sig
@@ -18,6 +19,7 @@ module Canvas (R : Renderer) : sig
   val arc : int -> int -> ?align : [`Corner | `Center] -> int -> int ->
     ?stroke_mode:[`Closed | `Open] ->
     ?fill_mode:[`Pie | `Chord] -> float -> float -> R.painter
+  val bezier : Bezier.t -> R.painter
 
   val fill : color -> R.painter -> R.painter
   val stroke : color -> R.painter -> R.painter
@@ -44,6 +46,7 @@ end = struct
   let line = R.line
   let poly = R.poly
   let arc = R.arc
+  let bezier = R.bezier
 
   let rect x y ?(align = `Corner) w h =
     let tx, ty = match align with

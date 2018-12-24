@@ -108,4 +108,16 @@ module rec Graph : Renderer = struct
       fill_action paint (fun () -> Graphics.fill_poly arr);
       stroke_action paint (fun () -> Graphics.draw_poly arr);
     end
+
+  let bezier (p1, p2, p3, p4) paint () =
+    let tx1, ty1 = transform_coords p1
+    in let point2 = transform_coords p2
+    in let point3 = transform_coords p3
+    in let point4 = transform_coords p4
+    in begin
+      stroke_action paint (fun () ->
+          Graphics.moveto tx1 ty1;
+          Graphics.curveto point2 point3 point4;
+        )
+    end
 end
