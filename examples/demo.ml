@@ -11,6 +11,8 @@ module TestSketch = struct
   let loop conf st =
     {x = ((st.x + 2) mod (conf.width))}
 
+  let curve = Bezier.create 700 100 800 50 800 250 700 200
+
   let draw conf st = comp [
       background (gray 0);
       ellipse 100 100 100 50 |> stroke (gray 255) |> no_fill |> stroke_weight 10.;
@@ -24,7 +26,17 @@ module TestSketch = struct
       rect 100 400 100 100 |> stroke (rgb 0 255 255) |> no_fill |> stroke_weight 30. |> stroke_join `Bevel;
       arc 500 100 100 100 0. ~stroke_mode:`Closed ~fill_mode:`Pie
         (Math.half_pi *. 3.) |> stroke_weight 10. |> stroke (rgb 255 0 0);
-      bezier (Bezier.create 700 100 800 50 800 250 700 200) |> stroke (gray 255);
+      bezier curve |> stroke (gray 255);
+      List.init 21 (fun n ->
+          let t = (float_of_int n) /. 20.
+          in let x, y = Bezier.interpolate curve t
+          in let dx, dy = Bezier.tangent curve t
+          in let px = x + (int_of_float (dx *. 0.3))
+          in let py = y + (int_of_float (dy *. 0.3))
+          in print_endline (string_of_float dx); comp [
+            point (x + 100) y |> stroke_weight 3.;
+            line (x + 100) y (px + 100) py;
+          ]) |> comp |> stroke (rgb 255 0 0)
     ]
 
   let mouse_pressed conf st =
