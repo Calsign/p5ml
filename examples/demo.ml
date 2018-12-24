@@ -22,6 +22,8 @@ module TestSketch = struct
       point conf.mouse_x conf.mouse_y |> stroke (rgb 0 255 0) |> stroke_weight 20.;
       line 200 200 400 200 |> stroke (gray 255) |> stroke_weight 30. |> stroke_cap `Square;
       rect 100 400 100 100 |> stroke (rgb 0 255 255) |> no_fill |> stroke_weight 30. |> stroke_join `Bevel;
+      arc 500 100 100 100 0. ~stroke_mode:`Closed ~fill_mode:`Pie
+        (Math.half_pi *. 3.) |> stroke_weight 10. |> stroke (rgb 255 0 0);
     ]
 
   let mouse_pressed conf st =

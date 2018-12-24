@@ -157,40 +157,42 @@ module rec Gtk_cairo : Renderer = struct
     let lst = Seq.fold_left (fun acc evt -> evt :: acc) [] (Queue.to_seq buffer.events)
     in Queue.clear buffer.events; lst
 
-  let draw_path paint context =
+  let draw_path_sep stroke_paint fill_paint context =
     let apply_color color = set_source_rgba context
         (float_of_int color.red /. 255.) (float_of_int color.green /. 255.)
         (float_of_int color.blue /. 255.) (float_of_int color.alpha /. 255.) in
     begin
-      match paint.fill with
+      match fill_paint.fill with
       | Some color ->
         apply_color color;
         fill_preserve context
       | None -> ()
     end;
     begin
-      match paint.stroke with
+      match stroke_paint.stroke with
       | Some color ->
         set_line_cap context
           begin
-            match paint.stroke_cap with
+            match stroke_paint.stroke_cap with
             | `Round -> ROUND
             | `Square -> BUTT
             | `Project -> SQUARE
           end;
         set_line_join context
           begin
-            match paint.stroke_join with
+            match stroke_paint.stroke_join with
             | `Miter -> JOIN_MITER
             | `Bevel -> JOIN_BEVEL
             | `Round -> JOIN_ROUND
           end;
-        set_line_width context (paint.stroke_weight);
+        set_line_width context (stroke_paint.stroke_weight);
         apply_color color;
         stroke_preserve context
       | None -> ()
     end;
     Path.clear context
+
+  let draw_path paint context = draw_path_sep paint paint context
 
   let line x1 y1 x2 y2 paint buffer =
     let x1f = float_of_int x1
@@ -218,18 +220,35 @@ module rec Gtk_cairo : Renderer = struct
           draw_path paint context;
         end
 
-  let ellipse x y w h paint buffer =
+  let arc x y w h ?(stroke_mode = `Open) ?(fill_mode = `Pie) rad1 rad2 paint buffer =
     let tw = (float_of_int w) /. 2.
     in let th = (float_of_int h) /. 2.
     in let tx = float_of_int x +. tw
     in let ty = float_of_int y +. th
+    in let empty_paint = paint |> no_stroke |> no_fill
+    in let initial context =
+         save context;
+         translate context tx ty;
+         scale context tw th;
+         arc context 0. 0. 1. rad1 rad2;
+         restore context;
+    in let path_fill context =
+         match fill_mode with
+         | `Pie -> line_to context tx ty; Path.close context;
+         | `Chord -> Path.close context;
     in push_painter buffer
       begin fun context ->
-        save context;
-        translate context tx ty;
-        scale context tw th;
-        arc context 0. 0. 1. 0. (2. *. Float.pi);
-        restore context;
-        draw_path paint context;
+        (* draw just fill first *)
+        initial context;
+        path_fill context;
+          draw_path_sep empty_paint paint context;
+        (* draw just stroke second *)
+        initial context;
+        begin
+          match stroke_mode with
+          | `Open -> ();
+          | `Closed -> path_fill context;
+        end;
+        draw_path_sep paint empty_paint context;
       end
 end

@@ -1,6 +1,7 @@
 
 open Color
 open Paint
+open Math
 open Renderer
 
 module rec Graph : Renderer = struct
@@ -89,12 +90,13 @@ module rec Graph : Renderer = struct
         )
     end
 
-  let ellipse x y w h paint () =
+  let arc x y w h ?(stroke_mode = `Open) ?(fill_mode = `Pie) rad1 rad2 paint () =
     let tx, ty, tw, th = transform_rect (x, y, w, h)
     in let cx, cy, rx, ry = tx + tw / 2, ty + th / 2, tw / 2, th / 2
+    in let deg1, deg2 = Math.degrees ~-.rad1 |> int_of_float, Math.degrees ~-.rad2 |> int_of_float
     in begin
-      fill_action paint (fun () -> Graphics.fill_ellipse cx cy rx ry);
-      stroke_action paint (fun () -> Graphics.draw_ellipse cx cy rx ry);
+      fill_action paint (fun () -> Graphics.fill_arc cx cy rx ry deg1 deg2);
+      stroke_action paint (fun () -> Graphics.draw_arc cx cy rx ry deg1 deg2);
     end
 
   let poly points paint () =

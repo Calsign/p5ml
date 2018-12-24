@@ -1,6 +1,7 @@
 
 open Color
 open Paint
+open Math
 open Renderer
 
 module Canvas (R : Renderer) : sig
@@ -14,6 +15,9 @@ module Canvas (R : Renderer) : sig
   val quad : int -> int -> int -> int -> int -> int -> int -> int -> R.painter
   val poly : (int * int) list -> R.painter
   val ellipse : int -> int -> int -> int -> R.painter
+  val arc : int -> int -> int -> int ->
+    ?stroke_mode:[`Closed | `Open] ->
+    ?fill_mode:[`Pie | `Chord] -> float -> float -> R.painter
 
   val fill : color -> R.painter -> R.painter
   val stroke : color -> R.painter -> R.painter
@@ -39,11 +43,12 @@ end = struct
 
   let line = R.line
   let poly = R.poly
-  let ellipse = R.ellipse
+  let arc = R.arc
 
   let rect x y w h = poly [(x, y); (x+w, y); (x+w, y+h); (x, y+h)]
   let triangle x1 y1 x2 y2 x3 y3 = poly [(x1, y1); (x2, y2); (x3, y3)]
   let quad x1 y1 x2 y2 x3 y3 x4 y4 = poly [(x1, y1); (x2, y2); (x3, y3); (x4, y4)]
+  let ellipse x y w h = arc x y w h 0. Math.two_pi
 
   (** [point x y] internally uses [ellipse]. *)
   let point x y = R.create_painter

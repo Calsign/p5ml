@@ -33,7 +33,9 @@ module type Renderer = sig
 
   val line : int -> int -> int -> int -> painter
   val poly : (int * int) list -> painter
-  val ellipse : int -> int -> int -> int -> painter
+  val arc : int -> int -> int -> int ->
+    ?stroke_mode:[`Closed | `Open] ->
+    ?fill_mode:[`Pie | `Chord] -> float -> float -> painter
 end
 
 module BaseRenderer (R : Renderer) = struct
