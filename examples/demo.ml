@@ -20,13 +20,15 @@ module TestSketch = struct
         rect (st.x - conf.width) 100 100 100;
       ] |> stroke (rgb 255 0 0) |> no_fill |> stroke_weight 3.;
       point conf.mouse_x conf.mouse_y |> stroke (rgb 0 255 0) |> stroke_weight 20.;
+      line 200 200 400 200 |> stroke (gray 255) |> stroke_weight 30. |> stroke_cap `Square;
+      rect 100 400 100 100 |> stroke (rgb 0 255 255) |> no_fill |> stroke_weight 30. |> stroke_join `Bevel;
     ]
 
   let mouse_pressed conf st =
     match conf.mouse_button with
-    | Left -> {x = st.x - 50}
-    | Center | None -> st
-    | Right -> {x = st.x + 50}
+    | `Left -> {x = st.x - 50}
+    | `Center -> st
+    | `Right -> {x = st.x + 50}
 
   let key_pressed conf st =
     (match conf.key with

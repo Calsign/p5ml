@@ -20,6 +20,8 @@ module Canvas (R : Renderer) : sig
   val no_fill : R.painter -> R.painter
   val no_stroke : R.painter -> R.painter
   val stroke_weight : float -> R.painter -> R.painter
+  val stroke_cap : [`Round | `Square | `Project] -> R.painter -> R.painter
+  val stroke_join : [`Miter | `Bevel | `Round] -> R.painter -> R.painter
 end = struct
   let comp painters =
     R.create_painter (fun paint buffer -> List.iter (R.paint buffer paint) painters)
@@ -32,6 +34,8 @@ end = struct
   let no_fill = Paint.no_fill |> create_paint_mutator
   let no_stroke = Paint.no_stroke |> create_paint_mutator
   let stroke_weight weight = Paint.stroke_weight weight |> create_paint_mutator
+  let stroke_cap cap = Paint.stroke_cap cap |> create_paint_mutator
+  let stroke_join join = Paint.stroke_join join |> create_paint_mutator
 
   let line = R.line
   let poly = R.poly
@@ -44,11 +48,11 @@ end = struct
   (** [point x y] internally uses [ellipse]. *)
   let point x y = R.create_painter
       begin fun paint buffer ->
-        match extr_stroke paint with
+        match paint.stroke with
         | Some color ->
           begin
             let paint' = paint |> Paint.no_stroke |> Paint.fill color
-            in let dim = extr_stroke_weight paint |> int_of_float
+            in let dim = paint.stroke_weight |> int_of_float
             in R.paint buffer paint' (ellipse (x - dim / 2) (y - dim / 2) dim dim)
           end
         | None -> ()

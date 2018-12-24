@@ -5,8 +5,8 @@ type mouse_coords = {x : int; y : int}
 
 type event =
   | MouseMoved of mouse_coords
-  | MousePressed of mouse_coords * Config.mouse_button
-  | MouseReleased of mouse_coords * Config.mouse_button
+  | MousePressed of mouse_coords * [`Left | `Right | `Center]
+  | MouseReleased of mouse_coords * [`Left | `Right | `Center]
   | MouseScrolled of int
   | MouseEntered
   | MouseExited

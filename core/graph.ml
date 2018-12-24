@@ -39,8 +39,8 @@ module rec Graph : Renderer = struct
     in let get_mouse_events tl =
          match Graphics.button_down (), !mouse_pressed with
          | true, true | false, false -> tl
-         | true, false -> mouse_pressed := true; MousePressed (mouse_coords, Left) :: tl
-         | false, true -> mouse_pressed := false; MouseReleased (mouse_coords, Left) :: tl
+         | true, false -> mouse_pressed := true; MousePressed (mouse_coords, `Left) :: tl
+         | false, true -> mouse_pressed := false; MouseReleased (mouse_coords, `Left) :: tl
     in let rec get_key_events tl =
          match Graphics.key_pressed () with
          | true ->
@@ -61,17 +61,17 @@ module rec Graph : Renderer = struct
     in cx, cy, cw, ch
 
   let stroke_action paint action =
-    match extr_stroke paint with
+    match paint.stroke with
     | Some color ->
       begin
         color |> transform_color |> Graphics.set_color;
-        extr_stroke_weight paint |> int_of_float |> Graphics.set_line_width;
+        paint.stroke_weight |> int_of_float |> Graphics.set_line_width;
         action ();
       end
     | None -> ()
 
   let fill_action paint action =
-    match extr_fill paint with
+    match paint.fill with
     | Some color ->
       begin
         color |> transform_color |> Graphics.set_color;

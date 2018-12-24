@@ -10,6 +10,8 @@ exception Exit
 module Runner (S : Sketch) : sig
   val run : unit -> unit
 end = struct
+  let target_frame_rate = 60.
+
   let create_config buffer =
     {
       width = S.R.width buffer;
@@ -23,14 +25,15 @@ end = struct
       pmouse_y = 0;
       mouse_scroll = 0;
       mouse_pressed = false;
-      mouse_button = None;
+      mouse_button = `Left;
 
       key = Char.chr 0;
       key_unicode = Uchar.min;
       key_pressed = false;
-    }
 
-  let frame_rate () = 60.
+      frame_count = 0;
+      frame_rate = target_frame_rate
+    }
 
   let loop_config config =
     {
@@ -38,6 +41,7 @@ end = struct
       pmouse_x = config.mouse_x;
       pmouse_y = config.mouse_y;
       mouse_scroll = 0;
+      frame_count = config.frame_count + 1;
     }
 
   let update_config_mouse config x y button pressed =
@@ -71,8 +75,12 @@ end = struct
       in config', S.mouse_pressed config' state
     | MouseMoved {x; y} ->
       let config' = update_config_mouse config x y config.mouse_button true
-      in config', if config.mouse_pressed
-         then S.mouse_dragged config' state else state
+      in config', S.mouse_moved config
+           begin
+             if config.mouse_pressed
+             then S.mouse_dragged config' state
+             else state
+           end
     | MouseReleased ({x; y}, button) ->
       let config' = update_config_mouse config x y button false
       in config', S.mouse_released config' state |> S.mouse_clicked config'
@@ -107,13 +115,13 @@ end = struct
       S.R.clear buffer;
       S.R.paint buffer base_paint painter;
       S.R.end_draw buffer;
-      Unix.sleepf (max 0.005 (1. /. (frame_rate ()) -. (Unix.gettimeofday () -. start)));
+      Unix.sleepf (max 0.005 (1. /. target_frame_rate -. (Unix.gettimeofday () -. start)));
       loop buffer config'' state''
     end
 
   let run () =
     try begin
-      let buffer = S.R.create_buffer (frame_rate ())
+      let buffer = S.R.create_buffer target_frame_rate
       in let config = create_config buffer
       in let state = S.setup config
       in loop buffer config state

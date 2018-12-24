@@ -1,6 +1,4 @@
 
-type mouse_button = Left | Right | Center | None
-
 type config = {
   width : int;
   height : int;
@@ -13,9 +11,12 @@ type config = {
   pmouse_y : int;
   mouse_scroll : int;
   mouse_pressed : bool;
-  mouse_button : mouse_button;
+  mouse_button : [`Left | `Right | `Center];
 
   key : char;
   key_unicode : Uchar.t;
   key_pressed : bool;
+
+  frame_count : int;
+  frame_rate : float;
 }

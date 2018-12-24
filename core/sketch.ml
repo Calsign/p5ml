@@ -14,6 +14,7 @@ module type Sketch = sig
 
   val mouse_pressed : config -> state -> state
   val mouse_released : config -> state -> state
+  val mouse_moved : config -> state -> state
   val mouse_dragged : config -> state -> state
   val mouse_clicked : config -> state -> state
   val mouse_scrolled : config -> state -> state
@@ -33,6 +34,7 @@ module Base (R : Renderer) = struct
 
   let mouse_pressed _ st = st
   let mouse_released _ st = st
+  let mouse_moved _ st = st
   let mouse_dragged _ st = st
   let mouse_clicked _ st = st
   let mouse_scrolled _ st = st

@@ -6,7 +6,13 @@
 open Color
 
 (** The type of paint, used by painters to draw to the canvas. *)
-type paint
+type paint = private {
+  fill : color option;
+  stroke : color option;
+  stroke_weight : float;
+  stroke_cap : [`Round | `Square | `Project];
+  stroke_join : [`Miter | `Bevel | `Round];
+}
 
 val fill : color -> paint -> paint
 
@@ -18,11 +24,9 @@ val no_stroke : paint -> paint
 
 val stroke_weight : float -> paint -> paint
 
-val extr_fill : paint -> color option
+val stroke_cap : [`Round | `Square | `Project] -> paint -> paint
 
-val extr_stroke : paint -> color option
-
-val extr_stroke_weight : paint -> float
+val stroke_join : [`Miter | `Bevel | `Round] -> paint -> paint
 
 (** [create] is the default paint. *)
 val create : paint

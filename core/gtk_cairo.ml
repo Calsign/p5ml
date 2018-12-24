@@ -61,10 +61,10 @@ module rec Gtk_cairo : Renderer = struct
       y = GdkEvent.Button.y event |> int_of_float}
 
   let get_mouse_button event = match GdkEvent.Button.button event with
-    | 1 -> Left
-    | 2 -> Center
-    | 3 -> Right
-    | _ -> Left
+    | 1 -> `Left
+    | 2 -> `Center
+    | 3 -> `Right
+    | _ -> `Left
 
   let handle_mouse_pressed buffer event =
     queue_event buffer
@@ -162,16 +162,30 @@ module rec Gtk_cairo : Renderer = struct
         (float_of_int color.red /. 255.) (float_of_int color.green /. 255.)
         (float_of_int color.blue /. 255.) (float_of_int color.alpha /. 255.) in
     begin
-      match extr_fill paint with
+      match paint.fill with
       | Some color ->
         apply_color color;
         fill_preserve context
       | None -> ()
     end;
     begin
-      match extr_stroke paint with
+      match paint.stroke with
       | Some color ->
-        set_line_width context (extr_stroke_weight paint);
+        set_line_cap context
+          begin
+            match paint.stroke_cap with
+            | `Round -> ROUND
+            | `Square -> BUTT
+            | `Project -> SQUARE
+          end;
+        set_line_join context
+          begin
+            match paint.stroke_join with
+            | `Miter -> JOIN_MITER
+            | `Bevel -> JOIN_BEVEL
+            | `Round -> JOIN_ROUND
+          end;
+        set_line_width context (paint.stroke_weight);
         apply_color color;
         stroke_preserve context
       | None -> ()
