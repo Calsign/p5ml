@@ -12,6 +12,8 @@ module Runner (S : Sketch) : sig
 end = struct
   let target_frame_rate = 60.
 
+  let default_background_color = Color.gray 127
+
   let create_config buffer =
     {
       width = S.R.width buffer;
@@ -102,13 +104,20 @@ end = struct
       let config' = {config with width = width; height = height}
       in config', S.window_resized config' state
 
+  let default_background buffer =
+    let module C = Canvas (S.R) in
+    C.background default_background_color
+
   let rec loop buffer config state =
     let start = Unix.gettimeofday ()
     in let config' = loop_config config
     in let config'', state' =
          List.fold_left handle_event (config', state) (S.R.event_queue buffer)
     in let state'' = S.loop config' state'
-    in let painter = S.draw config'' state''
+    in let painter = S.R.comp [
+        default_background buffer;
+        S.draw config'' state'';
+      ]
     in let base_paint = Paint.create
     in begin
       S.R.begin_draw buffer;

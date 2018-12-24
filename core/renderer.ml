@@ -21,6 +21,7 @@ module type Renderer = sig
 
   val create_painter : (paint -> buffer -> unit) -> painter
   val paint : buffer -> paint -> painter -> unit
+  val comp : painter list -> painter
 
   val create_buffer : float -> buffer
   val begin_draw : buffer -> unit
@@ -44,4 +45,6 @@ module BaseRenderer (R : Renderer) = struct
   type painter = paint -> R.buffer -> unit
   let create_painter func = func
   let paint buffer paint painter = painter paint buffer
+  let comp painters paint buffer =
+    List.iter (fun painter -> painter paint buffer) painters
 end

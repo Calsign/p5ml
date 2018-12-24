@@ -29,8 +29,7 @@ module Canvas (R : Renderer) : sig
   val stroke_cap : [`Round | `Square | `Project] -> R.painter -> R.painter
   val stroke_join : [`Miter | `Bevel | `Round] -> R.painter -> R.painter
 end = struct
-  let comp painters =
-    R.create_painter (fun paint buffer -> List.iter (R.paint buffer paint) painters)
+  let comp = R.comp
 
   let create_paint_mutator mutator painter =
     R.create_painter (fun paint buffer -> R.paint buffer (mutator paint) painter)

@@ -151,6 +151,8 @@ module rec Gtk_cairo : Renderer = struct
   let end_draw buffer =
     Mutex.unlock buffer.mutex
 
+  (** [clear buffer] does not modify the buffer. This is because
+      the Cairo surface gets cleared every frame automatically. *)
   let clear buffer = ()
 
   let event_queue buffer =

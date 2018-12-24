@@ -33,7 +33,7 @@ module TestSketch = struct
           in let dx, dy = Bezier.tangent curve t
           in let px = x + (int_of_float (dx *. 0.3))
           in let py = y + (int_of_float (dy *. 0.3))
-          in print_endline (string_of_float dx); comp [
+          in comp [
             point (x + 100) y |> stroke_weight 3.;
             line (x + 100) y (px + 100) py;
           ]) |> comp |> stroke (rgb 255 0 0)
