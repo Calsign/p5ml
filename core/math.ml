@@ -1,5 +1,11 @@
 
 module Math = struct
+  let pi = 2. *. Pervasives.asin 1.
+  let half_pi = pi /. 2.
+  let two_pi = pi *. 2.
+
+  let e = Pervasives.exp 1.
+
   let abs = Pervasives.abs
   let absf = Pervasives.abs_float
   let ceil v = Pervasives.ceil v |> int_of_float
@@ -42,14 +48,8 @@ module Math = struct
   let cos = Pervasives.cos
   let sin = Pervasives.sin
   let tan = Pervasives.tan
-  let degrees r = r *. 180. /. Float.pi
-  let radians d = d *. Float.pi /. 180.
-
-  let pi = Float.pi
-  let half_pi = pi /. 2.
-  let two_pi = pi *. 2.
-
-  let e = Pervasives.exp 1.;
+  let degrees r = r *. 180. /. pi
+  let radians d = d *. pi /. 180.
 end
 
 module Vector = struct
