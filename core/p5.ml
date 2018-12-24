@@ -1,5 +1,6 @@
 
 module Core = struct
+  include Math
   include Config
   include Color
   include Key
