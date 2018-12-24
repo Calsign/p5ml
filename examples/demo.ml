@@ -14,7 +14,7 @@ module TestSketch = struct
   let draw conf st = comp [
       background (gray 0);
       ellipse 100 100 100 50 |> stroke (gray 255) |> no_fill |> stroke_weight 10.;
-      ellipse 100 200 50 50 |> stroke (gray 255) |> no_fill |> stroke_weight 10.;
+      ellipse 100 200 50 50 ~align:`Center |> stroke (gray 255) |> no_fill |> stroke_weight 10.;
       comp [
         rect st.x 100 100 100;
         rect (st.x - conf.width) 100 100 100;

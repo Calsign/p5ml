@@ -33,7 +33,7 @@ module type Renderer = sig
 
   val line : int -> int -> int -> int -> painter
   val poly : (int * int) list -> painter
-  val arc : int -> int -> int -> int ->
+  val arc : int -> int -> ?align : [`Corner | `Center] -> int -> int ->
     ?stroke_mode:[`Closed | `Open] ->
     ?fill_mode:[`Pie | `Chord] -> float -> float -> painter
 end

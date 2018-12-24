@@ -220,11 +220,13 @@ module rec Gtk_cairo : Renderer = struct
           draw_path paint context;
         end
 
-  let arc x y w h ?(stroke_mode = `Open) ?(fill_mode = `Pie) rad1 rad2 paint buffer =
+  let arc x y ?(align = `Corner) w h ?(stroke_mode = `Open)
+      ?(fill_mode = `Pie) rad1 rad2 paint buffer =
     let tw = (float_of_int w) /. 2.
     in let th = (float_of_int h) /. 2.
-    in let tx = float_of_int x +. tw
-    in let ty = float_of_int y +. th
+    in let tx, ty = match align with
+        | `Corner -> float_of_int x +. tw, float_of_int y +. th
+        | `Center -> float_of_int x, float_of_int y
     in let empty_paint = paint |> no_stroke |> no_fill
     in let initial context =
          save context;

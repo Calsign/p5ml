@@ -90,9 +90,12 @@ module rec Graph : Renderer = struct
         )
     end
 
-  let arc x y w h ?(stroke_mode = `Open) ?(fill_mode = `Pie) rad1 rad2 paint () =
+  let arc x y ?(align = `Corner) w h ?(stroke_mode = `Open)
+      ?(fill_mode = `Pie) rad1 rad2 paint () =
     let tx, ty, tw, th = transform_rect (x, y, w, h)
-    in let cx, cy, rx, ry = tx + tw / 2, ty + th / 2, tw / 2, th / 2
+    in let cx, cy, rx, ry = match align with
+        | `Corner -> tx + tw / 2, ty + th / 2, tw / 2, th / 2
+        | `Center -> tx, ty + th, tw / 2, th / 2
     in let deg1, deg2 = Math.degrees ~-.rad1 |> int_of_float, Math.degrees ~-.rad2 |> int_of_float
     in begin
       fill_action paint (fun () -> Graphics.fill_arc cx cy rx ry deg1 deg2);

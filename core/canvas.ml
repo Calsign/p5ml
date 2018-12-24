@@ -10,12 +10,12 @@ module Canvas (R : Renderer) : sig
   val background : color -> R.painter
   val point : int -> int -> R.painter
   val line : int -> int -> int -> int -> R.painter
-  val rect : int -> int -> int -> int -> R.painter
+  val rect : int -> int -> ?align : [`Corner | `Center] -> int -> int -> R.painter
   val triangle : int -> int -> int -> int -> int -> int -> R.painter
   val quad : int -> int -> int -> int -> int -> int -> int -> int -> R.painter
   val poly : (int * int) list -> R.painter
-  val ellipse : int -> int -> int -> int -> R.painter
-  val arc : int -> int -> int -> int ->
+  val ellipse : int -> int -> ?align : [`Corner | `Center] -> int -> int -> R.painter
+  val arc : int -> int -> ?align : [`Corner | `Center] -> int -> int ->
     ?stroke_mode:[`Closed | `Open] ->
     ?fill_mode:[`Pie | `Chord] -> float -> float -> R.painter
 
@@ -45,10 +45,15 @@ end = struct
   let poly = R.poly
   let arc = R.arc
 
-  let rect x y w h = poly [(x, y); (x+w, y); (x+w, y+h); (x, y+h)]
+  let rect x y ?(align = `Corner) w h =
+    let tx, ty = match align with
+      | `Corner -> x, y
+      | `Center -> x - w / 2, y - h / 2
+    in poly [(tx, ty); (tx+w, ty); (tx+w, ty+h); (tx, ty+h)]
+
   let triangle x1 y1 x2 y2 x3 y3 = poly [(x1, y1); (x2, y2); (x3, y3)]
   let quad x1 y1 x2 y2 x3 y3 x4 y4 = poly [(x1, y1); (x2, y2); (x3, y3); (x4, y4)]
-  let ellipse x y w h = arc x y w h 0. Math.two_pi
+  let ellipse x y ?(align = `Corner) w h = arc x y ~align:align w h 0. Math.two_pi
 
   (** [point x y] internally uses [ellipse]. *)
   let point x y = R.create_painter
