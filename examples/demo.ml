@@ -13,20 +13,28 @@ module TestSketch = struct
 
   let draw conf st = comp [
       background (gray 0);
-      ellipse 100 100 50 50 |> stroke (gray 255);
+      ellipse 100 100 100 50 |> stroke (gray 255) |> no_fill |> stroke_weight 10.;
+      ellipse 100 200 50 50 |> stroke (gray 255) |> no_fill |> stroke_weight 10.;
       comp [
         rect st.x 100 100 100;
         rect (st.x - conf.width) 100 100 100;
       ] |> stroke (rgb 255 0 0) |> no_fill |> stroke_weight 3.;
-      ellipse (conf.mouse_x - 10) (conf.mouse_y - 10) 20 20 |> fill (rgb 0 255 0);
+      point conf.mouse_x conf.mouse_y |> stroke (rgb 0 255 0) |> stroke_weight 20.;
     ]
 
-  let mouse_pressed conf st = {x = st.x - 50}
+  let mouse_pressed conf st =
+    match conf.mouse_button with
+    | Left -> {x = st.x - 50}
+    | Center | None -> st
+    | Right -> {x = st.x + 50}
 
   let key_pressed conf st =
     (match conf.key with
-    | k when k = Key.return -> print_endline "return"; raise Exit
+    | k when k = Key.enter -> raise Exit
     | _ -> ()); st
+
+  let mouse_scrolled conf st =
+    {x = st.x + conf.mouse_scroll * 10}
 end
 
 let () = run_sketch (module TestSketch)

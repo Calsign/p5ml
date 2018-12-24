@@ -4,12 +4,14 @@ open Paint
 type mouse_coords = {x : int; y : int}
 
 type event =
+  | MouseMoved of mouse_coords
   | MousePressed of mouse_coords * Config.mouse_button
-  | MouseDragged of mouse_coords * Config.mouse_button
   | MouseReleased of mouse_coords * Config.mouse_button
   | MouseScrolled of int
-  | KeyPressed of char
-  | KeyReleased of char
+  | MouseEntered
+  | MouseExited
+  | KeyPressed of Uchar.t
+  | KeyReleased of Uchar.t
   | WindowResized of {width : int; height : int}
 
 module type Renderer = sig
@@ -29,7 +31,6 @@ module type Renderer = sig
   val width : buffer -> int
   val height : buffer -> int
 
-  val point : int -> int -> painter
   val line : int -> int -> int -> int -> painter
   val poly : (int * int) list -> painter
   val ellipse : int -> int -> int -> int -> painter

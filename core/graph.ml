@@ -35,7 +35,7 @@ module rec Graph : Renderer = struct
     in let window_dims = width (), height ()
     in let get_mouse_moved tl =
          if mouse_coords = !mouse_coords_prev then tl
-         else (mouse_coords_prev := mouse_coords; MouseDragged (mouse_coords, Left) :: tl)
+         else (mouse_coords_prev := mouse_coords; MouseMoved mouse_coords :: tl)
     in let get_mouse_events tl =
          match Graphics.button_down (), !mouse_pressed with
          | true, true | false, false -> tl
@@ -44,7 +44,7 @@ module rec Graph : Renderer = struct
     in let rec get_key_events tl =
          match Graphics.key_pressed () with
          | true ->
-           let key = Graphics.read_key ()
+           let key = Graphics.read_key () |> Uchar.of_char
            in get_key_events (KeyReleased key :: KeyPressed key :: tl)
          | false -> tl
     in let get_window_resized tl =
@@ -78,12 +78,6 @@ module rec Graph : Renderer = struct
         action ();
       end
     | None -> ()
-
-  let point x y paint () =
-    let xc, yc = transform_coords (x, y)
-    in begin
-      stroke_action paint (fun () -> (Graphics.plot xc yc));
-    end
 
   let line x1 y1 x2 y2 paint () =
     let xc1, yc1 = transform_coords (x1, y1)

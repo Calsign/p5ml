@@ -3,6 +3,7 @@ open Config
 open Canvas
 open Sketch
 open Renderer
+open Key
 
 exception Exit
 
@@ -25,7 +26,7 @@ end = struct
       mouse_button = None;
 
       key = Char.chr 0;
-      key_code = 0;
+      key_unicode = Uchar.min;
       key_pressed = false;
     }
 
@@ -48,25 +49,46 @@ end = struct
       mouse_button = button;
     }
 
+  let unicode_key_mappings =
+    [
+      (KeyUnicode.backspace, Key.backspace);
+      (KeyUnicode.tab, Key.tab);
+      (KeyUnicode.enter, Key.enter);
+      (KeyUnicode.return, Key.return);
+      (KeyUnicode.esc, Key.esc);
+      (KeyUnicode.delete, Key.delete);
+    ]
+
+  let char_of_unicode unicode =
+    if Uchar.is_char unicode then Uchar.to_char unicode
+    else match List.assoc_opt unicode unicode_key_mappings with
+      | Some key -> key
+      | None -> '\000'
+
   let handle_event (config, state) = function
     | MousePressed ({x; y}, button) ->
       let config' = update_config_mouse config x y button true
       in config', S.mouse_pressed config' state
-    | MouseDragged ({x; y}, button) ->
-      let config' = update_config_mouse config x y button true
-      in config', S.mouse_dragged config' state
+    | MouseMoved {x; y} ->
+      let config' = update_config_mouse config x y config.mouse_button true
+      in config', if config.mouse_pressed
+         then S.mouse_dragged config' state else state
     | MouseReleased ({x; y}, button) ->
       let config' = update_config_mouse config x y button false
       in config', S.mouse_released config' state |> S.mouse_clicked config'
     | MouseScrolled scroll ->
       let config' = {config with mouse_scroll = scroll}
       in config', S.mouse_scrolled config' state
-    | KeyPressed key ->
-      if key = Key.Key.esc then raise Exit
-      else let config' = {config with key_pressed = true; key = key}
+    | MouseEntered -> config, state
+    | MouseExited -> config, state
+    | KeyPressed unicode ->
+      let key = char_of_unicode unicode
+      in if key = Key.esc then raise Exit
+      else let config' = {config with key_pressed = true; key = key; key_unicode = unicode}
         in config', S.key_pressed config' state
-    | KeyReleased key ->
-      let config' = {config with key_pressed = false; key = key}
+    | KeyReleased unicode ->
+      let key = char_of_unicode unicode
+      in let config' = {config with key_pressed = false; key = key; key_unicode = unicode}
       in config', S.key_released config' state |> S.key_typed config'
     | WindowResized {width; height} ->
       let config' = {config with width = width; height = height}

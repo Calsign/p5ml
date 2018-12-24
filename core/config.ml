@@ -16,6 +16,6 @@ type config = {
   mouse_button : mouse_button;
 
   key : char;
-  key_code : int;
+  key_unicode : Uchar.t;
   key_pressed : bool;
 }
