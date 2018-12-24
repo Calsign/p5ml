@@ -15,12 +15,15 @@ type color = {
     and [b], respectively. *)
 val rgb : int -> int -> int -> color
 
+(** [rgba r g b a] is [rgb r g b], but with an alpha value of [a]. *)
+val rgba : int -> int -> int -> int -> color
+
 (** [gray val] is the opaque color represented by the grayscale value [val],
     which is equivalent to each of red, green, and blue values of [val]. *)
 val gray : int -> color
 
-(** [rgba r g b a] is [rgb r g b], but with an alpha value of [a]. *)
-val rgba : int -> int -> int -> int -> color
+(** [gray val a] is [gray val], but with an alpha value of [a]. *)
+val graya : int -> int -> color
 
 (** [hsv h s v] is the opaque color represented by the hue, saturation, and
     value values of [h], [s], and [v], respectively. [h] is in the range

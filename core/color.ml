@@ -18,7 +18,9 @@ let rgba r g b a = {
 
 let rgb r g b = rgba r g b 255
 
-let gray v = rgba v v v 255
+let graya v a = rgba v v v a
+
+let gray v = graya v 255
 
 let hsv h s v = failwith "HSV color unimplemented"
 
