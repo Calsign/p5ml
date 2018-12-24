@@ -61,12 +61,12 @@ module Vector = struct
 
   let mag_sq {x; y} = x ** 2. +. y ** 2.
   let mag vec = mag_sq vec |> Math.sqrt
-  let add {x=x1; y=y1} {x=x2; y=y2} = create (x1 +. x2) (y1 +. y2)
-  let sub {x=x1; y=y1} {x=x2; y=y2} = create (x1 -. x2) (y1 -. y2)
+  let add vec1 vec2 = create (vec1.x +. vec2.x) (vec1.y +. vec2.y)
+  let sub vec1 vec2 = create (vec1.x -. vec2.x) (vec1.y -. vec2.y)
   let mult {x; y} scalar = create (x *. scalar) (y *. scalar)
   let div vec scalar = mult vec (1. /. scalar)
-  let dist {x=x1; y=y1} {x=x2; y=y2} = Math.distf x1 y1 x2 y2
-  let dot {x=x1; y=y1} {x=x2; y=y2} = x1 *. x2 +. y1 *. y2
+  let dist vec1 vec2 = Math.distf vec1.x vec1.y vec2.x vec2.y
+  let dot vec1 vec2 = vec1.x *. vec2.x +. vec1.y *. vec2.y
   let norm vec = div vec (mag vec)
   let with_mag vec scalar = mult (norm vec) scalar
   let limit vec lim =
@@ -76,8 +76,8 @@ module Vector = struct
   let rotate {x; y} theta =
     create (x *. (Math.cos theta) -. y *. (Math.sin theta))
       (x *. (Math.sin theta) +. y *. (Math.cos theta))
-  let lerp {x=x1; y=y1} {x=x2; y=y2} amt =
-    create (Math.lerpf x1 x2 amt) (Math.lerpf y1 y2 amt)
+  let lerp vec1 vec2 amt =
+    create (Math.lerpf vec1.x vec2.x amt) (Math.lerpf vec1.y vec2.y amt)
   let angle_between vec1 vec2 =
     Math.acos ((dot vec1 vec2) /. ((mag vec1) *. (mag vec2)))
   let project vec onto = mult onto ((dot vec onto) /. (mag_sq onto))
