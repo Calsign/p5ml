@@ -120,4 +120,6 @@ module rec Graph : Renderer = struct
           Graphics.curveto point2 point3 point4;
         )
     end
+
+  let shape shape paint () = ()
 end

@@ -1,6 +1,7 @@
 
 open Paint
 open Bezier
+open Shape
 
 type mouse_coords = {x : int; y : int}
 
@@ -39,6 +40,8 @@ module type Renderer = sig
     ?stroke_mode:[`Closed | `Open] ->
     ?fill_mode:[`Pie | `Chord] -> float -> float -> painter
   val bezier : Bezier.t -> painter
+
+  val shape : Shape.t -> painter
 end
 
 module BaseRenderer (R : Renderer) = struct

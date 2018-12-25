@@ -267,4 +267,6 @@ module rec Gtk_cairo : Renderer = struct
         curve_to context x2f y2f x3f y3f x4f y4f;
         draw_path (no_fill paint) context;
       end
+
+  let shape shape paint buffer = ()
 end
