@@ -5,6 +5,7 @@ open Cairo
 
 open Color
 open Paint
+open Shape.Shape
 open Config
 open Renderer
 
@@ -245,7 +246,7 @@ module rec Gtk_cairo : Renderer = struct
         (* draw just fill first *)
         initial context;
         path_fill context;
-          draw_path_sep empty_paint paint context;
+        draw_path_sep empty_paint paint context;
         (* draw just stroke second *)
         initial context;
         begin
@@ -268,5 +269,23 @@ module rec Gtk_cairo : Renderer = struct
         draw_path (no_fill paint) context;
       end
 
-  let shape shape paint buffer = ()
+  let shape shape paint buffer =
+    let empty_paint = paint |> no_stroke |> no_fill
+    in push_painter buffer
+      begin fun context ->
+        let vertex_handler = function
+          | MoveTo vec -> move_to context vec.x vec.y
+          | LineTo vec -> line_to context vec.x vec.y
+          | Bezier (c1, c2, a2) ->
+            curve_to context c1.x c1.y c2.x c2.y a2.x a2.y
+        in let rec shape_handler = function
+            | Group lst -> List.iter shape_handler lst
+            | Shape {vertices; contour} ->
+              List.iter vertex_handler vertices;
+              Path.close context;
+              draw_path_sep empty_paint paint context;
+              List.iter vertex_handler vertices;
+              draw_path_sep paint empty_paint context;
+        in shape_handler shape
+      end
 end

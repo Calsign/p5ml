@@ -21,12 +21,12 @@ module Shape = struct
 
   let build_poly sides hd tl =
     List.fold_left
-      begin fun (acc, flag) next -> match next, flag with
+      begin fun (acc, flag, start) next -> match next, flag with
         | `Vertex vec, n | `Bezier (_, _, vec), n when n = sides - 1 ->
-          MoveTo vec :: acc, 0
-        | `Vertex vec, n -> LineTo vec :: acc, n + 1
-        | `Bezier (c1, c2, a2), n -> Bezier (c1, c2, a2) :: acc, n + 1
-      end ([MoveTo hd], 1) tl |> fst
+          MoveTo vec :: LineTo start ::  acc, 0, vec
+        | `Vertex vec, n -> LineTo vec :: acc, n + 1, start
+        | `Bezier (c1, c2, a2), n -> Bezier (c1, c2, a2) :: acc, n + 1, start
+      end ([MoveTo hd], 0, hd) tl |> fun (lst, _, _) -> lst
 
   let build_triangle_strip hd tl =
     List.fold_left
@@ -85,7 +85,12 @@ module Shape = struct
           | `Closed -> LineTo head :: lst
         end
       | [] -> []
-    in Shape {vertices = vertices'; contour = contour}
+    in Shape {vertices = List.rev vertices'; contour = contour}
     
   let group shapes = Group shapes
+
+  let vert x y = `Vertex (Vector.createi x y)
+
+  let vert_bezier c1x c1y c2x c2y a2x a2y =
+    `Bezier (Vector.createi c1x c1y, Vector.createi c2x c2y, Vector.createi a2x a2y)
 end

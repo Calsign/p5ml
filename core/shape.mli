@@ -32,4 +32,16 @@ module Shape : sig
     ] list -> t
 
   val group : t list -> t
+
+  val vert : int -> int ->
+    [
+      | `Vertex of vector
+      | `Bezier of vector * vector * vector
+    ]
+
+  val vert_bezier : int -> int -> int -> int -> int -> int ->
+    [
+      | `Vertex of vector
+      | `Bezier of vector * vector * vector
+    ]
 end

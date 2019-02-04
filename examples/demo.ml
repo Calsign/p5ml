@@ -36,7 +36,21 @@ module TestSketch = struct
           in comp [
             point (x + 100) y |> stroke_weight 3.;
             line (x + 100) y (px + 100) py;
-          ]) |> comp |> stroke (rgb 255 0 0)
+          ]) |> comp |> stroke (rgb 255 0 0);
+      shape Shape.(create ~cap:`Closed [
+          vert 500 500;
+          vert 600 500;
+          vert 550 600;
+          vert_bezier 540 650 510 650 480 600;
+        ]) |> stroke (rgb 255 0 0) |> fill (rgb 100 0 150) |> stroke_weight 5.;
+      shape Shape.(create ~kind:`Triangle_strip [
+          vert 700 700;
+          vert 800 800;
+          vert 800 700;
+          vert 1000 800;
+          vert 1000 900;
+          vert 900 1000;
+        ]) |> stroke_weight 10. |> stroke (gray 127);
     ]
 
   let mouse_pressed conf st =

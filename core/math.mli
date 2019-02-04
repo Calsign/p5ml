@@ -45,6 +45,7 @@ module Vector : sig
   type t = {x : float; y : float}
 
   val create : float -> float -> t
+  val createi : int -> int -> t
   val of_tuple : (float * float) -> t
   val of_angle : float -> t
 

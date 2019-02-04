@@ -56,6 +56,7 @@ module Vector = struct
   type t = {x : float; y : float}
 
   let create x y = {x = x; y = y;}
+  let createi x y = {x = float_of_int x; y = float_of_int y}
   let of_tuple (x, y) = create x y
   let of_angle theta = create (Math.cos theta) (Math.sin theta)
 
