@@ -14,6 +14,7 @@ type event =
   | KeyPressed of Uchar.t
   | KeyReleased of Uchar.t
   | WindowResized of {width : int; height : int}
+  | WindowClosed
 
 module type Renderer = sig
   type buffer

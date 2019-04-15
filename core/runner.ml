@@ -5,7 +5,15 @@ open Sketch
 open Renderer
 open Key
 
-exception Exit
+(** Used internally by dynamic runner *)
+module Dynamic : sig
+  val is_dynamic : unit -> bool
+  val set_dynamic : unit -> unit
+end = struct
+  let dyn = ref false
+  let is_dynamic () = !dyn
+  let set_dynamic () = dyn := true
+end
 
 module Runner (S : Sketch) : sig
   val run : unit -> unit
@@ -103,6 +111,7 @@ end = struct
     | WindowResized {width; height} ->
       let config' = {config with width = width; height = height}
       in config', S.window_resized config' state
+    | WindowClosed -> config, S.window_closed config state
 
   let default_background buffer =
     let module C = Canvas (S.R) in

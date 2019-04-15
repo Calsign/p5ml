@@ -20,3 +20,6 @@ type config = {
   frame_count : int;
   frame_rate : float;
 }
+
+(* this is a weird place to put this, but it's here for now *)
+exception Exit

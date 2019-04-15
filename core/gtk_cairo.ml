@@ -101,6 +101,9 @@ module rec Gtk_cairo : Renderer = struct
       (WindowResized {width = GdkEvent.Configure.width event;
                       height = GdkEvent.Configure.height event}); false
 
+  let handle_window_delete buffer event =
+    queue_event buffer WindowClosed; false
+
   let create_buffer frame_rate =
     ignore (GMain.init ());
     let window = GWindow.window ()
@@ -136,6 +139,8 @@ module rec Gtk_cairo : Renderer = struct
               ~callback:(handle_mouse_scroll buffer));
     ignore (window#event#connect#configure
               ~callback:(handle_window_resized buffer));
+    ignore (window#event#connect#delete
+              ~callback:(handle_window_delete buffer));
 
     let timeout = 1. /. frame_rate *. 1000.
     in ignore (GMain.Timeout.add
