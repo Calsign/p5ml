@@ -7,16 +7,56 @@ open Key
 
 (** Used internally by dynamic runner *)
 module Dynamic : sig
+  type dynamic_handler = unit -> unit
+  val set_dynamic_handler : dynamic_handler -> unit
+  val apply_handler : unit -> unit
   val is_dynamic : unit -> bool
-  val set_dynamic : unit -> unit
+  val set_initialized : unit -> unit
+  val is_initialized : unit -> bool
+  val set_dynamic_hotswap : (Obj.t -> config -> Obj.t -> unit) -> unit
+  val apply_dynamic_hotswap : 'a -> config -> 'b -> unit
+  val has_dynamic_hotswap : unit -> bool
 end = struct
-  let dyn = ref false
-  let is_dynamic () = !dyn
-  let set_dynamic () = dyn := true
+  type dynamic_handler = unit -> unit
+    
+  let handler : dynamic_handler option ref = ref None
+      
+  let set_dynamic_handler v = handler := Some v
+
+  let apply_handler () = match !handler with
+    | Some func -> func ()
+    | None -> ()
+
+  let is_dynamic () = match !handler with
+    | Some _ -> true
+    | None -> false
+
+  let init = ref false
+  let set_initialized () = init := true
+  let is_initialized () = !init
+
+  let dynamic_hotswap : (Obj.t -> config -> Obj.t -> unit) option ref = ref None
+
+  let set_dynamic_hotswap func = dynamic_hotswap := Some func
+
+  let apply_dynamic_hotswap buffer_mag config state_mag =
+    match !dynamic_hotswap with
+    | Some func ->
+      begin
+        dynamic_hotswap := None;
+        func (Obj.repr buffer_mag) config (Obj.repr state_mag)
+      end
+    | None -> failwith "Tried to perform dynamic hot-swap without caching first"
+
+  let has_dynamic_hotswap () =
+    match !dynamic_hotswap with
+    | Some _ -> true
+    | None -> false
 end
 
 module Runner (S : Sketch) : sig
   val run : unit -> unit
+  val load_dynamic_module : Obj.t -> config -> Obj.t -> unit
 end = struct
   let target_frame_rate = 60.
 
@@ -79,6 +119,11 @@ end = struct
       | Some key -> key
       | None -> '\000'
 
+  let update_dynamic () =
+    if Dynamic.is_dynamic ()
+    then Dynamic.apply_handler ()
+    else ()
+
   let handle_event (config, state) = function
     | MousePressed ({x; y}, button) ->
       let config' = update_config_mouse config x y button true
@@ -101,7 +146,12 @@ end = struct
     | MouseExited -> config, state
     | KeyPressed unicode ->
       let key = char_of_unicode unicode
-      in if key = Key.esc then raise Exit
+      in if key = Key.esc then
+        begin
+          if Dynamic.is_dynamic ()
+          then (update_dynamic (); config, state)
+          else raise Exit
+        end
       else let config' = {config with key_pressed = true; key = key; key_unicode = unicode}
         in config', S.key_pressed config' state
     | KeyReleased unicode ->
@@ -134,20 +184,36 @@ end = struct
       S.R.paint buffer base_paint painter;
       S.R.end_draw buffer;
       Unix.sleepf (max 0.005 (1. /. target_frame_rate -. (Unix.gettimeofday () -. start)));
-      loop buffer config'' state''
+      if Dynamic.has_dynamic_hotswap ()
+      then Dynamic.apply_dynamic_hotswap buffer config'' state''
+      else loop buffer config'' state''
     end
 
+  let wrap_handle_exns func =
+    try func () with
+    | End_of_file | Exit -> ()
+
   let run () =
-    try begin
-      let buffer = S.R.create_buffer target_frame_rate
-      in let config = create_config buffer
-      in let state = S.setup config
-      in loop buffer config state
-    end with
-    | End_of_file -> ()
-    | Exit -> ()
+    wrap_handle_exns
+      begin fun () ->
+        let buffer = S.R.create_buffer target_frame_rate
+        in let config = create_config buffer
+        in let state = S.setup config
+        in loop buffer config state
+      end
+
+  let load_dynamic_module buffer_mag config state_mag =
+    wrap_handle_exns
+      begin fun () ->
+        (* do not try this at home kids *)
+        loop (Obj.obj buffer_mag) config (Obj.obj state_mag)
+      end
 end
 
-let run_sketch sketch =
-  let module Run = Runner (val sketch : Sketch)
-  in Run.run ()
+let run_sketch (sketch : (module Sketch)) : unit =
+  let module Run = Runner (val sketch : Sketch) in
+  begin
+    if Dynamic.is_initialized ()
+    then Dynamic.set_dynamic_hotswap Run.load_dynamic_module
+    else (Dynamic.set_initialized (); Run.run ())
+  end
