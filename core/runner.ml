@@ -191,7 +191,7 @@ end = struct
 
   let wrap_handle_exns func =
     try func () with
-    | End_of_file | Exit -> ()
+    | Exit -> ()
 
   let run () =
     wrap_handle_exns
