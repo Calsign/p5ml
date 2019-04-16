@@ -41,7 +41,27 @@ let make_sketch_dir () =
 
 let chop_filename filename =
   Filename.chop_suffix (Filename.basename filename) ".ml"
-let compile compiler target filename =
+
+let copy_file in_file out_file wrap =
+  let wrap_begin = "open P5.Gtkc\nmodule S = struct\ninclude Base\n"
+  in let wrap_end = "end\nlet () = run_sketch (module S)"
+  in let reader = open_in in_file
+  in let writer = open_out out_file
+  in let len = 4096
+  in let buff = Bytes.create len
+  in let rec handle_read () =
+       match input reader buff 0 len with
+       | 0 -> ()
+       | read -> output writer buff 0 read; handle_read ()
+  in begin
+    if wrap then output_string writer wrap_begin else ();
+    handle_read ();
+    if wrap then output_string writer wrap_end else ();
+    close_in reader;
+    close_out writer
+  end
+
+let compile compiler target wrap filename =
   let dir = build_dir ()
   in let ext = match target, compiler
        with
@@ -55,11 +75,12 @@ let compile compiler target filename =
   in let num = unique_num ()
   in let ml_filename = base_filename ^ string_of_int num ^ ".ml"
   in let output_filename = Printf.sprintf "%s%u.%s" base_filename num ext
-  in let command =
-       Printf.sprintf ("cp %s %s && cd %s && "
-                       ^^ "ocamlbuild -use-ocamlfind -package p5ml -tag thread %s")
-         filename (Filename.concat dir ml_filename) dir output_filename
-  in execute command; Filename.concat dir (Filename.concat "_build" output_filename)
+  in let command = Printf.sprintf
+         "cd %s && ocamlbuild -use-ocamlfind -package p5ml -tag thread %s"
+         dir output_filename
+  in copy_file filename (Filename.concat dir ml_filename) wrap;
+  execute command;
+  Filename.concat dir (Filename.concat "_build" output_filename)
 
 let launch_sketch filename = ignore (Sys.command filename)
 
@@ -70,33 +91,35 @@ let dynamic_sketch plugin handler =
   Runner.Dynamic.set_dynamic_handler handler;
   Dynlink.loadfile plugin
 
-let rec launch compiler target filename =
+let rec launch compiler target wrap filename =
   check_file filename;
   make_sketch_dir ();
-  let compiled_file = compile compiler target filename
+  let compiled_file = compile compiler target wrap filename
   in match target with
   | STANDALONE -> launch_sketch compiled_file
-  | DYNAMIC -> dynamic_sketch compiled_file (fun () -> launch compiler target filename)
+  | DYNAMIC -> dynamic_sketch compiled_file (fun () -> launch compiler target wrap filename)
 
 exception ParseCmdError
 
 let parse_cmd () =
   let dynamic = ref STANDALONE
   in let file_opt : string option ref = ref None
-  in let usage = "Usage: p5ml file [-d]"
+  in let wrap = ref false
+  in let usage = "Usage: p5ml file [-d] [-w]"
   in let spec = Arg.align [
-      ("-d", Arg.Unit (fun () -> dynamic := DYNAMIC), "\tDynamic");
+      ("-d", Arg.Unit (fun () -> dynamic := DYNAMIC), "\tDynamic mode");
+      ("-w", Arg.Unit (fun () -> wrap := true), "\tPerform preprocessor wrapping");
     ]
   in Arg.parse spec (fun arg -> file_opt := Some arg) usage;
   match !file_opt with
-  | Some file -> file, !dynamic
+  | Some file -> file, !dynamic, !wrap
   | None -> Arg.usage spec usage; raise ParseCmdError
 
 let () =
   try
     let compiler = if Dynlink.is_native then OPT else BYTE
-    in let file, target = parse_cmd ()
-    in launch compiler target file
+    in let file, target, wrap = parse_cmd ()
+    in launch compiler target wrap file
   with
   | End_of_file | ParseCmdError -> ()
   | Failure msg -> prerr_endline ("Error: " ^ msg)
