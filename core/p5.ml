@@ -11,24 +11,16 @@ module Core = struct
   module type Sketch = Sketch.Sketch
 end
 
-module Graph = struct
+module Maker (R : Renderer.Renderer) = struct
   include Core
 
-  open Graph
+  open R
 
-  module Base = Sketch.Base (Graph)
-  module Canvas = Canvas.Canvas (Graph)
+  module Base = Sketch.Base (R)
+  module Canvas = Canvas.Canvas (R)
 
   include Canvas
 end
 
-module Gtkc = struct
-  include Core
-
-  open Gtk_cairo
-
-  module Base = Sketch.Base (Gtk_cairo)
-  module Canvas = Canvas.Canvas (Gtk_cairo)
-
-  include Canvas
-end
+module Graph = Maker (Graph.Graph)
+module Gtkc = Maker (Gtk_cairo.Gtk_cairo)

@@ -24,6 +24,7 @@ module type Sketch = sig
   val key_typed : config -> state -> state
 
   val window_resized : config -> state -> state
+  val window_closed : config -> state -> state
 end
 
 module Base (R : Renderer) = struct
@@ -44,4 +45,5 @@ module Base (R : Renderer) = struct
   let key_typed _ st = st
 
   let window_resized _ st = st
+  let window_closed _ _ = raise Exit
 end
