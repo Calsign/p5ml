@@ -1,2 +1,2 @@
-true: package(dynlink), package(unix), package(p5ml)
+true: package(dynlink), package(unix), package(lwt), package(lwt_ppx), package(inotify.lwt), package(p5ml)
 true: thread

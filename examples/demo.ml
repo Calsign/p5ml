@@ -4,12 +4,12 @@ open P5.Gtkc
 module TestSketch = struct
   include Base
 
-  type state = {x : int}
+  type state = {x : int; y : int}
 
-  let setup conf = {x = 0}
+  let setup conf = {x = 0; y = 0}
 
   let loop conf st =
-    {x = ((st.x + 2) mod (conf.width))}
+    {st with x = ((st.x + 2) mod (conf.width))}
 
   let curve = Bezier.create 700 100 800 50 800 250 700 200
 
@@ -41,9 +41,9 @@ module TestSketch = struct
 
   let mouse_pressed conf st =
     match conf.mouse_button with
-    | `Left -> {x = st.x - 50}
+    | `Left -> {st with x = st.x - 50}
     | `Center -> st
-    | `Right -> {x = st.x + 50}
+    | `Right -> {st with x = st.x + 50}
 
   let key_pressed conf st =
     (match conf.key with
@@ -51,7 +51,7 @@ module TestSketch = struct
     | _ -> ()); st
 
   let mouse_scrolled conf st =
-    {x = st.x + conf.mouse_scroll * 10}
+    {st with x = st.x + conf.mouse_scroll * 10}
 end
 
 let () = run_sketch (module TestSketch)

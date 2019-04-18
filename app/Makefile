@@ -1,6 +1,6 @@
 LAUNCHER=launcher.byte
 NATIVE=launcher.native
-OCAMLBUILD=ocamlbuild -use-ocamlfind -tag linkall
+OCAMLBUILD=ocamlbuild -use-ocamlfind -tag linkall stubs.o -lflags -custom,stubs.o
 
 default: launcher
 

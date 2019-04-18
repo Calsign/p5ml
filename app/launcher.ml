@@ -6,10 +6,13 @@ let unique_num : unit -> int =
   let num = ref 0
   in fun () -> let v = !num in num := v + 1; v
 
+exception Execution_failure of string
+
 let execute cmd =
   let result = Sys.command cmd
   in if result = 0 then ()
-  else failwith (Printf.sprintf "Command '%s' failed with error code %d" cmd result)
+  else raise (Execution_failure
+                (Printf.sprintf "Command '%s' failed with error code %d" cmd result))
 
 let build_dir () =
   Filename.concat (Filename.get_temp_dir_name ()) ("p5ml" ^ Filename.dir_sep)
@@ -91,15 +94,43 @@ let dynamic_sketch plugin handler =
   Runner.Dynamic.set_dynamic_handler handler;
   Dynlink.loadfile plugin
 
-let rec launch compiler target wrap filename =
+let rec launch compiler target wrap inotify filename =
   check_file filename;
   make_sketch_dir ();
-  let compiled_file = compile compiler target wrap filename
-  in match target with
-  | STANDALONE -> launch_sketch compiled_file
-  | DYNAMIC -> dynamic_sketch compiled_file (fun () -> launch compiler target wrap filename)
+  try begin
+    let compiled_file = compile compiler target wrap filename
+    in match target with
+    | STANDALONE -> launch_sketch compiled_file
+    | DYNAMIC ->
+      begin
+        Runner.Dynamic.set_change_notifier inotify;
+        dynamic_sketch compiled_file (fun () -> launch compiler target wrap inotify filename)
+      end
+  end with
+  | Execution_failure _ -> prerr_endline "Cannot launch sketch, compilation failed!"
 
-exception ParseCmdError
+external realpath : string -> string = "caml_realpath"
+
+let build_inotify file : (unit -> bool) =
+  let base_name = Filename.basename file
+  (* we need to convert to canonical path *)
+  in let real_file = realpath (Filename.concat (Sys.getcwd ()) file)
+  in let dirname = Filename.dirname real_file
+  in let open Lwt
+  in Lwt_main.run
+    begin
+      Lwt_inotify.create () >>= fun inotify ->
+      Lwt_inotify.add_watch inotify dirname [Inotify.S_Modify] >>= fun watch ->
+      Lwt.return
+        begin
+          fun () -> match Lwt_inotify.try_read inotify |> Lwt.state with
+            (* inotify gives us the file base name, e.g. "sketch.ml" *)
+            | Lwt.Return (Some (_, _, _, Some fname)) -> fname = base_name
+            | _ -> false
+        end
+    end
+
+exception Parse_cmd_error
 
 let parse_cmd () =
   let dynamic = ref STANDALONE
@@ -113,13 +144,14 @@ let parse_cmd () =
   in Arg.parse spec (fun arg -> file_opt := Some arg) usage;
   match !file_opt with
   | Some file -> file, !dynamic, !wrap
-  | None -> Arg.usage spec usage; raise ParseCmdError
+  | None -> Arg.usage spec usage; raise Parse_cmd_error
 
 let () =
   try
     let compiler = if Dynlink.is_native then OPT else BYTE
     in let file, target, wrap = parse_cmd ()
-    in launch compiler target wrap file
+    in let inotify = build_inotify file
+    in launch compiler target wrap inotify file
   with
-  | End_of_file | ParseCmdError -> ()
+  | End_of_file | Parse_cmd_error -> ()
   | Failure msg -> prerr_endline ("Error: " ^ msg)
