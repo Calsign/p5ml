@@ -8,8 +8,17 @@ let unique_num : unit -> int =
 
 exception Execution_failure of string
 
-let execute cmd =
-  let result = Sys.command cmd
+let execute ?wd cmd =
+  let result =
+    match wd with
+    | None -> Sys.command cmd
+    | Some new_wd ->
+      begin
+        let old_wd = Unix.getcwd ()
+        in Unix.chdir new_wd;
+        let res = Sys.command cmd
+        in Unix.chdir old_wd; res
+      end
   in if result = 0 then ()
   else raise (Execution_failure
                 (Printf.sprintf "Command '%s' failed with error code %d" cmd result))
@@ -64,7 +73,7 @@ let copy_file in_file out_file wrap =
     close_out writer
   end
 
-let compile compiler target wrap filename =
+let compile compiler target wrap update filename =
   let dir = build_dir ()
   in let ext = match target, compiler
        with
@@ -73,17 +82,32 @@ let compile compiler target wrap filename =
       | DYNAMIC, BYTE -> "cma"
       | DYNAMIC, OPT -> "cmxs"
   in let base_filename = chop_filename filename
+  in let build_ml_file = Filename.concat dir (Printf.sprintf "%s.ml" base_filename)
+  in let output_filename = Printf.sprintf "%s.%s" base_filename ext
+  in let output_file = Filename.concat dir (Filename.concat "_build" output_filename)
   (* Dynlink requires each module to have a different file name,
      so we use a unique identifier every time we reload the sketch *)
   in let num = unique_num ()
-  in let ml_filename = base_filename ^ string_of_int num ^ ".ml"
-  in let output_filename = Printf.sprintf "%s%u.%s" base_filename num ext
+  in let get_symlink_file n =
+       let filename = Printf.sprintf "%s%u.%s" base_filename n ext
+       in Filename.concat dir filename
+  in let symlink_file = get_symlink_file num
+  (* this command gets run in the build directory [dir] *)
   in let command = Printf.sprintf
-         "cd %s && ocamlbuild -use-ocamlfind -package p5ml -tag thread %s"
-         dir output_filename
-  in copy_file filename (Filename.concat dir ml_filename) wrap;
-  execute command;
-  Filename.concat dir (Filename.concat "_build" output_filename)
+         "ocamlbuild -use-ocamlfind -package p5ml -tag thread %s" output_filename
+  in if update then
+    begin
+      (* delete the old symlink *)
+      Sys.remove (get_symlink_file (num - 1))
+    end else ();
+  (* move the sketch into the build directory *)
+  copy_file filename build_ml_file wrap;
+  (* compile the sketch with ocamlbuild *)
+  execute ~wd:dir command;
+  (* make a symlink with a unique name *)
+  Unix.symlink output_file symlink_file;
+  (* return the file *)
+  symlink_file
 
 let launch_sketch filename = ignore (Sys.command filename)
 
@@ -94,17 +118,17 @@ let dynamic_sketch plugin handler =
   Runner.Dynamic.set_dynamic_handler handler;
   Dynlink.loadfile plugin
 
-let rec launch compiler target wrap inotify filename =
+let rec launch compiler target wrap inotify update filename =
   check_file filename;
-  make_sketch_dir ();
+  if update then () else make_sketch_dir ();
   try begin
-    let compiled_file = compile compiler target wrap filename
+    let compiled_file = compile compiler target wrap update filename
     in match target with
     | STANDALONE -> launch_sketch compiled_file
     | DYNAMIC ->
       begin
         Runner.Dynamic.set_change_notifier inotify;
-        dynamic_sketch compiled_file (fun () -> launch compiler target wrap inotify filename)
+        dynamic_sketch compiled_file (fun () -> launch compiler target wrap inotify true filename)
       end
   end with
   | Execution_failure _ -> prerr_endline "Cannot launch sketch, compilation failed!"
@@ -151,7 +175,7 @@ let () =
     let compiler = if Dynlink.is_native then OPT else BYTE
     in let file, target, wrap = parse_cmd ()
     in let inotify = build_inotify file
-    in launch compiler target wrap inotify file
+    in launch compiler target wrap inotify false file
   with
   | End_of_file | Parse_cmd_error -> ()
   | Failure msg -> prerr_endline ("Error: " ^ msg)
