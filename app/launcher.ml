@@ -98,7 +98,9 @@ let compile compiler target wrap update filename =
   in if update then
     begin
       (* delete the old symlink *)
-      Sys.remove (get_symlink_file (num - 1))
+      let old = get_symlink_file (num - 1)
+      in if Sys.file_exists old
+      then Sys.remove old else ()
     end else ();
   (* move the sketch into the build directory *)
   copy_file filename build_ml_file wrap;
