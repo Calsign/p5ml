@@ -1,5 +1,6 @@
 
 open Config
+open Shape
 open Renderer
 open Canvas
 
@@ -10,7 +11,7 @@ module type Sketch = sig
 
   val setup : config -> state
   val loop : config -> state -> state
-  val draw : config -> state -> R.painter
+  val draw : config -> state -> Shape.t
 
   val mouse_pressed : config -> state -> state
   val mouse_released : config -> state -> state

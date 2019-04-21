@@ -1,5 +1,6 @@
 
 open Config
+open Shape
 open Canvas
 open Sketch
 open Renderer
@@ -158,9 +159,9 @@ end = struct
       in config', S.window_resized config' state
     | WindowClosed -> config, S.window_closed config state
 
-  let default_background buffer =
+  let default_background config buffer =
     let module C = Canvas (S.R) in
-    C.background default_background_color
+    C.background config default_background_color
 
   let rec loop buffer config state =
     let start = Unix.gettimeofday ()
@@ -168,15 +169,14 @@ end = struct
     in let config'', state' =
          List.fold_left handle_event (config', state) (S.R.event_queue buffer)
     in let state'' = S.loop config' state'
-    in let painter = S.R.comp [
-        default_background buffer;
+    in let painter = Shape.group [
+        default_background config'' buffer;
         S.draw config'' state'';
       ]
-    in let base_paint = Paint.create
     in begin
       S.R.begin_draw buffer;
       S.R.clear buffer;
-      S.R.paint buffer base_paint painter;
+      S.R.render buffer painter;
       S.R.end_draw buffer;
       Unix.sleepf (max 0.005 (1. /. target_frame_rate -. (Unix.gettimeofday () -. start)));
       (* TODO: maybe don't need to ping inotify at 60fps *)

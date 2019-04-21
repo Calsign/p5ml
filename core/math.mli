@@ -41,12 +41,17 @@ module Math : sig
   val e : float
 end
 
+val (~.) : int -> float
+
 module Vector : sig
-  type t = {x : float; y : float}
+  type t = float * float
 
   val create : float -> float -> t
   val of_tuple : (float * float) -> t
   val of_angle : float -> t
+
+  val (~<) : t -> float
+  val (~>) : t -> float
 
   val mag : t -> float
   val mag_sq : t -> float
@@ -64,4 +69,11 @@ module Vector : sig
   val lerp : t -> t -> float -> t
   val angle_between : t -> t -> float
   val project : t -> t -> t
+
+  val (++) : t -> t -> t
+  val (--) : t -> t -> t
+  val ( ** ) : t -> float -> t
+  val (//) : t -> float -> t
+  val ( **. ) : t -> t -> float
+  val (~||) : t -> float
 end

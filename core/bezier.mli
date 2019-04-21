@@ -1,16 +1,17 @@
 
+open Math
+
 module Bezier : sig
-  type point = int * int
-  type t = point * point * point * point
+  type vector = Vector.t
+  type t = vector * vector * vector * vector
 
-  val create : int -> int -> int -> int -> int -> int -> int -> int -> t
-  val of_points : point -> point -> point -> point -> t
+  val create : vector -> vector -> vector -> vector -> t
 
-  val anchor1 : t -> point
-  val control1 : t -> point
-  val control2 : t -> point
-  val anchor2 : t -> point
+  val anchor1 : t -> vector
+  val control1 : t -> vector
+  val control2 : t -> vector
+  val anchor2 : t -> vector
 
-  val interpolate : t -> float -> point
-  val tangent : t -> float -> float * float
+  val interpolate : t -> float -> vector
+  val tangent : t -> float -> vector
 end

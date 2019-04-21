@@ -1,11 +1,11 @@
 
 (** [Paint] contains the [paint] type and utilities for manipulating [paint]s.
     This module should not be used directly by the sketch; there are functions
-    in [Canvas] that handle setting the stroke, fill, etc. *)
+    in [Shape] that handle setting the stroke, fill, etc. *)
 
 open Color
 
-(** The type of paint, used by painters to draw to the canvas. *)
+(** The type of paint, used by shapes to draw to the canvas. *)
 type paint = private {
   fill : color option;
   stroke : color option;
@@ -14,19 +14,14 @@ type paint = private {
   stroke_join : [`Miter | `Bevel | `Round];
 }
 
-val fill : color -> paint -> paint
-
-val stroke : color -> paint -> paint
-
-val no_fill : paint -> paint
-
-val no_stroke : paint -> paint
-
-val stroke_weight : float -> paint -> paint
-
-val stroke_cap : [`Round | `Square | `Project] -> paint -> paint
-
-val stroke_join : [`Miter | `Bevel | `Round] -> paint -> paint
-
 (** [create] is the default paint. *)
 val create : paint
+
+type paint_update =
+  | Fill of color option
+  | Stroke of color option
+  | Stroke_weight of float
+  | Stroke_cap of [`Round | `Square | `Project]
+  | Stroke_join of [`Miter | `Bevel | `Round]
+
+val apply_paint_update : paint_update -> paint -> paint

@@ -1,5 +1,6 @@
 
 open Paint
+open Shape
 open Bezier
 
 type mouse_coords = {x : int; y : int}
@@ -18,11 +19,6 @@ type event =
 
 module type Renderer = sig
   type buffer
-  type painter
-
-  val create_painter : (paint -> buffer -> unit) -> painter
-  val paint : buffer -> paint -> painter -> unit
-  val comp : painter list -> painter
 
   val create_buffer : float -> buffer
   val begin_draw : buffer -> unit
@@ -34,18 +30,5 @@ module type Renderer = sig
   val width : buffer -> int
   val height : buffer -> int
 
-  val line : int -> int -> int -> int -> painter
-  val poly : (int * int) list -> painter
-  val arc : int -> int -> ?align : [`Corner | `Center] -> int -> int ->
-    ?stroke_mode:[`Closed | `Open] ->
-    ?fill_mode:[`Pie | `Chord] -> float -> float -> painter
-  val bezier : Bezier.t -> painter
-end
-
-module BaseRenderer (R : Renderer) = struct
-  type painter = paint -> R.buffer -> unit
-  let create_painter func = func
-  let paint buffer paint painter = painter paint buffer
-  let comp painters paint buffer =
-    List.iter (fun painter -> painter paint buffer) painters
+  val render : buffer -> Shape.t -> unit
 end

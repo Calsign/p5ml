@@ -1,4 +1,4 @@
-MODULES=color paint math bezier
+MODULES=color paint math bezier shape
 RAW_MLS=key renderer canvas graph gtk_cairo config sketch runner p5
 COMPILES=$(MODULES) $(RAW_MLS)
 OBJECTS=$(COMPILES:=.cmo)

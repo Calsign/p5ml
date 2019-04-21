@@ -52,33 +52,45 @@ module Math = struct
   let radians d = d *. pi /. 180.
 end
 
-module Vector = struct
-  type t = {x : float; y : float}
+let (~.) = float_of_int
 
-  let create x y = {x = x; y = y;}
+module Vector = struct
+  type t = float * float
+
+  let create x y = (x, y)
   let of_tuple (x, y) = create x y
   let of_angle theta = create (Math.cos theta) (Math.sin theta)
 
-  let mag_sq {x; y} = x ** 2. +. y ** 2.
+  let (~<) (x, y) = x
+  let (~>) (x, y) = y
+
+  let mag_sq (x, y) = x ** 2. +. y ** 2.
   let mag vec = mag_sq vec |> Math.sqrt
-  let add vec1 vec2 = create (vec1.x +. vec2.x) (vec1.y +. vec2.y)
-  let sub vec1 vec2 = create (vec1.x -. vec2.x) (vec1.y -. vec2.y)
-  let mult {x; y} scalar = create (x *. scalar) (y *. scalar)
+  let add (x1, y1) (x2, y2) = create (x1 +. x2) (y1 +. y2)
+  let sub (x1, y1) (x2, y2) = create (x1 -. x2) (y1 -. y2)
+  let mult (x, y) scalar = create (x *. scalar) (y *. scalar)
   let div vec scalar = mult vec (1. /. scalar)
-  let dist vec1 vec2 = Math.distf vec1.x vec1.y vec2.x vec2.y
-  let dot vec1 vec2 = vec1.x *. vec2.x +. vec1.y *. vec2.y
+  let dist (x1, y1) (x2, y2) = Math.distf x1 y1 x2 y2
+  let dot (x1, y1) (x2, y2) = x1 *. x2 +. y1 *. y2
   let norm vec = div vec (mag vec)
   let with_mag vec scalar = mult (norm vec) scalar
   let limit vec lim =
     let curr_mag = mag vec
     in if curr_mag > lim then with_mag vec lim else vec
-  let heading {x; y} = Math.atan2 y x
-  let rotate {x; y} theta =
+  let heading (x, y) = Math.atan2 y x
+  let rotate (x, y) theta =
     create (x *. (Math.cos theta) -. y *. (Math.sin theta))
       (x *. (Math.sin theta) +. y *. (Math.cos theta))
-  let lerp vec1 vec2 amt =
-    create (Math.lerpf vec1.x vec2.x amt) (Math.lerpf vec1.y vec2.y amt)
+  let lerp (x1, y1) (x2, y2) amt =
+    create (Math.lerpf x1 x2 amt) (Math.lerpf y1 y2 amt)
   let angle_between vec1 vec2 =
     Math.acos ((dot vec1 vec2) /. ((mag vec1) *. (mag vec2)))
   let project vec onto = mult onto ((dot vec onto) /. (mag_sq onto))
+
+  let (++) = add
+  let (--) = sub
+  let ( ** ) = mult
+  let (//) = div
+  let ( **. ) = dot
+  let (~||) = mag
 end

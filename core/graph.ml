@@ -7,8 +7,6 @@ open Renderer
 module rec Graph : Renderer = struct
   type buffer = unit
 
-  include BaseRenderer (Graph)
-
   let create_buffer _ =
     Graphics.open_graph "";
     Graphics.auto_synchronize false
@@ -120,4 +118,6 @@ module rec Graph : Renderer = struct
           Graphics.curveto point2 point3 point4;
         )
     end
+
+  let render _ shape = failwith "unimplemented"
 end

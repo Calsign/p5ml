@@ -9,20 +9,6 @@ type paint = {
   stroke_join : [`Miter | `Bevel | `Round];
 }
 
-let fill color paint = {paint with fill = Some color}
-
-let stroke color paint = {paint with stroke = Some color}
-
-let no_fill paint = {paint with fill = None}
-
-let no_stroke paint = {paint with stroke = None}
-
-let stroke_weight weight paint = {paint with stroke_weight = max weight 0.}
-
-let stroke_cap cap paint = {paint with stroke_cap = cap}
-
-let stroke_join join paint = {paint with stroke_join = join}
-
 let create = {
   fill = Some (gray 255);
   stroke = Some (gray 0);
@@ -30,3 +16,18 @@ let create = {
   stroke_cap = `Round;
   stroke_join = `Miter;
 }
+
+type paint_update =
+  | Fill of color option
+  | Stroke of color option
+  | Stroke_weight of float
+  | Stroke_cap of [`Round | `Square | `Project]
+  | Stroke_join of [`Miter | `Bevel | `Round]
+
+let apply_paint_update paint_update paint =
+  match paint_update with
+  | Fill color -> {paint with fill=color}
+  | Stroke color -> {paint with stroke=color}
+  | Stroke_weight weight -> {paint with stroke_weight=weight}
+  | Stroke_cap cap -> {paint with stroke_cap=cap}
+  | Stroke_join join -> {paint with stroke_join=join}

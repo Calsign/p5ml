@@ -6,6 +6,7 @@ open Cairo
 open Color
 open Paint
 open Config
+open Shape
 open Renderer
 
 module rec Gtk_cairo : Renderer = struct
@@ -13,18 +14,81 @@ module rec Gtk_cairo : Renderer = struct
     {
       window : GWindow.window;
       draw : GMisc.drawing_area;
-      painters : (Cairo.context -> unit) Queue.t;
+      shape : Shape.t ref;
       events : event Queue.t;
       mutex : Mutex.t;
     }
 
-  include BaseRenderer (Gtk_cairo)
-
   let width buffer = buffer.draw#misc#allocation.Gtk.width
   let height buffer =  buffer.draw#misc#allocation.Gtk.height
 
-  let push_painter buffer painter =
-    Queue.push painter buffer.painters
+  let draw_path_sep stroke_paint fill_paint context =
+    let apply_color color = set_source_rgba context
+        (float_of_int color.red /. 255.) (float_of_int color.green /. 255.)
+        (float_of_int color.blue /. 255.) (float_of_int color.alpha /. 255.) in
+    begin
+      match fill_paint.fill with
+      | Some color ->
+        apply_color color;
+        fill_preserve context
+      | None -> ()
+    end;
+    begin
+      match stroke_paint.stroke with
+      | Some color ->
+        set_line_cap context
+          begin
+            match stroke_paint.stroke_cap with
+            | `Round -> ROUND
+            | `Square -> BUTT
+            | `Project -> SQUARE
+          end;
+        set_line_join context
+          begin
+            match stroke_paint.stroke_join with
+            | `Miter -> JOIN_MITER
+            | `Bevel -> JOIN_BEVEL
+            | `Round -> JOIN_ROUND
+          end;
+        set_line_width context (stroke_paint.stroke_weight);
+        apply_color color;
+        stroke_preserve context
+      | None -> ()
+    end;
+    Path.clear context
+
+  let draw_path paint context = draw_path_sep paint paint context
+
+  let handle_apply_vertex paint context vertex =
+    match vertex with
+    | MoveTo (x, y) -> move_to context x y
+    | LineTo (x, y) -> line_to context x y
+    | Arc ((cx, cy), (w, h), theta1, theta2) ->
+      begin
+        save context;
+        translate context cx cy;
+        scale context w h;
+        Cairo.arc context 0. 0. 1. theta1 theta2;
+        restore context
+      end
+    | BezierTo ((x2, y2), (x3, y3), (x4, y4))
+      -> curve_to context x2 y2 x3 y3 x4 y4
+    | ClosePath -> Path.close context
+
+  let rec handle_apply_shape paint context shape : unit =
+    match shape with
+    | Shape vertices ->
+      begin
+        List.iter (handle_apply_vertex paint context) vertices;
+        draw_path paint context
+      end
+    | Group shapes
+      -> List.iter (handle_apply_shape paint context) shapes
+    | Paint (nest_shape, paint_update)
+      -> handle_apply_shape (apply_paint_update paint_update paint) context nest_shape
+    | Name (nest_shape, name)
+      -> handle_apply_shape paint context nest_shape
+    | Empty -> ()
 
   let queue_event buffer event =
     Queue.push event buffer.events
@@ -32,7 +96,7 @@ module rec Gtk_cairo : Renderer = struct
   let expose buffer draw ev =
     Mutex.lock buffer.mutex;
     let context = Cairo_gtk.create draw#misc#window
-    in Seq.iter (fun painter -> painter context) (Queue.to_seq buffer.painters);
+    in handle_apply_shape Paint.create context !(buffer.shape);
     Mutex.unlock buffer.mutex; true
 
   let redraw_trigger buffer () =
@@ -113,7 +177,7 @@ module rec Gtk_cairo : Renderer = struct
          {
            window = window;
            draw = draw;
-           painters = Queue.create ();
+           shape = ref Shape.empty;
            events = Queue.create ();
            mutex = Mutex.create ();
          }
@@ -149,12 +213,9 @@ module rec Gtk_cairo : Renderer = struct
     ignore (Thread.create GMain.main ());
     buffer
 
-  let begin_draw buffer =
-    Mutex.lock buffer.mutex;
-    Queue.clear buffer.painters
+  let begin_draw buffer = ()
 
-  let end_draw buffer =
-    Mutex.unlock buffer.mutex
+  let end_draw buffer = ()
 
   (** [clear buffer] does not modify the buffer. This is because
       the Cairo surface gets cleared every frame automatically. *)
@@ -164,112 +225,8 @@ module rec Gtk_cairo : Renderer = struct
     let lst = Seq.fold_left (fun acc evt -> evt :: acc) [] (Queue.to_seq buffer.events)
     in Queue.clear buffer.events; lst
 
-  let draw_path_sep stroke_paint fill_paint context =
-    let apply_color color = set_source_rgba context
-        (float_of_int color.red /. 255.) (float_of_int color.green /. 255.)
-        (float_of_int color.blue /. 255.) (float_of_int color.alpha /. 255.) in
-    begin
-      match fill_paint.fill with
-      | Some color ->
-        apply_color color;
-        fill_preserve context
-      | None -> ()
-    end;
-    begin
-      match stroke_paint.stroke with
-      | Some color ->
-        set_line_cap context
-          begin
-            match stroke_paint.stroke_cap with
-            | `Round -> ROUND
-            | `Square -> BUTT
-            | `Project -> SQUARE
-          end;
-        set_line_join context
-          begin
-            match stroke_paint.stroke_join with
-            | `Miter -> JOIN_MITER
-            | `Bevel -> JOIN_BEVEL
-            | `Round -> JOIN_ROUND
-          end;
-        set_line_width context (stroke_paint.stroke_weight);
-        apply_color color;
-        stroke_preserve context
-      | None -> ()
-    end;
-    Path.clear context
-
-  let draw_path paint context = draw_path_sep paint paint context
-
-  let line x1 y1 x2 y2 paint buffer =
-    let x1f = float_of_int x1
-    in let y1f = float_of_int y1
-    in let x2f = float_of_int x2
-    in let y2f = float_of_int y2
-    in push_painter buffer
-      begin fun context ->
-        move_to context x1f y1f;
-        line_to context x2f y2f;
-        draw_path (no_fill paint) context;
-      end
-
-  let poly points paint buffer =
-    let pointsf = List.map
-        (fun (x, y) -> (float_of_int x), (float_of_int y)) points
-    in match pointsf with
-    | [] -> ()
-    | (x, y) :: tl ->
-      push_painter buffer
-        begin fun context ->
-          move_to context x y;
-          List.iter (fun (x, y) -> line_to context x y) tl;
-          Path.close context;
-          draw_path paint context;
-        end
-
-  let arc x y ?(align = `Corner) w h ?(stroke_mode = `Open)
-      ?(fill_mode = `Pie) rad1 rad2 paint buffer =
-    let tw = (float_of_int w) /. 2.
-    in let th = (float_of_int h) /. 2.
-    in let tx, ty = match align with
-        | `Corner -> float_of_int x +. tw, float_of_int y +. th
-        | `Center -> float_of_int x, float_of_int y
-    in let empty_paint = paint |> no_stroke |> no_fill
-    in let initial context =
-         save context;
-         translate context tx ty;
-         scale context tw th;
-         arc context 0. 0. 1. rad1 rad2;
-         restore context;
-    in let path_fill context =
-         match fill_mode with
-         | `Pie -> line_to context tx ty; Path.close context;
-         | `Chord -> Path.close context;
-    in push_painter buffer
-      begin fun context ->
-        (* draw just fill first *)
-        initial context;
-        path_fill context;
-          draw_path_sep empty_paint paint context;
-        (* draw just stroke second *)
-        initial context;
-        begin
-          match stroke_mode with
-          | `Open -> ();
-          | `Closed -> path_fill context;
-        end;
-        draw_path_sep paint empty_paint context;
-      end
-
-  let bezier ((x1, y1), (x2, y2), (x3, y3), (x4, y4)) paint buffer =
-    let x1f, y1f = float_of_int x1, float_of_int y1
-    in let x2f, y2f = float_of_int x2, float_of_int y2
-    in let x3f, y3f = float_of_int x3, float_of_int y3
-    in let x4f, y4f = float_of_int x4, float_of_int y4
-    in push_painter buffer
-      begin fun context ->
-        move_to context x1f y1f;
-        curve_to context x2f y2f x3f y3f x4f y4f;
-        draw_path (no_fill paint) context;
-      end
+  let render buffer shape =
+    Mutex.lock buffer.mutex;
+    buffer.shape := shape;
+    Mutex.unlock buffer.mutex
 end
