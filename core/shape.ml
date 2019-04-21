@@ -73,19 +73,20 @@ let quad v1 v2 v3 v4 = poly [v1; v2; v3; v4]
 let triangle v1 v2 v3 = poly [v1; v2; v3]
 
 let arc (x, y) ?(align = `Center) (w, h)
-    ?(stroke_mode=`Closed) ?(fill_mode=`Pie) theta1 theta2 =
+    ?(stroke_mode=`Closed) ?(fill_mode=`Chord) theta1 theta2 =
   let cx, cy = match align with
     | `Corner -> x +. w /. 2., y +. h /. 2.
     | `Center -> x, y
   in let base = Arc ((cx, cy), (w, h) // 2., theta1, theta2)
-  (* TODO implement stroke_mode, fill_mode *)
+  in let fill_lst = match fill_mode with
+      | `Chord -> [base; ClosePath]
+      | `Pie -> [base; LineTo (cx, cy); ClosePath]
+  in let stroke_lst = match stroke_mode with
+      | `Open -> [base]
+      | `Closed ->fill_lst
   in Group [
-    Shape begin
-      match fill_mode with
-      | `Chord -> [base]
-      | `Pie -> [base]
-    end |> no_stroke;
-    Shape [base] |> no_fill;
+    Shape fill_lst |> no_stroke;
+    Shape stroke_lst |> no_fill;
   ]
 
 let ellipse v1 ?align v2 =
