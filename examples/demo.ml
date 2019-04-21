@@ -52,7 +52,7 @@ module TestSketch = struct
     | _ -> ()); st
 
   let mouse_scrolled conf st =
-    {st with x = st.x +. (float_of_int (conf.mouse_scroll * 10))}
+    {st with x = st.x +. (~. (conf.mouse_scroll) *. 10.)}
 end
 
 let () = run_sketch (module TestSketch)
