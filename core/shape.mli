@@ -45,3 +45,5 @@ val stroke_cap : [`Round | `Square | `Project] -> t -> t
 val stroke_join : [`Miter | `Bevel | `Round] -> t -> t
 
 val name : string -> t -> t
+
+val find_named : t -> string -> t option

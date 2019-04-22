@@ -104,3 +104,18 @@ let empty = Empty
 
 let name name shape =
   Name (shape, name)
+
+let rec find_named shape name =
+  match shape with
+  | Shape _ -> None
+  | Group shapes ->
+    begin
+      match List.map (fun shape -> find_named shape name) shapes with
+      | hd :: _ -> hd
+      | _ -> None
+    end
+  | Paint (nest_shape, _) -> find_named nest_shape name
+  | Name (nest_shape, nest_name) ->
+    if name = nest_name then Some nest_shape
+    else find_named nest_shape name
+  | Empty -> None

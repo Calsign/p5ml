@@ -2,6 +2,7 @@
 open Color
 open Paint
 open Math
+open Shape
 open Renderer
 
 module rec Graph : Renderer = struct
@@ -20,6 +21,7 @@ module rec Graph : Renderer = struct
   let height () = Graphics.size_y ()
 
   let transform_coords (x, y) = x, height () - y
+  let transform_coords_f (x, y) = int_of_float x, height () - (int_of_float y)
 
   let mouse_pressed = ref false
   let mouse_coords_prev = ref {x = 0; y = 0}
@@ -53,12 +55,6 @@ module rec Graph : Renderer = struct
 
   let transform_color color = Graphics.rgb color.red color.green color.blue
 
-  let transform_rect (x, y, w, h) =
-    let tx, ty = transform_coords (x, y)
-    in let cx, cw = if w < 0 then tx + w, -w else tx, w
-    in let cy, ch = if h < 0 then ty, -h else ty - h, h
-    in cx, cy, cw, ch
-
   let stroke_action paint action =
     match paint.stroke with
     | Some color ->
@@ -78,46 +74,40 @@ module rec Graph : Renderer = struct
       end
     | None -> ()
 
-  let line x1 y1 x2 y2 paint () =
-    let xc1, yc1 = transform_coords (x1, y1)
-    in let xc2, yc2 = transform_coords (x2, y2)
-    in begin
-      stroke_action paint (fun () ->
-          Graphics.moveto xc1 yc1;
-          Graphics.lineto xc2 yc2;
-        )
+  let uncurry func (xf, yf) =
+    let x, y = transform_coords_f (xf, yf)
+    in func x y
+
+  let handle_vertex paint vertex =
+    stroke_action paint begin
+      fun () ->
+        match vertex with
+        | MoveTo vec -> uncurry Graphics.moveto vec
+        | LineTo vec -> uncurry Graphics.lineto vec
+        | Arc (center, dim, theta1, theta2)
+          -> uncurry (uncurry Graphics.draw_arc center) dim
+               (Math.degrees theta1 |> int_of_float)
+               (Math.degrees theta2 |> int_of_float)
+        | BezierTo (vec2, vec3, vec4)
+          -> Graphics.curveto
+               (transform_coords_f vec2)
+               (transform_coords_f vec3)
+               (transform_coords_f vec4)
+        | ClosePath -> ()
     end
 
-  let arc x y ?(align = `Corner) w h ?(stroke_mode = `Open)
-      ?(fill_mode = `Pie) rad1 rad2 paint () =
-    let tx, ty, tw, th = transform_rect (x, y, w, h)
-    in let cx, cy, rx, ry = match align with
-        | `Corner -> tx + tw / 2, ty + th / 2, tw / 2, th / 2
-        | `Center -> tx, ty + th, tw / 2, th / 2
-    in let deg1, deg2 = Math.degrees ~-.rad1 |> int_of_float, Math.degrees ~-.rad2 |> int_of_float
-    in begin
-      fill_action paint (fun () -> Graphics.fill_arc cx cy rx ry deg1 deg2);
-      stroke_action paint (fun () -> Graphics.draw_arc cx cy rx ry deg1 deg2);
-    end
+  let rec handle_shape paint shape =
+    match shape with
+    | Shape vertices
+      -> List.iter (handle_vertex paint) vertices
+    | Group shapes
+      -> List.iter (handle_shape paint) shapes
+    | Paint (nest_shape, paint_update)
+      -> handle_shape (apply_paint_update paint_update paint) nest_shape
+    | Name (nest_shape, name)
+      -> handle_shape paint nest_shape
+    | Empty -> ()
 
-  let poly points paint () =
-    let arr = List.map transform_coords points |> Array.of_list
-    in begin
-      fill_action paint (fun () -> Graphics.fill_poly arr);
-      stroke_action paint (fun () -> Graphics.draw_poly arr);
-    end
-
-  let bezier (p1, p2, p3, p4) paint () =
-    let tx1, ty1 = transform_coords p1
-    in let point2 = transform_coords p2
-    in let point3 = transform_coords p3
-    in let point4 = transform_coords p4
-    in begin
-      stroke_action paint (fun () ->
-          Graphics.moveto tx1 ty1;
-          Graphics.curveto point2 point3 point4;
-        )
-    end
-
-  let render _ shape = failwith "unimplemented"
+  let rec render _ shape =
+    handle_shape Paint.create shape
 end

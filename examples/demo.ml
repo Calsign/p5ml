@@ -37,7 +37,7 @@ module TestSketch = struct
           in group [
             point (x +. 100., y) |> stroke_weight 3.;
             line (x +. 100., y) (px +. 100., py);
-          ]) |> group |> stroke (rgb 255 0 0)
+          ]) |> group |> stroke (rgb 255 0 0);
     ]
 
   let mouse_pressed conf st =
