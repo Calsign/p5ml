@@ -29,15 +29,14 @@ module TestSketch = struct
         (Math.half_pi *. 3.) |> stroke_weight 10. |> stroke (rgb 255 0 0);
       bezier curve |> stroke (gray 255) |> no_fill;
       List.init 21 (fun n ->
-          let t = (float_of_int n) /. 20.
-          in let x, y = Bezier.interpolate curve t
-          in let dx, dy = Bezier.tangent curve t
-          in let px = x +. (dx *. 0.3)
-          in let py = y +. (dy *. 0.3)
+          let open Vector
+          in let t = (float_of_int n) /. 20.
+          in let pnt = Bezier.interpolate curve t
+          in let tgt = pnt ++ ((Bezier.tangent curve t) ** 0.3)
           in group [
-            point (x +. 100., y) |> stroke_weight 3.;
-            line (x +. 100., y) (px +. 100., py);
-          ]) |> group |> stroke (rgb 255 0 0);
+            point pnt |> stroke_weight 3.;
+            line pnt tgt;
+          ]) |> group |> translate (100., 0.) |> stroke (rgb 255 0 0);
     ]
 
   let mouse_pressed conf st =
