@@ -50,6 +50,10 @@ module Math = struct
   let tan = Pervasives.tan
   let degrees r = r *. 180. /. pi
   let radians d = d *. pi /. 180.
+
+  let angle_avg a b = atan2 (sin a +. sin b) (cos a +. cos b)
+  let angle_sum a b = mod_float (a +. b) (pi *. 2.)
+  let angle_diff a b = atan2 (sin (a -. b)) (cos (a -. b))
 end
 
 let (~.) = float_of_int

@@ -14,8 +14,8 @@ module TestSketch = struct
   let curve = Bezier.create (700., 100.) (800., 50.) (800., 250.) (700., 200.)
 
   let draw conf st = group [
-      background conf (gray 0);
-      ellipse (100., 100.) (100., 100.)
+      background (gray 0);
+      ellipse (150., 100.) (150., 100.)
       |> stroke (gray 255) |> no_fill |> stroke_weight 10.;
       ellipse (100., 200.) (50., 50.) ~align:`Center |> stroke (gray 255) |> no_fill |> stroke_weight 10.;
       group [

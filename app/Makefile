@@ -13,3 +13,5 @@ native:
 clean:
 	ocamlbuild -clean
 	rm -rf sketch
+
+fresh: clean default

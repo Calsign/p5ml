@@ -84,7 +84,7 @@ module rec Graph : Renderer = struct
         match vertex with
         | MoveTo vec -> uncurry Graphics.moveto vec
         | LineTo vec -> uncurry Graphics.lineto vec
-        | Arc (center, dim, theta1, theta2)
+        | Arc (center, dim, phi, theta1, theta2)
           -> uncurry (uncurry Graphics.draw_arc center) dim
                (Math.degrees theta1 |> int_of_float)
                (Math.degrees theta2 |> int_of_float)
@@ -106,6 +106,7 @@ module rec Graph : Renderer = struct
       -> handle_shape (apply_paint_update paint_update paint) nest_shape
     | Name (nest_shape, name)
       -> handle_shape paint nest_shape
+    | Background color -> ()
     | Empty -> ()
 
   let rec render _ shape =

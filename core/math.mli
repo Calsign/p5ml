@@ -33,6 +33,9 @@ module Math : sig
   val tan : float -> float
   val degrees : float -> float
   val radians : float -> float
+  val angle_avg : float -> float -> float
+  val angle_sum : float -> float -> float
+  val angle_diff : float -> float -> float
 
   val pi : float
   val half_pi : float

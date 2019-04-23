@@ -23,6 +23,7 @@ type paint_update =
   | Stroke_weight of float
   | Stroke_cap of [`Round | `Square | `Project]
   | Stroke_join of [`Miter | `Bevel | `Round]
+  | Stroke_weight_scale of float
 
 let apply_paint_update paint_update paint =
   match paint_update with
@@ -31,3 +32,4 @@ let apply_paint_update paint_update paint =
   | Stroke_weight weight -> {paint with stroke_weight=weight}
   | Stroke_cap cap -> {paint with stroke_cap=cap}
   | Stroke_join join -> {paint with stroke_join=join}
+  | Stroke_weight_scale scale -> {paint with stroke_weight=paint.stroke_weight*.scale}

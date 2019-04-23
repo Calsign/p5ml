@@ -180,4 +180,5 @@ let () =
     in launch compiler target wrap inotify false file
   with
   | End_of_file | Parse_cmd_error -> ()
+  | Failure msg when msg = "realpath" -> prerr_endline "Error: Invalid file"
   | Failure msg -> prerr_endline ("Error: " ^ msg)

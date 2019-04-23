@@ -6,6 +6,7 @@ open Cairo
 open Color
 open Paint
 open Config
+open Math
 open Shape
 open Renderer
 
@@ -22,14 +23,16 @@ module rec Gtk_cairo : Renderer = struct
   let width buffer = buffer.draw#misc#allocation.Gtk.width
   let height buffer =  buffer.draw#misc#allocation.Gtk.height
 
+  let apply_color color context =
+    set_source_rgba context
+      (float_of_int color.red /. 255.) (float_of_int color.green /. 255.)
+      (float_of_int color.blue /. 255.) (float_of_int color.alpha /. 255.)
+
   let draw_path_sep stroke_paint fill_paint context =
-    let apply_color color = set_source_rgba context
-        (float_of_int color.red /. 255.) (float_of_int color.green /. 255.)
-        (float_of_int color.blue /. 255.) (float_of_int color.alpha /. 255.) in
     begin
       match fill_paint.fill with
       | Some color ->
-        apply_color color;
+        apply_color color context;
         fill_preserve context
       | None -> ()
     end;
@@ -51,7 +54,7 @@ module rec Gtk_cairo : Renderer = struct
             | `Round -> JOIN_ROUND
           end;
         set_line_width context (stroke_paint.stroke_weight);
-        apply_color color;
+        apply_color color context;
         stroke_preserve context
       | None -> ()
     end;
@@ -63,11 +66,12 @@ module rec Gtk_cairo : Renderer = struct
     match vertex with
     | MoveTo (x, y) -> move_to context x y
     | LineTo (x, y) -> line_to context x y
-    | Arc ((cx, cy), (w, h), theta1, theta2) ->
+    | Arc ((cx, cy), (w, h), phi, theta1, theta2) ->
       begin
         save context;
-        translate context cx cy;
-        scale context w h;
+        Cairo.translate context cx cy;
+        Cairo.rotate context phi;
+        Cairo.scale context w h;
         Cairo.arc context 0. 0. 1. theta1 theta2;
         restore context
       end
@@ -75,7 +79,7 @@ module rec Gtk_cairo : Renderer = struct
       -> curve_to context x2 y2 x3 y3 x4 y4
     | ClosePath -> Path.close context
 
-  let rec handle_apply_shape paint context shape : unit =
+  let rec handle_apply_shape paint buffer context shape : unit =
     match shape with
     | Shape vertices ->
       begin
@@ -83,11 +87,17 @@ module rec Gtk_cairo : Renderer = struct
         draw_path paint context
       end
     | Group shapes
-      -> List.iter (handle_apply_shape paint context) shapes
+      -> List.iter (handle_apply_shape paint buffer context) shapes
     | Paint (nest_shape, paint_update)
-      -> handle_apply_shape (apply_paint_update paint_update paint) context nest_shape
+      -> handle_apply_shape (apply_paint_update paint_update paint) buffer context nest_shape
     | Name (nest_shape, name)
-      -> handle_apply_shape paint context nest_shape
+      -> handle_apply_shape paint buffer context nest_shape
+    | Background color ->
+      begin
+        apply_color color context;
+        rectangle context 0. 0. ~.(width buffer) ~.(height buffer);
+        Cairo.fill context;
+      end
     | Empty -> ()
 
   let queue_event buffer event =
@@ -96,7 +106,7 @@ module rec Gtk_cairo : Renderer = struct
   let expose buffer draw ev =
     Mutex.lock buffer.mutex;
     let context = Cairo_gtk.create draw#misc#window
-    in handle_apply_shape Paint.create context !(buffer.shape);
+    in handle_apply_shape Paint.create buffer context !(buffer.shape);
     Mutex.unlock buffer.mutex; true
 
   let redraw_trigger buffer () =

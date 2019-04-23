@@ -13,11 +13,7 @@ end
 
 module Maker (R : Renderer.Renderer) = struct
   include Core
-
   module Base = Sketch.Base (R)
-  module Canvas = Canvas.Canvas (R)
-
-  include Canvas
 end
 
 module Graph = Maker (Graph.Graph)

@@ -160,8 +160,7 @@ end = struct
     | WindowClosed -> config, S.window_closed config state
 
   let default_background config buffer =
-    let module C = Canvas (S.R) in
-    C.background config default_background_color
+    Shape.background default_background_color
 
   let rec loop buffer config state =
     let start = Unix.gettimeofday ()

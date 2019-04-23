@@ -23,5 +23,6 @@ type paint_update =
   | Stroke_weight of float
   | Stroke_cap of [`Round | `Square | `Project]
   | Stroke_join of [`Miter | `Bevel | `Round]
+  | Stroke_weight_scale of float
 
 val apply_paint_update : paint_update -> paint -> paint

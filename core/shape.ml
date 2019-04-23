@@ -10,7 +10,7 @@ type vertex =
   | MoveTo of vector
   | LineTo of vector
   | BezierTo of vector * vector * vector
-  | Arc of vector * vector * float * float
+  | Arc of vector * vector * float * float * float
   | ClosePath
 
 type t =
@@ -18,6 +18,7 @@ type t =
   | Group of t list
   | Paint of t * paint_update
   | Name of t * string
+  | Background of color
   | Empty
 
 let fill color shape =
@@ -73,11 +74,11 @@ let quad v1 v2 v3 v4 = poly [v1; v2; v3; v4]
 let triangle v1 v2 v3 = poly [v1; v2; v3]
 
 let arc (x, y) ?(align = `Center) (w, h)
-    ?(stroke_mode=`Closed) ?(fill_mode=`Chord) theta1 theta2 =
+    ?(stroke_mode=`Closed) ?(fill_mode=`Chord) ?(phi=0.) theta1 theta2 =
   let cx, cy = match align with
     | `Corner -> x +. w /. 2., y +. h /. 2.
     | `Center -> x, y
-  in let base = Arc ((cx, cy), (w, h) // 2., theta1, theta2)
+  in let base = Arc ((cx, cy), (w, h) // 2., phi, theta1, theta2)
   in let fill_lst = match fill_mode with
       | `Chord -> [base; ClosePath]
       | `Pie -> [base; LineTo (cx, cy); ClosePath]
@@ -100,6 +101,8 @@ let bezier (v1, v2, v3, v4) =
 
 let group shapes = Group shapes
 
+let background color = Background color
+
 let empty = Empty
 
 let name name shape =
@@ -118,4 +121,48 @@ let rec find_named shape name =
   | Name (nest_shape, nest_name) ->
     if name = nest_name then Some nest_shape
     else find_named nest_shape name
+  | Background _ -> None
   | Empty -> None
+
+let transform_vertex angle (scale_x, scale_y, scale_mag)
+    (func : vector -> vector) (vertex : vertex) : vertex =
+  match vertex with
+  | MoveTo vector -> MoveTo (func vector)
+  | LineTo vector -> LineTo (func vector)
+  | BezierTo (vec2, vec3, vec4) -> BezierTo (func vec2, func vec3, func vec4)
+  | Arc (center, (dim_x, dim_y), phi, theta1, theta2) ->
+    let scaled_dim = dim_x *. scale_x, dim_y *. scale_y
+    in Arc (func center, scaled_dim, Math.angle_sum phi angle, theta1, theta2)
+  | ClosePath -> ClosePath
+
+let rec transform_shape (angle : float) (scales : float * float * float)
+    (func : vector -> vector) (shape : t) : t =
+  match shape with
+  | Shape vertices -> Shape (List.map (transform_vertex angle scales func) vertices)
+  | Group shapes -> Group (List.map (transform_shape angle scales func) shapes)
+  | Paint (nest_shape, paint_update) ->
+    begin
+      (* TODO no handling for inequal x and y scales *)
+      let scale_x, scale_y, scale_mag = scales
+      in let scaled_paint_update = match paint_update with
+        | Stroke_weight nest_scale -> Stroke_weight (nest_scale *. scale_mag)
+        | _ -> paint_update
+      in Paint (transform_shape angle scales func nest_shape, scaled_paint_update)
+    end
+  | Name (nest_shape, name) -> Name (transform_shape angle scales func nest_shape, name)
+  | Background color -> Background color
+  | Empty -> Empty
+
+let translate offset shape =
+  transform_shape 0. (1., 1., 1.) (fun vertex -> vertex ++ offset) shape
+
+let scale (scale_x, scale_y) shape =
+  let scale_mag = (mag (scale_x, scale_y)) /. (mag (1., 1.))
+  in Paint (transform_shape 0. (scale_x, scale_y, scale_mag)
+              (fun (x, y) -> x *. scale_x, y *. scale_y) shape,
+            Stroke_weight_scale (scale_mag))
+
+let rotate theta shape =
+  transform_shape theta (1., 1., 1.) (fun vertex -> rotate vertex theta) shape
+
+let shape vector shape = Group [translate shape vector]

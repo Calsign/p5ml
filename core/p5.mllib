@@ -5,7 +5,6 @@ Paint
 Bezier
 Shape
 Renderer
-Canvas
 Graph
 Gtk_cairo
 Config
