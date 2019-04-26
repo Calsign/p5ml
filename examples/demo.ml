@@ -37,6 +37,7 @@ module TestSketch = struct
             point pnt |> stroke_weight 3.;
             line pnt tgt;
           ]) |> group |> translate (100., 0.) |> stroke (rgb 255 0 0);
+      line (500.,500.) (600.,500.) |> stroke (gray 255) |> stroke_weight 10.;
     ]
 
   let mouse_pressed conf st =

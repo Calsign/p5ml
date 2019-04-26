@@ -73,6 +73,8 @@ module Vector : sig
   val angle_between : t -> t -> float
   val project : t -> t -> t
 
+  val to_string : t -> string
+
   val (++) : t -> t -> t
   val (--) : t -> t -> t
   val ( ** ) : t -> float -> t

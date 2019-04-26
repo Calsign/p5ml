@@ -91,6 +91,8 @@ module Vector = struct
     Math.acos ((dot vec1 vec2) /. ((mag vec1) *. (mag vec2)))
   let project vec onto = mult onto ((dot vec onto) /. (mag_sq onto))
 
+  let to_string (x, y) = Printf.sprintf "(%f,%f)" x y
+
   let (++) = add
   let (--) = sub
   let ( ** ) = mult

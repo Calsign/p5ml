@@ -1,7 +1,6 @@
 
 open Config
 open Shape
-open Canvas
 open Sketch
 open Renderer
 open Key

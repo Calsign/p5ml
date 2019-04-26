@@ -2,7 +2,6 @@
 open Config
 open Shape
 open Renderer
-open Canvas
 
 module type Sketch = sig
   type state
