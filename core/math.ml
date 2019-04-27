@@ -95,7 +95,7 @@ module Vector = struct
 
   let (++) = add
   let (--) = sub
-  let ( ** ) = mult
+  let ( *** ) = mult
   let (//) = div
   let ( **. ) = dot
   let (~||) = mag

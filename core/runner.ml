@@ -108,6 +108,9 @@ end = struct
       mouse_button = button;
     }
 
+  open Key
+  open KeyUnicode
+
   let unicode_key_mappings =
     [
       (KeyUnicode.backspace, Key.backspace);

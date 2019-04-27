@@ -4,7 +4,6 @@ module Core = struct
   include Config
   include Color
   include Key
-  include Bezier
   include Shape
   include Runner
 

@@ -32,7 +32,7 @@ module TestSketch = struct
           let open Vector
           in let t = (float_of_int n) /. 20.
           in let pnt = Bezier.interpolate curve t
-          in let tgt = pnt ++ ((Bezier.tangent curve t) ** 0.3)
+          in let tgt = pnt ++ ((Bezier.tangent curve t) *** 0.3)
           in group [
             point pnt |> stroke_weight 3.;
             line pnt tgt;

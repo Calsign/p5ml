@@ -16,58 +16,58 @@ type vector = Vector.t
 (** The type of a vertex, a single piece of vector information that
     forms a shape. *)
 type vertex = private
-  (** [MoveTo vec] picks up the pen and places it down at [vec]. *)
   | MoveTo of vector
+  (** [MoveTo vec] picks up the pen and places it down at [vec]. *)
 
-  (** [LineTo vec] draws from the pen location to [vec]. *)
   | LineTo of vector
+  (** [LineTo vec] draws from the pen location to [vec]. *)
 
+  | BezierTo of vector * vector * vector
   (** [BezierTo v2 v3 v4] draws from the pen location, using the pen location
       as the beginning anchor point, [v2] and [v3] as the anchor points, and
       [v4] as the ending anchor point. *)
-  | BezierTo of vector * vector * vector
 
+  | Arc of vector * vector * float * float * float
   (** [Arc center size phi theta1 theta2] draws an arc centered at [center]
       and inscribed in [rect point ~align:`Center size]. [phi] is the offset
       angle of the rectangle, and [theta1] and [theta2] are the start and end
       angles of the arc, respectively. The pen is not moved to the start; it
       continues from where it left off and connects to where the arc begins. *)
-  | Arc of vector * vector * float * float * float
 
+  | ClosePath
   (** [ClosePath] closes the path by drawing a line from the current pen
       position to the last pen down position (created by [MoveTo]). *)
-  | ClosePath
 
 (** The type of a shape, a component that can be displayed.
     The [Shape] constructor contains vertices. *)
 type t = private
+  | Shape of vertex list
   (** [Shape vertices] is a complex shape defined by [vertices]. Well-formed
       shapes must begin with [MoveTo] and cannot have a [ClosePath] anywhere
       except (optionally) the end. *)
-  | Shape of vertex list
 
+  | Group of t list
   (** [Group shapes] is the compound shape that draws each shape in [shapes]
       in order, i.e. with the last shape on top. *)
-  | Group of t list
 
+  | Paint of t * paint_update
   (** [Paint shape update] is the shape that draws [shape] with the paint
       modification specified by [update]. Paint updates are specified one
       attribute at a time (e.g. just the stroke) so that all other attributes
       are inherited from the parent shape. *)
-  | Paint of t * paint_update
 
+  | Name of t * string
   (** [Name shape n] is [shape] tagged with name [n]. This shape is functionally
       equivalent to [shape], but the name may be used for identifying small
       components of larger shapes. *)
-  | Name of t * string
 
+  | Background of color
   (** [Background color] is the shape that fills the background with [color],
       erasing what was already present. This separate constructor is necessary
       because a [rect] would be affected by transformations. *)
-  | Background of color
 
-  (** [Empty] is the shape that draws nothing. *)
   | Empty
+  (** [Empty] is the shape that draws nothing. *)
 
 (** {2 Constructing Basic Shapes} *)
 
