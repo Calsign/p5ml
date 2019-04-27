@@ -17,6 +17,7 @@ type paint = private {
 (** [create] is the default paint. *)
 val create : paint
 
+(** The type of a layerable single-attribute paint change. *)
 type paint_update =
   | Fill of color option
   | Stroke of color option
@@ -25,4 +26,7 @@ type paint_update =
   | Stroke_join of [`Miter | `Bevel | `Round]
   | Stroke_weight_scale of float
 
+(** [apply_paint_update update paint] is [paint] with [update] applied. For
+    example, [apply_paint_update (Stroke None) paint] is [paint] with
+    no stroke. *)
 val apply_paint_update : paint_update -> paint -> paint
