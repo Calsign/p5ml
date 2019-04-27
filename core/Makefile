@@ -8,7 +8,7 @@ TEST=test.byte
 LIB_BYTE=p5.cma
 LIB_OPT=p5.cmxa
 OCAMLBUILD=ocamlbuild -use-ocamlfind
-PKGS=oUnit,graphics
+PKGS=oUnit,graphics,threads,cairo2,lablgtk2,cairo2-gtk
 
 default: lib install
 
@@ -35,12 +35,12 @@ docs: docs-public docs-private
 
 docs-public: build
 	mkdir -p doc.public
-	ocamlfind ocamldoc -I _build -package $(PKGS) \
+	ocamlfind ocamldoc -I _build -thread -package $(PKGS) \
 		-html -stars -d doc.public $(MLIS)
 
 docs-private: build
 	mkdir -p doc.private
-	ocamlfind ocamldoc -I _build -package $(PKGS) \
+	ocamlfind ocamldoc -I _build -thread -package $(PKGS) \
 		-html -stars -d doc.private \
 		-inv-merge-ml-mli -m A -hide-warnings $(MLS)
 

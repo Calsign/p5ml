@@ -108,21 +108,35 @@ let empty = Empty
 let name name shape =
   Name (shape, name)
 
-let rec find_named shape name =
+let rec find_named name shape =
   match shape with
   | Shape _ -> None
   | Group shapes ->
     begin
-      match List.map (fun shape -> find_named shape name) shapes with
+      match List.map (find_named name) shapes with
       | hd :: _ -> hd
       | _ -> None
     end
-  | Paint (nest_shape, _) -> find_named nest_shape name
+  | Paint (nest_shape, _) -> find_named name nest_shape
   | Name (nest_shape, nest_name) ->
     if name = nest_name then Some nest_shape
-    else find_named nest_shape name
+    else find_named name nest_shape
   | Background _ -> None
   | Empty -> None
+
+let rec find_all_named name shape =
+  match shape with
+  | Shape _ -> []
+  | Group shapes ->
+    begin
+      List.fold_left (@) [] (List.map (find_all_named name) shapes)
+    end
+  | Paint (nest_shape, _) -> find_all_named name nest_shape
+  | Name (nest_shape, nest_name) ->
+    if name = nest_name then [nest_shape]
+    else find_all_named name nest_shape
+  | Background _ -> []
+  | Empty -> []
 
 let transform_vertex angle (scale_x, scale_y, scale_mag)
     (func : vector -> vector) (vertex : vertex) : vertex =

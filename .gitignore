@@ -9,8 +9,8 @@
 _build
 
 # Generated
-docs.public
-docs.private
+doc.public
+doc.private
 
 # Temporary files
 *.swp
