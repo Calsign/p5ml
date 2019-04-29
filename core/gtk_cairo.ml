@@ -232,7 +232,7 @@ module rec Gtk_cairo : Renderer = struct
   let clear buffer = ()
 
   let event_queue buffer =
-    let lst = Seq.fold_left (fun acc evt -> evt :: acc) [] (Queue.to_seq buffer.events)
+    let lst = Queue.fold (fun acc evt -> evt :: acc) [] buffer.events
     in Queue.clear buffer.events; lst
 
   let render buffer shape =
