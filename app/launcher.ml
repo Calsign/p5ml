@@ -174,25 +174,14 @@ external realpath : string -> string = "caml_realpath"
 (** [build_inotify file] is a function that returns [true] when [file] has been
     modified since the last invocation and [false] otherwise. *)
 let build_inotify file : (unit -> bool) =
-  let base_name = Filename.basename file
-  (* we need to convert to canonical path *)
-  in let real_file = realpath (Filename.concat (Sys.getcwd ()) file)
-  in let dirname = Filename.dirname real_file
-  in let open Lwt
-  in Lwt_main.run
+  (* We used to use inotify, but that's not available outside Linux.
+     We can just use Digests. *)
+  let digest = ref (Digest.file file)
+  in fun () ->
     begin
-      Lwt_inotify.create () >>= fun inotify ->
-      (* Detect modifications to all files in the parent directory of the file.
-         There is no way to monitor just one file. *)
-      Lwt_inotify.add_watch inotify dirname [Inotify.S_Modify] >>= fun watch ->
-      Lwt.return
-        begin
-          (* [try_read] will return immediately.  *)
-          fun () -> match Lwt_inotify.try_read inotify |> Lwt.state with
-            (* inotify gives us the file base name, e.g. "sketch.ml" *)
-            | Lwt.Return (Some (_, _, _, Some fname)) -> fname = base_name
-            | _ -> false
-        end
+      let digest' = Digest.file file
+      in let result = Digest.compare !digest digest'
+      in digest := digest'; result <> 0
     end
 
 exception Parse_cmd_error

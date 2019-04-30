@@ -1,6 +1,2 @@
 B _build
 PKG p5ml
-PKG lwt
-PKG lwt_ppx
-PKG inotify
-PKG inotify.lwt
