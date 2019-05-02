@@ -54,6 +54,10 @@ module Math = struct
   let angle_avg a b = atan2 (sin a +. sin b) (cos a +. cos b)
   let angle_sum a b = mod_float (a +. b) (pi *. 2.)
   let angle_diff a b = atan2 (sin (a -. b)) (cos (a -. b))
+
+  let () = Random.self_init ()
+
+  let random bound = Random.int bound
 end
 
 let (~.) = float_of_int

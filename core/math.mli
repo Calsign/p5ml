@@ -152,6 +152,12 @@ module Math : sig
 
   (** [e] is the constant e. [e = 2.7182818284...] *)
   val e : float
+
+  (** {2 Random} *)
+
+  (** [random bound] is a random number between zero (inclusive) and [bound]
+      (exclusive) *)
+  val random : int -> int
 end
 
 (** [Vector] contains the [Vector.t] type and functions for
