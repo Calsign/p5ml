@@ -57,7 +57,13 @@ module Math = struct
 
   let () = Random.self_init ()
 
-  let random bound = Random.int bound
+  let random_int ?(lower_bound = 0) bound =
+    (Random.int (bound - lower_bound)) + lower_bound
+
+  let random_float ?(lower_bound = 0.) bound =
+    (Random.float (bound -. lower_bound)) +. lower_bound
+
+  let random_bool () = Random.bool ()
 end
 
 let (~.) = float_of_int

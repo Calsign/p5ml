@@ -155,9 +155,17 @@ module Math : sig
 
   (** {2 Random} *)
 
-  (** [random bound] is a random number between zero (inclusive) and [bound]
-      (exclusive) *)
-  val random : int -> int
+  (** [random_int bound] is a random integer between [0] (inclusive) and
+      [bound] (exclusive). *)
+  val random_int : ?lower_bound : int -> int -> int
+
+  (** [random_float bound] is a random float between [0.] (inclusive) and
+      [bound] (exclusive). *)
+  val random_float : ?lower_bound : float -> float -> float
+
+  (** [random_bool ()] is either [true] or [false] with an equal probability
+      of either. *)
+  val random_bool : unit -> bool
 end
 
 (** [Vector] contains the [Vector.t] type and functions for
