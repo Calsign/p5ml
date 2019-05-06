@@ -233,7 +233,7 @@ module rec Gtk_cairo : Renderer = struct
 
   let event_queue buffer =
     let lst = Queue.fold (fun acc evt -> evt :: acc) [] buffer.events
-    in Queue.clear buffer.events; lst
+    in Queue.clear buffer.events; List.rev lst
 
   let render buffer shape =
     Mutex.lock buffer.mutex;

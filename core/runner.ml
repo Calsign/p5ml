@@ -67,6 +67,8 @@ end = struct
 
   let default_background_color = Color.gray 127
 
+  module KeysSet = Set.Make (Uchar)
+
   let create_config buffer =
     {
       width = S.R.width buffer;
@@ -83,6 +85,7 @@ end = struct
       mouse_button = `Left;
 
       key = Char.chr 0;
+      keys = KeysSet.empty;
       key_unicode = Uchar.min;
       key_pressed = false;
 
@@ -150,11 +153,17 @@ end = struct
     | KeyPressed unicode ->
       let key = char_of_unicode unicode
       in if key = Key.esc then raise Exit
-      else let config' = {config with key_pressed = true; key = key; key_unicode = unicode}
+      else let config' =
+             {config with key_pressed = true;
+                          key = key; key_unicode = unicode;
+                          keys = KeysSet.add unicode config.keys}
         in config', S.key_pressed config' state
     | KeyReleased unicode ->
       let key = char_of_unicode unicode
-      in let config' = {config with key_pressed = false; key = key; key_unicode = unicode}
+      in let keys' = KeysSet.remove unicode config.keys
+      in let config' = {config with key_pressed = not (KeysSet.is_empty keys');
+                                    key = key; key_unicode = unicode;
+                                    keys = keys'}
       in config', S.key_released config' state |> S.key_typed config'
     | WindowResized {width; height} ->
       let config' = {config with width = width; height = height}
