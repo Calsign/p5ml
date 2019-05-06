@@ -6,7 +6,7 @@ open Vector
 open Shape
 open Renderer
 
-module rec Graph : Renderer = struct
+module Graph : Renderer = struct
   type buffer =
     {
       mouse_pressed : bool ref;

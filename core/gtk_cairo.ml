@@ -10,7 +10,7 @@ open Math
 open Shape
 open Renderer
 
-module rec Gtk_cairo : Renderer = struct
+module Gtk_cairo : Renderer = struct
   type buffer =
     {
       window : GWindow.window;
