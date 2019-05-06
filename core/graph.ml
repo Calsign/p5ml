@@ -15,8 +15,8 @@ module rec Graph : Renderer = struct
       pen_down : vector option ref;
     }
 
-  let create_buffer _ =
-    Graphics.open_graph "";
+  let create_buffer _ (width, height) =
+    Graphics.open_graph (Printf.sprintf " %ix%i" width height);
     Graphics.auto_synchronize false;
     {
       mouse_pressed = ref false;

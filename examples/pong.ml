@@ -13,12 +13,14 @@ module Pong = struct
       paddle_b : float; (* paddle B y position *)
     }
 
+  let size = 1200, 800
+
   let setup conf =
     {
-      pos = (300., 300.); (* width, height not currently set right *)
+      pos = (~.(conf.width / 2), ~.(conf.height / 2));
       vel = (-5., 0.);
-      paddle_a = 100.;
-      paddle_b = 100.;
+      paddle_a = ~.(conf.height / 2);
+      paddle_b = ~.(conf.height / 2);
     }
 
   (* how far in the paddles are from the sides horizontally *)

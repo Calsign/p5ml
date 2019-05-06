@@ -178,9 +178,10 @@ module rec Gtk_cairo : Renderer = struct
   let handle_window_delete buffer event =
     queue_event buffer WindowClosed; false
 
-  let create_buffer frame_rate =
+  let create_buffer frame_rate (width, height) =
     ignore (GMain.init ());
-    let window = GWindow.window ()
+    (* DIALOG makes window open as a pop-up *)
+    let window = GWindow.window ~type_hint:`DIALOG ~width ~height ()
     in ignore (window#connect#destroy ~callback:GMain.quit);
     let draw = GMisc.drawing_area ~packing:window#add ()
     in let buffer =

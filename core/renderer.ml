@@ -20,7 +20,7 @@ type event =
 module type Renderer = sig
   type buffer
 
-  val create_buffer : float -> buffer
+  val create_buffer : float -> (int * int) -> buffer
   val begin_draw : buffer -> unit
   val end_draw : buffer -> unit
   val clear : buffer -> unit

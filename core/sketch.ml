@@ -8,6 +8,8 @@ module type Sketch = sig
 
   module R : Renderer
 
+  val size : int * int
+
   val setup : config -> state
   val loop : config -> state -> state
   val draw : config -> state -> Shape.t
@@ -29,6 +31,8 @@ end
 
 module Base (R : Renderer) = struct
   module R = R
+
+  let size = 100, 100
 
   let loop _ st = st
   let draw _ st _ _ = ()
