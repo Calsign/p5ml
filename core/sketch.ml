@@ -35,7 +35,7 @@ module Base (R : Renderer) = struct
   let size = 100, 100
 
   let loop _ st = st
-  let draw _ st _ _ = ()
+  let draw _ _ = group []
 
   let mouse_pressed _ st = st
   let mouse_released _ st = st

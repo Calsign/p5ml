@@ -89,12 +89,12 @@ let copy_sketch_file in_file out_file wrap =
     close_out writer
   end
 
-(** [compile compiler target wrap update filename] compiles [filename] using
+(** [compile compiler target wrap update filenames] compiles [filenames] using
     the specified [compiler] (bytecode or native) and [target] (standalone or
     dynamic). See [copy_sketch_file] for an explanation of [wrap]. If [update]
     (dynamic mode only), then the old build folder is preserved and this build
     is treated as an update to a currently-running dynamic sketch. *)
-let compile compiler target wrap update filename =
+let compile compiler target wrap update filenames =
   let dir = build_dir ()
   in let ext = match target, compiler
        with
@@ -102,17 +102,18 @@ let compile compiler target wrap update filename =
       | STANDALONE, OPT -> "native"
       | DYNAMIC, BYTE -> "cma"
       | DYNAMIC, OPT -> "cmxs"
-  in let base_filename = chop_filename filename
-  in let build_ml_file = Filename.concat dir
-         (Printf.sprintf "%s.ml" base_filename)
-  in let output_filename = Printf.sprintf "%s.%s" base_filename ext
+  in let base_filenames = List.map chop_filename filenames
+  in let build_ml_files =
+       List.map (fun f -> Filename.concat dir (Printf.sprintf "%s.ml" f)) base_filenames
+  in let main_base_filename = List.hd base_filenames
+  in let output_filename = Printf.sprintf "%s.%s" main_base_filename ext
   in let output_file = Filename.concat dir
          (Filename.concat "_build" output_filename)
   (* Dynlink requires each module to have a different file name,
      so we use a unique identifier every time we reload the sketch *)
   in let num = unique_num ()
   in let get_symlink_file n =
-       let filename = Printf.sprintf "%s%u.%s" base_filename n ext
+       let filename = Printf.sprintf "%s%u.%s" main_base_filename n ext
        in Filename.concat dir filename
   in let symlink_file = get_symlink_file num
   (* this command gets run in the build directory [dir] *)
@@ -127,7 +128,8 @@ let compile compiler target wrap update filename =
       then Sys.remove old else ()
     end else ();
   (* move the sketch into the build directory *)
-  copy_sketch_file filename build_ml_file wrap;
+  List.iteri (fun i (fname, dest) -> copy_sketch_file fname dest (wrap && i == 1))
+    (List.map2 (fun fname build_file -> (fname, build_file)) filenames build_ml_files);
   (* compile the sketch with ocamlbuild *)
   execute ~wd:dir command;
   (* make a symlink with a unique name *)
@@ -148,20 +150,22 @@ let dynamic_sketch plugin handler =
   Runner.Dynamic.set_dynamic_handler handler;
   Dynlink.loadfile plugin
 
-(** [launch compiler target wrap inotify update filename] compiles and launches
-    the sketch [filename]. Raises [Failure msg] upon failure. *)
-let rec launch compiler target wrap inotify update filename =
-  check_file filename;
+(** [launch compiler target wrap inotify update filenames] compiles and launches
+    the sketch specified by [filenames], where [List.hd filenames] is the main
+    sketch file. Raises [Failure msg] upon failure. *)
+let rec launch compiler target wrap inotify update filenames =
+  match filenames with | [] -> failwith "No files specified" | _ -> ();
+  List.iter check_file filenames;
   if update then () else make_sketch_dir ();
   try begin
-    let compiled_file = compile compiler target wrap update filename
+    let compiled_file = compile compiler target wrap update filenames
     in match target with
     | STANDALONE -> launch_sketch compiled_file
     | DYNAMIC ->
       begin
         Runner.Dynamic.set_change_notifier inotify;
         dynamic_sketch compiled_file
-          (fun () -> launch compiler target wrap inotify true filename)
+          (fun () -> launch compiler target wrap inotify true filenames)
       end
   end with
   | Execution_failure _
@@ -171,50 +175,56 @@ let rec launch compiler target wrap inotify update filename =
     because it resolves [.], [..], and symbolic links. *)
 external realpath : string -> string = "caml_realpath"
 
-(** [build_inotify file] is a function that returns [true] when [file] has been
-    modified since the last invocation and [false] otherwise. *)
-let build_inotify file : (unit -> bool) =
+(** [build_inotify files] is a function that returns [true] when any file in
+    [files] has been modified since the last invocation and [false]
+    otherwise. *)
+let build_inotify files : (unit -> bool) =
   (* We used to use inotify, but that's not available outside Linux.
      We can just use Digests. *)
-  let digest = ref (Digest.file file)
+  let digests_of_files files =
+    List.map Digest.file files
+  in let compare_digests digests_a digests_b =
+       List.map2 (fun a b -> Digest.compare a b <> 0) digests_a digests_b
+       |> List.fold_left (||) false
+  in let digests = ref (digests_of_files files)
   in fun () ->
     begin
-      let digest' = Digest.file file
-      in let result = Digest.compare !digest digest'
-      in digest := digest'; result <> 0
+      let digests' = digests_of_files files
+      in let result = compare_digests !digests digests'
+      in digests := digests'; result
     end
 
 exception Parse_cmd_error
 
-(** [parse_cmd] is [(file, target, wrap)], the result of processing the
-    command-line arguments supplied to the launcher. [file] is the sketch
-    file to compile, [target] is standalone or dynamic, and [wrap] is whether
-    or not to wrap the sketch code (see [copy_sketch_file]). *)
+(** [parse_cmd] is [(files, target, wrap)], the result of processing the
+    command-line arguments supplied to the launcher. [files] is the list of
+    sketch files to compile, [target] is standalone or dynamic, and [wrap] is
+    whether or not to wrap the sketch code (see [copy_sketch_file]). *)
 let parse_cmd () =
   let target = ref STANDALONE
-  in let file_opt : string option ref = ref None
+  in let files : string list ref = ref []
   in let wrap = ref false
-  in let usage = "Usage: p5ml file [-d] [-w]"
+  in let usage = "Usage: p5ml [-d] [-w] file ..."
   in let spec = Arg.align [
       ("-d", Arg.Unit (fun () -> target := DYNAMIC), "\tDynamic mode");
       ("-w", Arg.Unit (fun () -> wrap := true),
        "\tPerform preprocessor wrapping");
     ]
-  in Arg.parse spec (fun arg -> file_opt := Some arg) usage;
-  match !file_opt with
-  | Some file -> file, !target, !wrap
-  | None -> Arg.usage spec usage; raise Parse_cmd_error
+  in Arg.parse spec (fun arg -> files := arg :: !files) usage;
+  match List.length !files with
+  | 0 -> Arg.usage spec usage; raise Parse_cmd_error
+  | _ -> List.rev !files, !target, !wrap
 
 let () =
   try
     (* detect bytecode or native *)
     let compiler = if Dynlink.is_native then OPT else BYTE
     (* parse command-line input *)
-    in let file, target, wrap = parse_cmd ()
+    in let files, target, wrap = parse_cmd ()
     (* detect changes to the source file *)
-    in let inotify = build_inotify file
+    in let inotify = build_inotify files
     (* build and launch the sketch *)
-    in launch compiler target wrap inotify false file
+    in launch compiler target wrap inotify false files
   with
   | End_of_file | Parse_cmd_error -> ()
   | Failure msg when msg = "realpath" -> prerr_endline "Error: Invalid file"
