@@ -17,10 +17,16 @@ type event =
   | WindowResized of {width : int; height : int}
   | WindowClosed
 
+type display =
+  [
+    | `Size of int * int
+    | `FullScreen
+  ]
+
 module type Renderer = sig
   type buffer
 
-  val create_buffer : float -> (int * int) -> buffer
+  val create_buffer : float -> display -> buffer
   val begin_draw : buffer -> unit
   val end_draw : buffer -> unit
   val clear : buffer -> unit

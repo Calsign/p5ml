@@ -178,10 +178,12 @@ module Gtk_cairo : Renderer = struct
   let handle_window_delete buffer event =
     queue_event buffer WindowClosed; false
 
-  let create_buffer frame_rate (width, height) =
+  let create_buffer frame_rate display =
     ignore (GMain.init ());
     (* DIALOG makes window open as a pop-up *)
-    let window = GWindow.window ~type_hint:`DIALOG ~width ~height ()
+    let window = match display with
+      | `Size (width, height) -> GWindow.window ~type_hint:`DIALOG ~width ~height ()
+      | `FullScreen -> let w = GWindow.window ~type_hint:`DIALOG () in w#fullscreen (); w
     in ignore (window#connect#destroy ~callback:GMain.quit);
     let draw = GMisc.drawing_area ~packing:window#add ()
     in let buffer =

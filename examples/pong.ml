@@ -13,7 +13,7 @@ module Pong = struct
       paddle_b : float; (* paddle B y position *)
     }
 
-  let size = 1200, 800
+  let display = `Size (1200, 800)
 
   let setup conf =
     {

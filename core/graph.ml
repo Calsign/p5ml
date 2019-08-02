@@ -15,8 +15,12 @@ module Graph : Renderer = struct
       pen_down : vector option ref;
     }
 
-  let create_buffer _ (width, height) =
-    Graphics.open_graph (Printf.sprintf " %ix%i" width height);
+  let create_buffer _ display =
+    let width, height = match display with
+      | `Size (w, h) -> w, h
+      (* Graphics doesn't provide a way to go full screen *)
+      | `FullScreen -> 100, 100
+    in Graphics.open_graph (Printf.sprintf " %ix%i" width height);
     Graphics.auto_synchronize false;
     {
       mouse_pressed = ref false;

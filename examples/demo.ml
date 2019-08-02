@@ -6,7 +6,7 @@ module TestSketch = struct
 
   type state = {x : float; y : int; z : int}
 
-  let size = 1200, 600
+  let display = `Size (1200, 600)
 
   let setup conf = {x = 0.; y = 0; z = 0}
 

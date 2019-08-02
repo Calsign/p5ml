@@ -8,7 +8,7 @@ module type Sketch = sig
 
   module R : Renderer
 
-  val size : int * int
+  val display : display
 
   val setup : config -> state
   val loop : config -> state -> state

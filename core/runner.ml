@@ -71,8 +71,8 @@ end = struct
 
   let create_config buffer =
     {
-      width = fst S.size;
-      height = snd S.size;
+      width = S.R.width buffer;
+      height = S.R.height buffer;
       display_width = 0;
       display_height = 0;
 
@@ -205,7 +205,7 @@ end = struct
   let run () =
     wrap_handle_exns
       begin fun () ->
-        let buffer = S.R.create_buffer target_frame_rate S.size
+        let buffer = S.R.create_buffer target_frame_rate S.display
         in let config = create_config buffer
         in let state = S.setup config
         in loop buffer config state
