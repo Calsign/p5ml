@@ -22,10 +22,10 @@ let execute ?wd cmd =
         let res = Sys.command cmd
         in Unix.chdir old_wd; res
       end
-  in if result = 0 then ()
-  else raise (Execution_failure
-                (Printf.sprintf
-                   "Command '%s' failed with error code %d" cmd result))
+  in if result <> 0 then
+    raise (Execution_failure
+             (Printf.sprintf
+                "Command '%s' failed with error code %d" cmd result))
 
 (** [build_dir ()] is the temporary directory in which the launcher builds
     sketches. *)
@@ -34,27 +34,25 @@ let build_dir () =
 
 (** [check_file file] raises [Failure msg] if file is not a valid .ml file. *)
 let check_file filename =
-  if Sys.file_exists filename then () else failwith "File does not exist!";
-  if Sys.is_directory filename then failwith "File is a directory!" else ();
-  if Filename.check_suffix filename ".ml" then ()
-  else failwith "Must specify a .ml file!"; ()
+  if not (Sys.file_exists filename) then
+    failwith "File does not exist!";
+  if Sys.is_directory filename then
+    failwith "File is a directory!";
+  if not (Filename.check_suffix filename ".ml") then
+    failwith "Must specify a .ml file!"
 
 (** [delete_dir dir] recursively deletes the directory [dir]. *)
 let rec delete_dir dir =
-  match Sys.file_exists dir with
-  | true ->
-    begin
-      match (Unix.stat dir).st_kind with
-      | S_DIR ->
-        begin
-          Array.iter
-            (fun fname -> delete_dir (Filename.concat dir fname))
-            (Sys.readdir dir);
-          Unix.rmdir dir
-        end
-      | _ -> Sys.remove dir
-    end
-  | false -> ()
+  if Sys.file_exists dir then
+    match (Unix.stat dir).st_kind with
+    | S_DIR ->
+      begin
+        Array.iter
+          (fun fname -> delete_dir (Filename.concat dir fname))
+          (Sys.readdir dir);
+        Unix.rmdir dir
+      end
+    | _ -> Sys.remove dir
 
 (** [make_sketch_dir ()] deletes the old build directory and returns the path
     to a newly created build directory. *)
@@ -82,9 +80,9 @@ let copy_sketch_file in_file out_file wrap =
        | 0 -> ()
        | read -> output writer buff 0 read; handle_read ()
   in begin
-    if wrap then output_string writer wrap_begin else ();
+    if wrap then output_string writer wrap_begin;
     handle_read ();
-    if wrap then output_string writer wrap_end else ();
+    if wrap then output_string writer wrap_end;
     close_in reader;
     close_out writer
   end
@@ -95,47 +93,61 @@ let copy_sketch_file in_file out_file wrap =
     (dynamic mode only), then the old build folder is preserved and this build
     is treated as an update to a currently-running dynamic sketch. *)
 let compile compiler target wrap update filenames =
+  if List.length filenames < 1 then failwith "Must specify file";
+
+  (* As of OCaml 4.08.0, Dynlink fails when attempting to load a module with
+     the same name as one that has already been loaded, which provides more
+     soundness. Unfortunately, loading multiple modules with the same name is
+     the name of the game for dynamic mode. We can get around this by changing
+     the sketch filename to something different every time, which works great
+     for the main file. The problem is that secondary dependency files cannot
+     have their names changed in this manner because doing so would cause any
+     code referencing them to break, because the compiled module name is
+     determined from the file name. Therefore we are not able to support
+     multiple files in dynamic mode for now. *)
+  if target = DYNAMIC && List.length filenames > 1 then
+    failwith "Dynamic mode only supports one file";
+
   let dir = build_dir ()
-  in let ext = match target, compiler
-       with
+  in let ext = match target, compiler with
       | STANDALONE, BYTE -> "byte"
       | STANDALONE, OPT -> "native"
       | DYNAMIC, BYTE -> "cma"
       | DYNAMIC, OPT -> "cmxs"
-  in let base_filenames = List.map chop_filename filenames
-  in let build_ml_files =
-       List.map (fun f -> Filename.concat dir (Printf.sprintf "%s.ml" f)) base_filenames
-  in let main_base_filename = List.hd base_filenames
-  in let output_filename = Printf.sprintf "%s.%s" main_base_filename ext
-  in let output_file = Filename.concat dir
-         (Filename.concat "_build" output_filename)
+
   (* Dynlink requires each module to have a different file name,
      so we use a unique identifier every time we reload the sketch *)
   in let num = unique_num ()
-  in let get_symlink_file n =
-       let filename = Printf.sprintf "%s%u.%s" main_base_filename n ext
-       in Filename.concat dir filename
-  in let symlink_file = get_symlink_file num
-  (* this command gets run in the build directory [dir] *)
+  in let main_filename_base = chop_filename (List.hd filenames)
+  in let main_output_filename =
+       Printf.sprintf "%s%u.%s" main_filename_base num ext
+  in let main_output_file =
+       Filename.concat dir (Filename.concat "_build" main_output_filename)
+
+  (* copy a file from sketch folder to build directory, changing name as
+     necessary for Dynlink *)
+  in let prepare_file main file =
+       let chopped = chop_filename file
+       in let file_name =
+            (* we only rename the main file *)
+            if main then Printf.sprintf "%s%u.ml" chopped num
+            else Printf.sprintf "%s.ml" chopped
+       in let dest = Filename.concat dir file_name
+       (* we only wrap the main file *)
+       in copy_sketch_file file dest (wrap && main)
+
+  (* build command, runs in build directory *)
   in let command = Printf.sprintf
          "ocamlbuild -use-ocamlfind -package p5ml -tag thread %s"
-         output_filename
-  in if update then
-    begin
-      (* delete the old symlink *)
-      let old = get_symlink_file (num - 1)
-      in if Sys.file_exists old
-      then Sys.remove old else ()
-    end else ();
-  (* move the sketch into the build directory *)
-  List.iteri (fun i (fname, dest) -> copy_sketch_file fname dest (wrap && i == 1))
-    (List.map2 (fun fname build_file -> (fname, build_file)) filenames build_ml_files);
+         main_output_filename
+
+  (* copy sketch files to build directory *)
+  in prepare_file true (List.hd filenames);
+  List.iter (prepare_file false) (List.tl filenames);
   (* compile the sketch with ocamlbuild *)
   execute ~wd:dir command;
-  (* make a symlink with a unique name *)
-  Unix.symlink output_file symlink_file;
   (* return the file *)
-  symlink_file
+  main_output_file
 
 (** [launch_sketch file] launches the standalone sketch executable [file]. *)
 let launch_sketch filename = ignore (Sys.command filename)
