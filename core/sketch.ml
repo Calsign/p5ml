@@ -32,7 +32,7 @@ end
 module Base (R : Renderer) = struct
   module R = R
 
-  let size = 100, 100
+  let display = `Size (100, 100)
 
   let loop _ st = st
   let draw _ _ = group []
