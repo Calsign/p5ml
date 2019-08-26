@@ -188,14 +188,23 @@ end = struct
       S.R.clear buffer;
       S.R.render buffer painter;
       S.R.end_draw buffer;
-      Unix.sleepf (max 0.005 (1. /. target_frame_rate -. (Unix.gettimeofday () -. start)));
+      let sketch_time = Unix.gettimeofday () -. start
+      (* 0.005 second buffer to give CPU a breath *)
+      in let sleep_time = max 0.005 (1. /. target_frame_rate -. sketch_time)
+      (* this should be exactly target_frame_rate unless the frame rate drops
+         because the sketch is doing really intense work; we need to add in
+         sleep_time because if the frame rate drops, we still have the 0.005
+         second buffer *)
+      in let total_frame_time = sketch_time +. sleep_time
+      in let config''' = {config'' with frame_rate = 1. /. total_frame_time}
+      in Unix.sleepf sleep_time;
       (* TODO: maybe don't need to ping inotify at 60fps *)
       if Dynamic.is_dynamic () && Dynamic.has_changed ()
       then Dynamic.apply_handler ()
       else ();
       if Dynamic.is_dynamic () && Dynamic.has_dynamic_hotswap ()
       then Dynamic.apply_dynamic_hotswap buffer config'' state''
-      else loop buffer config'' state''
+      else loop buffer config''' state''
     end
 
   let wrap_handle_exns func =

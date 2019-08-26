@@ -29,6 +29,7 @@ module Stress = struct
     (if y < 0. then h +. (mod_float y h) else (mod_float y h))
 
   let loop conf (lst, num) =
+    conf.frame_rate |> string_of_float |> print_endline;
     List.map Vector.(fun (pos, vel) ->
         vec_mod (pos ++ vel)
           ((~.(conf.width), ~.(conf.height)) ++ dim), vel) lst, num
