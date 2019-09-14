@@ -16,6 +16,8 @@ module Gtk_cairo : Renderer = struct
       window : GWindow.window;
       draw : GMisc.drawing_area;
       shape : Shape.t ref;
+      surface : Surface.t ref;
+      context : Cairo.context ref;
       events : event Queue.t;
       mutex : Mutex.t;
     }
@@ -79,7 +81,7 @@ module Gtk_cairo : Renderer = struct
       -> curve_to context x2 y2 x3 y3 x4 y4
     | ClosePath -> Path.close context
 
-  let rec handle_apply_shape paint buffer context shape : unit =
+  let rec handle_apply_shape paint context shape : unit =
     match shape with
     | Shape vertices ->
       begin
@@ -87,16 +89,15 @@ module Gtk_cairo : Renderer = struct
         draw_path paint context
       end
     | Group shapes
-      -> List.iter (handle_apply_shape paint buffer context) shapes
+      -> List.iter (handle_apply_shape paint context) shapes
     | Paint (nest_shape, paint_update)
-      -> handle_apply_shape (apply_paint_update paint_update paint) buffer context nest_shape
+      -> handle_apply_shape (apply_paint_update paint_update paint) context nest_shape
     | Name (nest_shape, name)
-      -> handle_apply_shape paint buffer context nest_shape
+      -> handle_apply_shape paint context nest_shape
     | Background color ->
       begin
         apply_color color context;
-        rectangle context 0. 0. ~.(width buffer) ~.(height buffer);
-        Cairo.fill context;
+        Cairo.paint context
       end
     | Empty -> ()
 
@@ -105,8 +106,10 @@ module Gtk_cairo : Renderer = struct
 
   let expose buffer draw ev =
     Mutex.lock buffer.mutex;
-    let context = Cairo_gtk.create draw#misc#window
-    in handle_apply_shape Paint.create buffer context !(buffer.shape);
+    let context = Cairo_gtk.create draw#misc#window in
+    (* copy buffer to window; performing actual drawing here is bad *)
+    Cairo.set_source_surface context !(buffer.surface) ~x:0. ~y:0.;
+    Cairo.paint context;
     Mutex.unlock buffer.mutex; true
 
   let redraw_trigger buffer () =
@@ -171,9 +174,34 @@ module Gtk_cairo : Renderer = struct
     | _ -> true
 
   let handle_window_resized buffer event =
+    (* dimensions of existing surface *)
+    let surf_width = Cairo.Image.get_width !(buffer.surface) in
+    let surf_height = Cairo.Image.get_height !(buffer.surface) in
+    (* new dimensions of window *)
+    let width = GdkEvent.Configure.width event in
+    let height = GdkEvent.Configure.height event in
+    (* re-use old surface if it's big enough *)
+    if width > surf_width || height > surf_height
+    then begin
+      (* if we need to resize, then double each dimension
+         to minimize number of surface re-allocations necessary *)
+      let surf_width' = max width (surf_width * 2) in
+      let surf_height' = max height (surf_height * 2) in
+      (* create new surface; we must use ARGB, otherwise we get X errors *)
+      let surface = Cairo.Image.create ARGB32 surf_width' surf_height' in
+      let context = Cairo.create surface in
+      Mutex.lock buffer.mutex;
+      (* copy old surface over to reduce tearing due to synchronization issues *)
+      Cairo.set_source_surface context !(buffer.surface) ~x:0. ~y:0.;
+      Cairo.paint context;
+      (* switch to new surface *)
+      buffer.context := context;
+      buffer.surface := surface;
+      Mutex.unlock buffer.mutex;
+    end;
+    (* queue resize event *)
     queue_event buffer
-      (WindowResized {width = GdkEvent.Configure.width event;
-                      height = GdkEvent.Configure.height event}); false
+      (WindowResized {width; height}); false
 
   let handle_window_delete buffer event =
     queue_event buffer WindowClosed; false
@@ -186,11 +214,15 @@ module Gtk_cairo : Renderer = struct
       | `FullScreen -> let w = GWindow.window ~type_hint:`DIALOG () in w#fullscreen (); w
     in ignore (window#connect#destroy ~callback:GMain.quit);
     let draw = GMisc.drawing_area ~packing:window#add ()
+    (* create a 100x100 buffer at first; we will receive a resize event immediately *)
+    in let surface = Cairo.Image.create ARGB32 100 100;
     in let buffer =
          {
            window = window;
            draw = draw;
            shape = ref Shape.empty;
+           surface = ref surface;
+           context = ref (Cairo.create surface);
            events = Queue.create ();
            mutex = Mutex.create ();
          }
@@ -241,5 +273,10 @@ module Gtk_cairo : Renderer = struct
   let render buffer shape =
     Mutex.lock buffer.mutex;
     buffer.shape := shape;
+    (* erase existing content *)
+    Cairo.set_source_rgb !(buffer.context) 0. 0. 0.;
+    Cairo.paint !(buffer.context);
+    (* draw the new shape *)
+    handle_apply_shape Paint.create !(buffer.context) shape;
     Mutex.unlock buffer.mutex
 end
