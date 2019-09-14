@@ -173,8 +173,8 @@ end = struct
   let default_background config buffer =
     Shape.background default_background_color
 
-  let rec loop buffer config state =
-    let start = Unix.gettimeofday ()
+  let rec loop buffer config state prev_frame_time =
+    let frame_time = Unix.gettimeofday ()
     in let config' = loop_config config
     in let config'', state' =
          List.fold_left handle_event (config', state) (S.R.event_queue buffer)
@@ -188,15 +188,14 @@ end = struct
       S.R.clear buffer;
       S.R.render buffer painter;
       S.R.end_draw buffer;
-      let sketch_time = Unix.gettimeofday () -. start
-      (* 0.005 second buffer to give CPU a breath *)
-      in let sleep_time = max 0.005 (1. /. target_frame_rate -. sketch_time)
+      (* how much longer should we wait in order to achieve our target frame rate?
+         0.005 second buffer is to give CPU a breath *)
+      let sleep_time = max 0.005 (frame_time +. 1. /. target_frame_rate -. (Unix.gettimeofday ()))
       (* this should be exactly target_frame_rate unless the frame rate drops
          because the sketch is doing really intense work; we need to add in
          sleep_time because if the frame rate drops, we still have the 0.005
          second buffer *)
-      in let total_frame_time = sketch_time +. sleep_time
-      in let config''' = {config'' with frame_rate = 1. /. total_frame_time}
+      in let config''' = {config'' with frame_rate = 1. /. (frame_time -. prev_frame_time)}
       in Unix.sleepf sleep_time;
       (* TODO: maybe don't need to ping inotify at 60fps *)
       if Dynamic.is_dynamic () && Dynamic.has_changed ()
@@ -204,7 +203,7 @@ end = struct
       else ();
       if Dynamic.is_dynamic () && Dynamic.has_dynamic_hotswap ()
       then Dynamic.apply_dynamic_hotswap buffer config'' state''
-      else loop buffer config''' state''
+      else loop buffer config''' state'' frame_time
     end
 
   let wrap_handle_exns func =
@@ -217,14 +216,14 @@ end = struct
         let buffer = S.R.create_buffer target_frame_rate S.display
         in let config = create_config buffer
         in let state = S.setup config
-        in loop buffer config state
+        in loop buffer config state (Unix.gettimeofday ())
       end
 
   let load_dynamic_module buffer_mag config state_mag =
     wrap_handle_exns
       begin fun () ->
         (* do not try this at home kids *)
-        loop (Obj.obj buffer_mag) config (Obj.obj state_mag)
+        loop (Obj.obj buffer_mag) config (Obj.obj state_mag) (Unix.gettimeofday ())
       end
 end
 
