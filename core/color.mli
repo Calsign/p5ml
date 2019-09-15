@@ -36,5 +36,5 @@ val hsva : int -> int -> int -> int -> color
 
 (** [hex hex_str] is the color represented by [hex_str] in hexadecimal notation.
     [hex_str] may or may not begin with a pound ([#]), and may specify alpha
-    (eight hex numbers) or not (six hex numbers). *)
+    ([#AARRGGBB]) or not ([#RRGGBB]). *)
 val hex : string -> color

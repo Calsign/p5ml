@@ -37,7 +37,7 @@ module Math = struct
   let normf v lower upper = mapf v lower upper 0. 1.
   let norm v lower upper = normf (float_of_int v)
       (float_of_int lower) (float_of_int upper)
-  let round v = Pervasives.floor (v +. (if v > 0. then 0.5 else -0.5))
+  let round v = Pervasives.floor (v +. (if v >= 0. then 0.5 else -0.5))
                 |> int_of_float
   let sqrt = Pervasives.sqrt
 
