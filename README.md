@@ -14,3 +14,6 @@ libraries with opam (ounit, lablgtk, cairo2, cairo2-gtk).
 To build a sketch, first run `make` in the `app` directory. Then pass the
 sketch to `app/launcher.byte` (e.g. `app/launcher.byte examples/demo.ml`) in
 order to run the sketch. There are examples in the `examples` directory.
+
+> Tip: pass the `-d` flag to `app/launcher.byte` (dynamic mode) to make the
+> sketch reload automatically when the file is modified.
