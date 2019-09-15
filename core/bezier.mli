@@ -13,7 +13,7 @@ type t = vector * vector * vector * vector
 
 (** {2 Bezier Creation} *)
 
-(** [create a1 c1 c2 c2] is [(a1, c1, c2, a2)]. *)
+(** [create a1 c1 c2 a2] is [(a1, c1, c2, a2)]. *)
 val create : vector -> vector -> vector -> vector -> t
 
 (** {2 Bezier Helper Functions} *)
