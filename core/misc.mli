@@ -1,4 +1,6 @@
 
+(** [Misc] contains miscellaneous utility functions. *)
+
 (** [string_of_char c] is the string containing the character [c]. *)
 val string_of_char : char -> string
 

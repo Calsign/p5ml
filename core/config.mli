@@ -1,4 +1,8 @@
 
+(** [Config] contains the [config] type, used for providing configuration and
+    input information to the sketch, and utility functions for accessing
+    information from a config. *)
+
 type keys = Set.Make (Uchar).t
 
 type config = {
