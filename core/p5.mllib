@@ -10,5 +10,6 @@ Graph
 Gtk_cairo
 Config
 Sketch
+Handler
 Runner
 P5
