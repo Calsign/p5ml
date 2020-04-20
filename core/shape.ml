@@ -6,6 +6,10 @@ open Vector
 
 type vector = Vector.t
 
+type tag = ..
+
+type tag += TName of string
+
 type vertex =
   | MoveTo of vector
   | LineTo of vector
@@ -17,7 +21,7 @@ type t =
   | Shape of vertex list
   | Group of t list
   | Paint of t * paint_update
-  | Name of t * string
+  | Tag of t * tag
   | Background of color
   | Empty
 
@@ -41,6 +45,14 @@ let stroke_cap cap shape =
 
 let stroke_join join shape =
   Paint (shape, Stroke_join join)
+
+let rec bleach = function
+  | Shape vertices -> Shape vertices
+  | Group shapes -> Group (List.map bleach shapes)
+  | Paint (shape, _) -> bleach shape
+  | Tag (shape, tag) -> Tag (bleach shape, tag)
+  | Background _ -> Empty
+  | Empty -> Empty
 
 let poly ?(close = `Close) (vertices : vector list) : t =
   match vertices with
@@ -105,38 +117,47 @@ let background color = Background color
 
 let empty = Empty
 
-let name name shape =
-  Name (shape, name)
+let tag tag shape =
+  Tag (shape, tag)
 
-let rec find_named name shape =
+let rec find_tag tag shape =
   match shape with
   | Shape _ -> None
   | Group shapes ->
     begin
-      match List.map (find_named name) shapes with
+      match List.map (find_tag tag) shapes with
       | hd :: _ -> hd
       | _ -> None
     end
-  | Paint (nest_shape, _) -> find_named name nest_shape
-  | Name (nest_shape, nest_name) ->
-    if name = nest_name then Some nest_shape
-    else find_named name nest_shape
+  | Paint (nest_shape, _) -> find_tag tag nest_shape
+  | Tag (nest_shape, nest_tag) ->
+    if tag = nest_tag then Some nest_shape
+    else find_tag tag nest_shape
   | Background _ -> None
   | Empty -> None
 
-let rec find_all_named name shape =
+let rec find_tags tag shape =
   match shape with
   | Shape _ -> []
   | Group shapes ->
     begin
-      List.fold_left (@) [] (List.map (find_all_named name) shapes)
+      List.fold_left (@) [] (List.map (find_tags tag) shapes)
     end
-  | Paint (nest_shape, _) -> find_all_named name nest_shape
-  | Name (nest_shape, nest_name) ->
-    if name = nest_name then [nest_shape]
-    else find_all_named name nest_shape
+  | Paint (nest_shape, _) -> find_tags tag nest_shape
+  | Tag (nest_shape, nest_tag) ->
+    if tag = nest_tag then [nest_shape]
+    else find_tags tag nest_shape
   | Background _ -> []
   | Empty -> []
+
+let name name shape =
+  tag (TName name) shape
+
+let find_name name shape =
+  find_tag (TName name) shape
+
+let find_names name shape =
+  find_tags (TName name) shape
 
 let transform_vertex angle (scale_x, scale_y, scale_mag)
     (func : vector -> vector) (vertex : vertex) : vertex =
@@ -163,7 +184,7 @@ let rec transform_shape (angle : float) (scales : float * float * float)
         | _ -> paint_update
       in Paint (transform_shape angle scales func nest_shape, scaled_paint_update)
     end
-  | Name (nest_shape, name) -> Name (transform_shape angle scales func nest_shape, name)
+  | Tag (nest_shape, tag) -> Tag (transform_shape angle scales func nest_shape, tag)
   | Background color -> Background color
   | Empty -> Empty
 

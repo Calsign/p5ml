@@ -136,7 +136,7 @@ module Graph : Renderer = struct
       -> List.iter (handle_shape buffer paint) shapes
     | Paint (nest_shape, paint_update)
       -> handle_shape buffer (apply_paint_update paint_update paint) nest_shape
-    | Name (nest_shape, name)
+    | Tag (nest_shape, tag)
       -> handle_shape buffer paint nest_shape
     | Background color ->
       begin

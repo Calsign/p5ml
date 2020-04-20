@@ -92,7 +92,7 @@ module Gtk_cairo : Renderer = struct
       -> List.iter (handle_apply_shape paint context) shapes
     | Paint (nest_shape, paint_update)
       -> handle_apply_shape (apply_paint_update paint_update paint) context nest_shape
-    | Name (nest_shape, name)
+    | Tag (nest_shape, tag)
       -> handle_apply_shape paint context nest_shape
     | Background color ->
       begin

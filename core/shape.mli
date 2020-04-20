@@ -13,6 +13,12 @@ open Bezier
 
 type vector = Vector.t
 
+(** [tag] is an extensible variant for attaching arbitrary metadata to
+    shapes. *)
+type tag = ..
+
+type tag += TName of string
+
 (** The type of a vertex, a single piece of vector information that
     forms a shape. *)
 type vertex = private
@@ -56,10 +62,10 @@ type t = private
       attribute at a time (e.g. just the stroke) so that all other attributes
       are inherited from the parent shape. *)
 
-  | Name of t * string
-  (** [Name shape n] is [shape] tagged with name [n]. This shape is functionally
-      equivalent to [shape], but the name may be used for identifying small
-      components of larger shapes. *)
+  | Tag of t * tag
+  (** [Tag shape tag] is [shape] tagged with [tag]. This shape is functionally
+      equivalent to [shape], but the tag is used for adding arbitrary metadata
+      to the shape, such as the built-in name tag. *)
 
   | Background of color
   (** [Background color] is the shape that fills the background with [color],
@@ -149,20 +155,39 @@ val stroke_cap : [`Round | `Square | `Project] -> t -> t
     between two lines are drawn. *)
 val stroke_join : [`Miter | `Bevel | `Round] -> t -> t
 
+(** [bleach shape] is [shape] with all color (fill or stroke) information
+    removed. *)
+val bleach : t -> t
+
 (** {2 Names} *)
 
 (** [name n shape] is [shape] tagged with name [n], which can be looked up
-    with [find_named]. *)
+    with [find_name]. *)
 val name : string -> t -> t
 
-(** [find_named name shape] is [Some found] where [found] is the first shape
+(** [find_name name shape] is [Some found] where [found] is the first shape
     tagged with [name] in [shape], or [None] if [shape] contains no shapes
     tagged [name]. *)
-val find_named : string -> t -> t option
+val find_name : string -> t -> t option
 
-(** [find_all_named name shape] is the list of all shapes in [shape] that are
+(** [find_names name shape] is the list of all shapes in [shape] that are
     tagged with [name]. *)
-val find_all_named : string -> t -> t list
+val find_names : string -> t -> t list
+
+(** {2 Tags} *)
+
+(** [tag tg shape] is [shape] tagged with tag [tg], which can be looked up with
+    [find_tag]. Tags are a more general form of names. *)
+val tag : tag -> t -> t
+
+(** [find_tag tag shape] is [Some found] where [found] is the first shape tagged
+    with [tag] in [shape], or [None] if [shape] contains no shapes tagged
+    [tag]. *)
+val find_tag : tag -> t -> t option
+
+(** [find_tags tag shape] is the list of all shapes in [shape] that are tagged
+    with [tag]. *)
+val find_tags : tag -> t -> t list
 
 (** {2 Transformations} *)
 
