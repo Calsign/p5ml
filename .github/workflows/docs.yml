@@ -21,7 +21,16 @@ jobs:
           ocaml-version: 4.10.0
 
       - name: install ocaml dependencies
-        run: opam install ounit lablgtk cairo2 cairo2-gtk
+        run: opam install ocamlbuild ounit lablgtk cairo2 cairo2-gtk
 
       - name: make docs
         run: make docs
+
+      - name: deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./core/doc.public
+          publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
