@@ -21,7 +21,7 @@ jobs:
           ocaml-version: 4.10.0
 
       - name: install ocaml dependencies
-        run: opam install ocamlbuild ounit lablgtk cairo2 cairo2-gtk
+        run: opam install ocamlbuild ounit graphics lablgtk cairo2 cairo2-gtk
 
       - name: make docs
         run: eval $(opam env) && make docs

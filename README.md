@@ -9,7 +9,7 @@ nature of OCaml.
 
 To build the p5ml library, run `make` in the `core` directory. This takes care
 of linking the p5ml library to ocamlfind. You may need to install some
-libraries with opam (ounit, lablgtk, cairo2, cairo2-gtk).
+libraries with opam (ounit, graphics, lablgtk, cairo2, cairo2-gtk).
 
 To build a sketch, first run `make` in the `app` directory. Then pass the
 sketch to `app/launcher.byte` (e.g. `app/launcher.byte examples/demo.ml`) in
