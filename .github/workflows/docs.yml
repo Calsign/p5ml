@@ -12,12 +12,15 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
+      - name: install apt dependencies
+        run: sudo apt-get update && sudo apt-get install libgtk2.0-dev libcairo2-dev
+
       - name: set up ocaml
         uses: avsm/setup-ocaml@v1
         with:
           ocaml-version: 4.10.0
 
-      - name: install dependencies
+      - name: install ocaml dependencies
         run: opam install ounit lablgtk cairo2 cairo2-gtk
 
       - name: make docs
