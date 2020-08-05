@@ -1,0 +1,21 @@
+name: docs
+
+on:
+  push:
+    branches:
+      - master
+
+steps:
+  - name: checkout
+    uses: actions/checkout@v2
+
+  - name: set up ocaml
+    uses: avsm/setup-ocaml@v1
+    with:
+      ocaml-version: 4.10.0
+
+  - name: install dependencies
+    run: opam install ounit lablgtk cairo2 cairo2-gtk
+
+  - name: make docs
+    run: make docs
