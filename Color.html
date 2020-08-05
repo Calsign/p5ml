@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Misc.html">
+<link rel="next" href="Paint.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html"><title>Color</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Misc.html" title="Misc">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Paint.html" title="Paint">Next</a>
+</div>
+<h1>Module <a href="type_Color.html">Color</a></h1>
+
+<pre><span id="MODULEColor"><span class="keyword">module</span> Color</span>: <code class="code">sig</code> <a href="Color.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p><code class="code">Color</code> contains the <code class="code">color</code> type and utilities for manipulating
+    <code class="code">color</code>s.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEcolor"><span class="keyword">type</span> <code class="type"></code>color</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcolor.red">red</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcolor.green">green</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcolor.blue">blue</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcolor.alpha">alpha</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+<div class="info ">
+<div class="info-desc">
+<p>The type of a color. Each of <code class="code">red</code>, <code class="code">green</code>, <code class="code">blue</code>, and <code class="code">alpha</code>
+    are in the range <code class="code">0..255</code>.</p>
+</div>
+</div>
+
+
+<pre><span id="VALrgb"><span class="keyword">val</span> rgb</span> : <code class="type">int -> int -> int -> <a href="Color.html#TYPEcolor">color</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">rgb r g b</code> is the opaque color with red, green and blue values of <code class="code">r</code>, <code class="code">g</code>,
+    and <code class="code">b</code>, respectively.</p>
+</div>
+</div>
+
+<pre><span id="VALrgba"><span class="keyword">val</span> rgba</span> : <code class="type">int -> int -> int -> int -> <a href="Color.html#TYPEcolor">color</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">rgba r g b a</code> is <code class="code">rgb r g b</code>, but with an alpha value of <code class="code">a</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALgray"><span class="keyword">val</span> gray</span> : <code class="type">int -> <a href="Color.html#TYPEcolor">color</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">gray val</code> is the opaque color represented by the grayscale value <code class="code">val</code>,
+    which is equivalent to each of red, green, and blue values of <code class="code">val</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALgraya"><span class="keyword">val</span> graya</span> : <code class="type">int -> int -> <a href="Color.html#TYPEcolor">color</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">gray val a</code> is <code class="code">gray val</code>, but with an alpha value of <code class="code">a</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALhsv"><span class="keyword">val</span> hsv</span> : <code class="type">int -> int -> int -> <a href="Color.html#TYPEcolor">color</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">hsv h s v</code> is the opaque color represented by the hue, saturation, and
+    value values of <code class="code">h</code>, <code class="code">s</code>, and <code class="code">v</code>, respectively. <code class="code">h</code> is in the range
+    <code class="code">0..360</code>, and both <code class="code">s</code> and <code class="code">v</code> are in the range <code class="code">0..100</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALhsva"><span class="keyword">val</span> hsva</span> : <code class="type">int -> int -> int -> int -> <a href="Color.html#TYPEcolor">color</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">hsva h s v a</code> is <code class="code">hsv h s v</code>, but with an alpha value of <code class="code">a</code>. <code class="code">a</code> is in the
+    range <code class="code">0..255</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALhex"><span class="keyword">val</span> hex</span> : <code class="type">string -> <a href="Color.html#TYPEcolor">color</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">hex hex_str</code> is the color represented by <code class="code">hex_str</code> in hexadecimal notation.
+    <code class="code">hex_str</code> may or may not begin with a pound (<code class="code">#</code>), and may specify alpha
+    (<code class="code">#AARRGGBB</code>) or not (<code class="code">#RRGGBB</code>).</p>
+</div>
+</div>
+</body></html>

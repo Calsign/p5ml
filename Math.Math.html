@@ -1,0 +1,315 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="next" href="Math.Vector.html">
+<link rel="Up" href="Math.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html"><link title="Trigonometry" rel="Section" href="#2_Trigonometry">
+<link title="Angle Conversion" rel="Section" href="#2_AngleConversion">
+<link title="Angle Manipulation" rel="Section" href="#2_AngleManipulation">
+<link title="Mathematical Constants" rel="Section" href="#2_MathematicalConstants">
+<link title="Random" rel="Section" href="#2_Random">
+<title>Math.Math</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="Math.html" title="Math">Up</a>
+&nbsp;<a class="post" href="Math.Vector.html" title="Math.Vector">Next</a>
+</div>
+<h1>Module <a href="type_Math.Math.html">Math.Math</a></h1>
+
+<pre><span id="MODULEMath"><span class="keyword">module</span> Math</span>: <code class="code">sig</code> <a href="Math.Math.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p><code class="code">Math</code> contains many common mathematical functions.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="VALabs"><span class="keyword">val</span> abs</span> : <code class="type">int -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">abs i</code> is the absolute value of <code class="code">i</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALabsf"><span class="keyword">val</span> absf</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">absf f</code> is the absolute value of <code class="code">f</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALceil"><span class="keyword">val</span> ceil</span> : <code class="type">float -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">ceil f</code> is the integer closest to <code class="code">f</code> in the direction of positive
+      infinity.</p>
+</div>
+</div>
+
+<pre><span id="VALfloor"><span class="keyword">val</span> floor</span> : <code class="type">float -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">floor f</code> is the integer closest to <code class="code">f</code> in the direction of negative
+      infinity.</p>
+</div>
+</div>
+
+<pre><span id="VALconstrain"><span class="keyword">val</span> constrain</span> : <code class="type">int -> int -> int -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">constrain i min max</code> is <code class="code">min</code> if <code class="code">i &lt;= min</code>, <code class="code">max</code> if <code class="code">i &gt;= max</code>,
+      or <code class="code">i</code> otherwise. The behavior is undefined if <code class="code">min &gt; max</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALconstrainf"><span class="keyword">val</span> constrainf</span> : <code class="type">float -> float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">constrainf f min max</code> is <code class="code">min</code> if <code class="code">f &lt;= min</code>, <code class="code">max</code> if <code class="code">f &gt;= max</code>,
+      or <code class="code">f</code> otherwise. The behavior is undefined if <code class="code">min &gt; max</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALdist"><span class="keyword">val</span> dist</span> : <code class="type">int -> int -> int -> int -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">dist x1 y1 x2 y2</code> is the distance between the points <code class="code">(x1, y1)</code> and
+      <code class="code">(x2, y2)</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALdistf"><span class="keyword">val</span> distf</span> : <code class="type">float -> float -> float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">distf x1 y1 x2 y2</code> is the distance between the points <code class="code">(x1, y1)</code> and
+      <code class="code">(x2, y2)</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmag"><span class="keyword">val</span> mag</span> : <code class="type">int -> int -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mag x y</code> is <code class="code">dist x y 0 0</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmagf"><span class="keyword">val</span> magf</span> : <code class="type">float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">magf x y</code> is <code class="code">distf x y 0 0</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALlerp"><span class="keyword">val</span> lerp</span> : <code class="type">int -> int -> float -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">lerp a b t</code> is the linear interpolation from <code class="code">a</code> to <code class="code">b</code> by <code class="code">t</code>, where
+      <code class="code">t</code> is in <code class="code">[0, 1]</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALlerpf"><span class="keyword">val</span> lerpf</span> : <code class="type">float -> float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">lerpf a b t</code> is the linear interpolation from <code class="code">a</code> to <code class="code">b</code> by <code class="code">t</code>, where
+      <code class="code">t</code> is in <code class="code">[0, 1]</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALlog"><span class="keyword">val</span> log</span> : <code class="type">float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">log f b</code> is the base-<code class="code">b</code> logarithm of <code class="code">f</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmap"><span class="keyword">val</span> map</span> : <code class="type">int -> int -> int -> int -> int -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">map i low1 high1 low2 high2</code> is <code class="code">i</code> mapped from the range <code class="code">[low1, high1]</code>
+      to the range <code class="code">[low2, high2]</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmapf"><span class="keyword">val</span> mapf</span> : <code class="type">float -> float -> float -> float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mapf f low1 high1 low2 high2</code> is <code class="code">f</code> mapped from the range
+      <code class="code">[low1, high1]</code> to the range <code class="code">[low2, high2]</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmax"><span class="keyword">val</span> max</span> : <code class="type">int -> int -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">max a b</code> is the maximum of <code class="code">a</code> and <code class="code">b</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmaxf"><span class="keyword">val</span> maxf</span> : <code class="type">float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">maxf a b</code> is the maximum of <code class="code">a</code> and <code class="code">b</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmin"><span class="keyword">val</span> min</span> : <code class="type">int -> int -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">min a b</code> is the minimum of <code class="code">a</code> and <code class="code">b</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALminf"><span class="keyword">val</span> minf</span> : <code class="type">float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">minf a b</code> is the minimum of <code class="code">a</code> and <code class="code">b</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALnorm"><span class="keyword">val</span> norm</span> : <code class="type">int -> int -> int -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">norm i low high</code> is <code class="code">map i low high 0 1</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALnormf"><span class="keyword">val</span> normf</span> : <code class="type">float -> float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">normf f low high</code> is <code class="code">mapf f low high 0. 1.</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALround"><span class="keyword">val</span> round</span> : <code class="type">float -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">round f</code> is the integer closest to <code class="code">f</code>; <code class="code">0.5</code> rounds up.</p>
+</div>
+</div>
+
+<pre><span id="VALsqrt"><span class="keyword">val</span> sqrt</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">sqrt f</code> is the square root of <code class="code">f</code>.</p>
+</div>
+</div>
+<h3 id="2_Trigonometry">Trigonometry</h3><p>All functions in this section expect angles in radians.</p>
+
+<pre><span id="VALacos"><span class="keyword">val</span> acos</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">acos f</code> is the inverse cosine of <code class="code">f</code>. <code class="code">f</code> is in <code class="code">[-1, 1]</code>
+      and <code class="code">acos f</code> is in <code class="code">[0, pi]</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALasin"><span class="keyword">val</span> asin</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">asin f</code> is the inverse sine of <code class="code">f</code>. <code class="code">f</code> is in <code class="code">[-1, 1]</code> and
+      <code class="code">asin f</code> is in <code class="code">[-pi/2, pi/2]</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALatan"><span class="keyword">val</span> atan</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">atan f</code> is the inverse tangent of <code class="code">f</code>. <code class="code">f</code> is in
+      <code class="code">[-infinity, infinity]</code> and <code class="code">atan f</code> is in <code class="code">[-pi/2, pi/2]</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALatan2"><span class="keyword">val</span> atan2</span> : <code class="type">float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">atan2 y x</code> is the angle from the origin to <code class="code">(y, x)</code>. This function
+      uses the signs of <code class="code">x</code> and <code class="code">y</code> to determine the correct quadrant.</p>
+</div>
+</div>
+
+<pre><span id="VALcos"><span class="keyword">val</span> cos</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">cos theta</code> is the cosine of <code class="code">theta</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALsin"><span class="keyword">val</span> sin</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">sin theta</code> is the sine of <code class="code">theta</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALtan"><span class="keyword">val</span> tan</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">tan theta</code> is the tangent of <code class="code">theta</code>.</p>
+</div>
+</div>
+<h3 id="2_AngleConversion">Angle Conversion</h3>
+<pre><span id="VALdegrees"><span class="keyword">val</span> degrees</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">degrees theta</code> is <code class="code">theta</code>, which is in radians, converted to degrees.</p>
+</div>
+</div>
+
+<pre><span id="VALradians"><span class="keyword">val</span> radians</span> : <code class="type">float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">radians d</code> is <code class="code">d</code>, which is in degrees, converted to radians.</p>
+</div>
+</div>
+<h3 id="2_AngleManipulation">Angle Manipulation</h3><p>All functions in this section expect angles in radians.</p>
+
+<pre><span id="VALangle_avg"><span class="keyword">val</span> angle_avg</span> : <code class="type">float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">angle_avg theta1 theta2</code> is the average angle between <code class="code">theta1</code> and
+      <code class="code">theta2</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALangle_sum"><span class="keyword">val</span> angle_sum</span> : <code class="type">float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">angle_sum theta1 theta2</code> is the sum of the angles <code class="code">theta1</code> and
+      <code class="code">theta2</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALangle_diff"><span class="keyword">val</span> angle_diff</span> : <code class="type">float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">angle_diff theta1 theta2</code> is the difference between the angles <code class="code">theta1</code>
+      and <code class="code">theta2</code>.</p>
+</div>
+</div>
+<h3 id="2_MathematicalConstants">Mathematical Constants</h3>
+<pre><span id="VALpi"><span class="keyword">val</span> pi</span> : <code class="type">float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">pi</code> is the constant pi. <code class="code">pi = 3.1415926535...</code></p>
+</div>
+</div>
+
+<pre><span id="VALhalf_pi"><span class="keyword">val</span> half_pi</span> : <code class="type">float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">half_pi</code> is <code class="code">pi /. 2.</code>. <code class="code">half_pi = 1.5707963267...</code></p>
+</div>
+</div>
+
+<pre><span id="VALtwo_pi"><span class="keyword">val</span> two_pi</span> : <code class="type">float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">two_pi</code> is <code class="code">pi *. 2.</code>. <code class="code">two_pi = 6.2831853071...</code></p>
+</div>
+</div>
+
+<pre><span id="VALe"><span class="keyword">val</span> e</span> : <code class="type">float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">e</code> is the constant e. <code class="code">e = 2.7182818284...</code></p>
+</div>
+</div>
+<h3 id="2_Random">Random</h3>
+<pre><span id="VALrandom_int"><span class="keyword">val</span> random_int</span> : <code class="type">?lower_bound:int -> int -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">random_int bound</code> is a random integer between <code class="code">0</code> (inclusive) and
+      <code class="code">bound</code> (exclusive).</p>
+</div>
+</div>
+
+<pre><span id="VALrandom_float"><span class="keyword">val</span> random_float</span> : <code class="type">?lower_bound:float -> float -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">random_float bound</code> is a random float between <code class="code">0.</code> (inclusive) and
+      <code class="code">bound</code> (exclusive).</p>
+</div>
+</div>
+
+<pre><span id="VALrandom_bool"><span class="keyword">val</span> random_bool</span> : <code class="type">unit -> bool</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">random_bool ()</code> is either <code class="code">true</code> or <code class="code">false</code> with an equal probability
+      of either.</p>
+</div>
+</div>
+</body></html>

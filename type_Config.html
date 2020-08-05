@@ -1,0 +1,47 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html"><title>Config</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;keys&nbsp;=&nbsp;<span class="constructor">Stdlib</span>.<span class="constructor">Set</span>.<span class="constructor">Make</span>(<span class="constructor">Stdlib</span>.<span class="constructor">Uchar</span>).t<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;config&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;width&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;height&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display_width&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display_height&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_x&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_y&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pmouse_x&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pmouse_y&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_scroll&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_pressed&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_button&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Center</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Left</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Right</span>&nbsp;];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;:&nbsp;char;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;keys&nbsp;:&nbsp;<span class="constructor">Config</span>.keys;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;key_unicode&nbsp;:&nbsp;<span class="constructor">Stdlib</span>.<span class="constructor">Uchar</span>.t;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;key_pressed&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;frame_count&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;frame_rate&nbsp;:&nbsp;float;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_key&nbsp;:&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_key_uchar&nbsp;:&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Stdlib</span>.<span class="constructor">Uchar</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_keys&nbsp;:&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char&nbsp;list<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_keys_uchar&nbsp;:&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Stdlib</span>.<span class="constructor">Uchar</span>.t&nbsp;list<br>
+&nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">Exit</span><br>
+<span class="keyword">end</span></code></body></html>

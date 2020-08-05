@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Key.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html"><link title="Keys" rel="Section" href="#2_Keys">
+<link title="Exit" rel="Section" href="#2_Exit">
+<title>Config</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Key.html" title="Key">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Config.html">Config</a></h1>
+
+<pre><span id="MODULEConfig"><span class="keyword">module</span> Config</span>: <code class="code">sig</code> <a href="Config.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p><code class="code">Config</code> contains the <code class="code">config</code> type, used for providing configuration and
+    input information to the sketch, and utility functions for accessing
+    information from a config.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEkeys"><span class="keyword">type</span> <code class="type"></code>keys</span> = <code class="type">Stdlib.Set.Make(Stdlib.Uchar).t</code> </pre>
+
+
+<pre><code><span id="TYPEconfig"><span class="keyword">type</span> <code class="type"></code>config</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.width">width</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.height">height</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.display_width">display_width</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.display_height">display_height</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.mouse_x">mouse_x</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.mouse_y">mouse_y</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.pmouse_x">pmouse_x</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.pmouse_y">pmouse_y</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.mouse_scroll">mouse_scroll</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.mouse_pressed">mouse_pressed</span>&nbsp;: <code class="type">bool</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.mouse_button">mouse_button</span>&nbsp;: <code class="type">[ `Center | `Left | `Right ]</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.key">key</span>&nbsp;: <code class="type">char</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.keys">keys</span>&nbsp;: <code class="type"><a href="Config.html#TYPEkeys">keys</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.key_unicode">key_unicode</span>&nbsp;: <code class="type">Stdlib.Uchar.t</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.key_pressed">key_pressed</span>&nbsp;: <code class="type">bool</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.frame_count">frame_count</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTconfig.frame_rate">frame_rate</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+
+<h3 id="2_Keys">Keys</h3>
+<pre><span id="VALcheck_key"><span class="keyword">val</span> check_key</span> : <code class="type"><a href="Config.html#TYPEconfig">config</a> -> char -> bool</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">check_key config char</code> is <code class="code">true</code> if the key <code class="code">char</code> is pressed in <code class="code">config</code>
+    and <code class="code">false</code> otherwise.</p>
+</div>
+</div>
+
+<pre><span id="VALcheck_key_uchar"><span class="keyword">val</span> check_key_uchar</span> : <code class="type"><a href="Config.html#TYPEconfig">config</a> -> Stdlib.Uchar.t -> bool</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">check_key_uchar config char</code> is <code class="code">true</code> if the key <code class="code">char</code> is pressed in
+    <code class="code">config</code> and <code class="code">false</code> otherwise. Supports unicode characters.</p>
+</div>
+</div>
+
+<pre><span id="VALget_keys"><span class="keyword">val</span> get_keys</span> : <code class="type"><a href="Config.html#TYPEconfig">config</a> -> char list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">get_keys config</code> is the list of all keys that are currently pressed in
+    <code class="code">config</code>, or <code class="code">[]</code> if there are no keys pressed. Only includes keys that
+    are valid ASCII char values.</p>
+</div>
+</div>
+
+<pre><span id="VALget_keys_uchar"><span class="keyword">val</span> get_keys_uchar</span> : <code class="type"><a href="Config.html#TYPEconfig">config</a> -> Stdlib.Uchar.t list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">key_keys_uchar config</code> is the list of all keys that are currently pressed
+    in <code class="code">config</code>, or <code class="code">[]</code> if there are no keys pressed. Includes all keys,
+    represented as Unicode characters.</p>
+</div>
+</div>
+<h3 id="2_Exit">Exit</h3>
+<pre><span id="EXCEPTIONExit"><span class="keyword">exception</span> Exit</span></pre>
+</body></html>

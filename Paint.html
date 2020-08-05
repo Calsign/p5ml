@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Color.html">
+<link rel="next" href="Math.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html"><title>Paint</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Color.html" title="Color">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Math.html" title="Math">Next</a>
+</div>
+<h1>Module <a href="type_Paint.html">Paint</a></h1>
+
+<pre><span id="MODULEPaint"><span class="keyword">module</span> Paint</span>: <code class="code">sig</code> <a href="Paint.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p><code class="code">Paint</code> contains the <code class="code">paint</code> type and utilities for manipulating <code class="code">paint</code>s.
+    This module should not be used directly by the sketch; there are functions
+    in <code class="code">Shape</code> that handle setting the stroke, fill, etc.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEpaint"><span class="keyword">type</span> <code class="type"></code>paint</span> = private {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint.fill">fill</span>&nbsp;: <code class="type"><a href="Color.html#TYPEcolor">Color.color</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint.stroke">stroke</span>&nbsp;: <code class="type"><a href="Color.html#TYPEcolor">Color.color</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint.stroke_weight">stroke_weight</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint.stroke_cap">stroke_cap</span>&nbsp;: <code class="type">[ `Project | `Round | `Square ]</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint.stroke_join">stroke_join</span>&nbsp;: <code class="type">[ `Bevel | `Miter | `Round ]</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+<div class="info ">
+<div class="info-desc">
+<p>The type of paint, used by shapes to draw to the canvas.</p>
+</div>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type"><a href="Paint.html#TYPEpaint">paint</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">create</code> is the default paint.</p>
+</div>
+</div>
+
+<pre><code><span id="TYPEpaint_update"><span class="keyword">type</span> <code class="type"></code>paint_update</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint_update.Fill"><span class="constructor">Fill</span></span> <span class="keyword">of</span> <code class="type"><a href="Color.html#TYPEcolor">Color.color</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint_update.Stroke"><span class="constructor">Stroke</span></span> <span class="keyword">of</span> <code class="type"><a href="Color.html#TYPEcolor">Color.color</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint_update.Stroke_weight"><span class="constructor">Stroke_weight</span></span> <span class="keyword">of</span> <code class="type">float</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint_update.Stroke_cap"><span class="constructor">Stroke_cap</span></span> <span class="keyword">of</span> <code class="type">[ `Project | `Round | `Square ]</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint_update.Stroke_join"><span class="constructor">Stroke_join</span></span> <span class="keyword">of</span> <code class="type">[ `Bevel | `Miter | `Round ]</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpaint_update.Stroke_weight_scale"><span class="constructor">Stroke_weight_scale</span></span> <span class="keyword">of</span> <code class="type">float</code></code></td>
+
+</tr></table>
+
+<div class="info ">
+<div class="info-desc">
+<p>The type of a layerable single-attribute paint change.</p>
+</div>
+</div>
+
+
+<pre><span id="VALapply_paint_update"><span class="keyword">val</span> apply_paint_update</span> : <code class="type"><a href="Paint.html#TYPEpaint_update">paint_update</a> -> <a href="Paint.html#TYPEpaint">paint</a> -> <a href="Paint.html#TYPEpaint">paint</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">apply_paint_update update paint</code> is <code class="code">paint</code> with <code class="code">update</code> applied. For
+    example, <code class="code">apply_paint_update (Stroke None) paint</code> is <code class="code">paint</code> with
+    no stroke.</p>
+</div>
+</div>
+</body></html>

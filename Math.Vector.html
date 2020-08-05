@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Math.Math.html">
+<link rel="Up" href="Math.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html"><link title="Creation" rel="Section" href="#2_Creation">
+<link title="Manipulation" rel="Section" href="#2_Manipulation">
+<link title="Operator Aliases" rel="Section" href="#2_OperatorAliases">
+<title>Math.Vector</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Math.Math.html" title="Math.Math">Previous</a>
+&nbsp;<a class="up" href="Math.html" title="Math">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Math.Vector.html">Math.Vector</a></h1>
+
+<pre><span id="MODULEVector"><span class="keyword">module</span> Vector</span>: <code class="code">sig</code> <a href="Math.Vector.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p><code class="code">Vector</code> contains the <code class="code">Vector.t</code> type and functions for
+    creating and manipulating vectors.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = <code class="type">float * float</code> </pre>
+
+
+<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> string</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">to_string vec</code> is the string representation of <code class="code">vec</code>.</p>
+</div>
+</div>
+
+<pre><span id="VAL(~<)"><span class="keyword">val</span> (~&lt;)</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">~&lt; (x, y)</code> is <code class="code">x</code>.</p>
+</div>
+</div>
+
+<pre><span id="VAL(~>)"><span class="keyword">val</span> (~&gt;)</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">~&gt; (x, y)</code> is <code class="code">y</code>.</p>
+</div>
+</div>
+<h3 id="2_Creation">Creation</h3>
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">float -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">create x y</code> is (x, y).</p>
+</div>
+</div>
+
+<pre><span id="VALof_tuple"><span class="keyword">val</span> of_tuple</span> : <code class="type">float * float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">of_tuple (x, y)</code> is (x, y).</p>
+</div>
+</div>
+
+<pre><span id="VALof_angle"><span class="keyword">val</span> of_angle</span> : <code class="type">float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">of_angle theta</code> is the unit vector <code class="code">cos(theta), sin(theta)</code>.</p>
+</div>
+</div>
+<h3 id="2_Manipulation">Manipulation</h3>
+<pre><span id="VALmag"><span class="keyword">val</span> mag</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mag vec</code> is the magnitude of <code class="code">vec</code>, i.e. <code class="code">sqrt (x**2. +. y**2.)</code></p>
+</div>
+</div>
+
+<pre><span id="VALmag_sq"><span class="keyword">val</span> mag_sq</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mag_sq vec</code> is the squared magnitude of <code class="code">vec</code>, i.e. <code class="code">x**2. +. y**2.</code>.
+      This computation is faster than <code class="code">mag</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">add v1 v2</code> is the sum of <code class="code">v1</code> and <code class="code">v2</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">sub v1 v2</code> is the difference between <code class="code">v1</code> and <code class="code">v2</code>, which is
+      equivalent to <code class="code">add v1 (mult v2 (-1.))</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmult"><span class="keyword">val</span> mult</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mult vec f</code> is the scalar multiplication of <code class="code">vec</code> by <code class="code">f</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALdiv"><span class="keyword">val</span> div</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">div vec f</code> is <code class="code">mult vec (1. /. f)</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALdist"><span class="keyword">val</span> dist</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">dist v1 v2</code> is the distance between <code class="code">v1</code> and <code class="code">v2</code>, which is equivalent
+      to <code class="code">mag (sub v1 v2)</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALdot"><span class="keyword">val</span> dot</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">dot v1 v2</code> is the dot product of <code class="code">v1</code> and <code class="code">v2</code>, i.e.
+      <code class="code">(x1 *. x2) +. (y1 *. y2)</code>, where <code class="code">v1 = (x1, y1)</code> and <code class="code">v2 = (x2, y2)</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALnorm"><span class="keyword">val</span> norm</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">norm vec</code> is <code class="code">vec</code> with a magnitude of <code class="code">1.</code>, which is equivalent to
+      <code class="code">div vec (mag vec)</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALwith_mag"><span class="keyword">val</span> with_mag</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">with_mag vec f</code> is <code class="code">vec</code> with a magnitude of <code class="code">f</code>, which is equivalent
+      to <code class="code">mult (norm vec) f</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALlimit"><span class="keyword">val</span> limit</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">limit vec f</code> is <code class="code">vec</code> with a maximum magnitude of <code class="code">f</code>, which is
+      equivalent to <code class="code">with_mag vec (min (mag vec) f)</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALheading"><span class="keyword">val</span> heading</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">heading vec</code> is the heading of <code class="code">vec</code>, i.e. <code class="code">atan2 y x</code> where
+      <code class="code">vec = (x, y)</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALrotate"><span class="keyword">val</span> rotate</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">rotate vec theta</code> is <code class="code">vec</code> rotated by angle <code class="code">theta</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALlerp"><span class="keyword">val</span> lerp</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">lerp v1 v2 t</code> is the linear interpolation from <code class="code">v1</code> to <code class="code">v2</code> by <code class="code">t</code>,
+      where <code class="code">t</code> is in <code class="code">[0, 1]</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALangle_between"><span class="keyword">val</span> angle_between</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">angle_between v1 v2</code> is the smallest angle between <code class="code">v1</code> and <code class="code">v2</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALproject"><span class="keyword">val</span> project</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">project v1 v2</code> is the projection of <code class="code">v1</code> on to <code class="code">v2</code>.</p>
+</div>
+</div>
+<h3 id="2_OperatorAliases">Operator Aliases</h3>
+<pre><span id="VAL(++)"><span class="keyword">val</span> (++)</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">v1 ++ v2</code> is <code class="code">add v1 v2</code>.</p>
+</div>
+</div>
+
+<pre><span id="VAL(--)"><span class="keyword">val</span> (--)</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">v1 -- v2</code> is <code class="code">sub v1 v2</code>.</p>
+</div>
+</div>
+
+<pre><span id="VAL( *** )"><span class="keyword">val</span> ( *** )</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">vec *** f</code> is <code class="code">mult vec f</code>.</p>
+</div>
+</div>
+
+<pre><span id="VAL(//)"><span class="keyword">val</span> (//)</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float -> <a href="Math.Vector.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">vec // f</code> is <code class="code">div vec f</code>.</p>
+</div>
+</div>
+
+<pre><span id="VAL( **. )"><span class="keyword">val</span> ( **. )</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> <a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">v1 **. v2</code> is <code class="code">dot v1 v2</code>.</p>
+</div>
+</div>
+
+<pre><span id="VAL(~||)"><span class="keyword">val</span> (~||)</span> : <code class="type"><a href="Math.Vector.html#TYPEt">t</a> -> float</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">~|| vec</code> is <code class="code">mag vec</code>.</p>
+</div>
+</div>
+</body></html>
