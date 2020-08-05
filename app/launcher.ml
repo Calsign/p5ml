@@ -183,10 +183,6 @@ let rec launch compiler target wrap inotify update filenames =
   | Execution_failure _
     -> prerr_endline "Cannot launch sketch, compilation failed!"
 
-(** [realpath filename] is the canonical version of [filename]. This is useful
-    because it resolves [.], [..], and symbolic links. *)
-external realpath : string -> string = "caml_realpath"
-
 (** [build_inotify files] is a function that returns [true] when any file in
     [files] has been modified since the last invocation and [false]
     otherwise. *)
@@ -239,5 +235,4 @@ let () =
     in launch compiler target wrap inotify false files
   with
   | End_of_file | Parse_cmd_error -> ()
-  | Failure msg when msg = "realpath" -> prerr_endline "Error: Invalid file"
   | Failure msg -> prerr_endline ("Error: " ^ msg)
