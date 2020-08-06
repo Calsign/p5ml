@@ -50,4 +50,5 @@ val get_keys_uchar : config -> Uchar.t list
 
 (** {2 Exit} *)
 
+(** [Exit] may be raised to terminate the sketch. *)
 exception Exit
