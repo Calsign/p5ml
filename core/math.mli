@@ -184,13 +184,13 @@ module Vector : sig
 
   (** {2 Creation} *)
 
-  (** [create x y] is (x, y). *)
+  (** [create x y] is [(x, y)]. *)
   val create : float -> float -> t
 
-  (** [of_tuple (x, y)] is (x, y). *)
+  (** [of_tuple (x, y)] is [(x, y)]. *)
   val of_tuple : (float * float) -> t
 
-  (** [of_angle theta] is the unit vector [cos(theta), sin(theta)]. *)
+  (** [of_angle theta] is the unit vector [(cos theta, sin theta)]. *)
   val of_angle : float -> t
 
   (** {2 Manipulation} *)
@@ -272,3 +272,5 @@ module Vector : sig
   (** [~|| vec] is [mag vec]. *)
   val (~||) : t -> float
 end
+
+type vector = Vector.t

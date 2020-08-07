@@ -4,8 +4,6 @@ open Paint
 open Math
 open Vector
 
-type vector = Vector.t
-
 type tag = ..
 
 type tag += TName of string
@@ -120,7 +118,7 @@ let empty = Empty
 let tag tag shape =
   Tag (shape, tag)
 
-let rec find_tag tag shape =
+let rec find_tag ?(eq = (=)) tag shape =
   match shape with
   | Shape _ -> None
   | Group shapes ->
@@ -131,12 +129,12 @@ let rec find_tag tag shape =
     end
   | Paint (nest_shape, _) -> find_tag tag nest_shape
   | Tag (nest_shape, nest_tag) ->
-    if tag = nest_tag then Some nest_shape
+    if eq tag nest_tag then Some nest_shape
     else find_tag tag nest_shape
   | Background _ -> None
   | Empty -> None
 
-let rec find_tags tag shape =
+let rec find_tags ?(eq = (=)) tag shape =
   match shape with
   | Shape _ -> []
   | Group shapes ->
@@ -145,7 +143,7 @@ let rec find_tags tag shape =
     end
   | Paint (nest_shape, _) -> find_tags tag nest_shape
   | Tag (nest_shape, nest_tag) ->
-    if tag = nest_tag then [nest_shape]
+    if eq tag nest_tag then [nest_shape]
     else find_tags tag nest_shape
   | Background _ -> []
   | Empty -> []

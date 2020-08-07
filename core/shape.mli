@@ -11,8 +11,6 @@ open Bezier
 
 (** {2 Shapes} *)
 
-type vector = Vector.t
-
 (** [tag] is an extensible variant for attaching arbitrary metadata to
     shapes. *)
 type tag = ..
@@ -183,11 +181,11 @@ val tag : tag -> t -> t
 (** [find_tag tag shape] is [Some found] where [found] is the first shape tagged
     with [tag] in [shape], or [None] if [shape] contains no shapes tagged
     [tag]. *)
-val find_tag : tag -> t -> t option
+val find_tag : ?eq : (tag -> tag -> bool) -> tag -> t -> t option
 
 (** [find_tags tag shape] is the list of all shapes in [shape] that are tagged
     with [tag]. *)
-val find_tags : tag -> t -> t list
+val find_tags : ?eq : (tag -> tag -> bool) -> tag -> t -> t list
 
 (** {2 Transformations} *)
 

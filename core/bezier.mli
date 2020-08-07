@@ -5,8 +5,6 @@
 
 open Math
 
-type vector = Vector.t
-
 (** [(a1, c1, c2, a2)] is the Bezier curve with anchor points [a1] and [a2]
     and control points [c1] and [c2]. *)
 type t = vector * vector * vector * vector

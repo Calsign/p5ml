@@ -110,3 +110,5 @@ module Vector = struct
   let ( **. ) = dot
   let (~||) = mag
 end
+
+type vector = Vector.t

@@ -1,7 +1,6 @@
 
 open Math
 
-type vector = Vector.t
 type t = vector * vector * vector * vector
 
 let create vec1 vec2 vec3 vec4 = vec1, vec2, vec3, vec4
