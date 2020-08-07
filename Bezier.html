@@ -41,10 +41,7 @@
 </div>
 <hr width="100%">
 
-<pre><span id="TYPEvector"><span class="keyword">type</span> <code class="type"></code>vector</span> = <code class="type"><a href="Math.Vector.html#TYPEt">Math.Vector.t</a></code> </pre>
-
-
-<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = <code class="type"><a href="Bezier.html#TYPEvector">vector</a> * <a href="Bezier.html#TYPEvector">vector</a> * <a href="Bezier.html#TYPEvector">vector</a> * <a href="Bezier.html#TYPEvector">vector</a></code> </pre>
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> * <a href="Math.html#TYPEvector">Math.vector</a> * <a href="Math.html#TYPEvector">Math.vector</a> * <a href="Math.html#TYPEvector">Math.vector</a></code> </pre>
 <div class="info ">
 <div class="info-desc">
 <p><code class="code">(a1, c1, c2, a2)</code> is the Bezier curve with anchor points <code class="code">a1</code> and <code class="code">a2</code>
@@ -53,44 +50,44 @@
 </div>
 
 <h3 id="2_BezierCreation">Bezier Creation</h3>
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type"><a href="Bezier.html#TYPEvector">vector</a> -> <a href="Bezier.html#TYPEvector">vector</a> -> <a href="Bezier.html#TYPEvector">vector</a> -> <a href="Bezier.html#TYPEvector">vector</a> -> <a href="Bezier.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Bezier.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">create a1 c1 c2 a2</code> is <code class="code">(a1, c1, c2, a2)</code>.</p>
 </div>
 </div>
 <h3 id="2_BezierHelperFunctions">Bezier Helper Functions</h3>
-<pre><span id="VALanchor1"><span class="keyword">val</span> anchor1</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> <a href="Bezier.html#TYPEvector">vector</a></code></pre><div class="info ">
+<pre><span id="VALanchor1"><span class="keyword">val</span> anchor1</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> <a href="Math.html#TYPEvector">Math.vector</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">anchor1 bez</code> is the first anchor point of <code class="code">bez</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALcontrol1"><span class="keyword">val</span> control1</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> <a href="Bezier.html#TYPEvector">vector</a></code></pre><div class="info ">
+<pre><span id="VALcontrol1"><span class="keyword">val</span> control1</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> <a href="Math.html#TYPEvector">Math.vector</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">control1 bez</code> is the first control point of <code class="code">bez</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALcontrol2"><span class="keyword">val</span> control2</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> <a href="Bezier.html#TYPEvector">vector</a></code></pre><div class="info ">
+<pre><span id="VALcontrol2"><span class="keyword">val</span> control2</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> <a href="Math.html#TYPEvector">Math.vector</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">control2 bez</code> is the second control point of <code class="code">bez</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALanchor2"><span class="keyword">val</span> anchor2</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> <a href="Bezier.html#TYPEvector">vector</a></code></pre><div class="info ">
+<pre><span id="VALanchor2"><span class="keyword">val</span> anchor2</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> <a href="Math.html#TYPEvector">Math.vector</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">anchor2 bez</code> is the second anchor point of <code class="code">bez</code>.</p>
 </div>
 </div>
 <h3 id="2_BezierManipulation">Bezier Manipulation</h3>
-<pre><span id="VALinterpolate"><span class="keyword">val</span> interpolate</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> float -> <a href="Bezier.html#TYPEvector">vector</a></code></pre><div class="info ">
+<pre><span id="VALinterpolate"><span class="keyword">val</span> interpolate</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> float -> <a href="Math.html#TYPEvector">Math.vector</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">interpolate bez time</code> is the point at <code class="code">time</code> along <code class="code">bez</code>, where <code class="code">time</code>
     is in <code class="code">[0, 1]</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALtangent"><span class="keyword">val</span> tangent</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> float -> <a href="Bezier.html#TYPEvector">vector</a></code></pre><div class="info ">
+<pre><span id="VALtangent"><span class="keyword">val</span> tangent</span> : <code class="type"><a href="Bezier.html#TYPEt">t</a> -> float -> <a href="Math.html#TYPEvector">Math.vector</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">tangent bez time</code> is the vector tanget to <code class="code">bez</code> at <code class="code">time</code>, where <code class="code">time</code>
     is in <code class="code">[0, 1]</code>.</p>

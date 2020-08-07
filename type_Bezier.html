@@ -19,15 +19,13 @@
 </head>
 <body>
 <code class="code"><span class="keyword">sig</span><br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;vector&nbsp;=&nbsp;<span class="constructor">Math</span>.<span class="constructor">Vector</span>.t<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t&nbsp;=&nbsp;<span class="constructor">Bezier</span>.vector&nbsp;*&nbsp;<span class="constructor">Bezier</span>.vector&nbsp;*&nbsp;<span class="constructor">Bezier</span>.vector&nbsp;*&nbsp;<span class="constructor">Bezier</span>.vector<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t&nbsp;=&nbsp;<span class="constructor">Math</span>.vector&nbsp;*&nbsp;<span class="constructor">Math</span>.vector&nbsp;*&nbsp;<span class="constructor">Math</span>.vector&nbsp;*&nbsp;<span class="constructor">Math</span>.vector<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Bezier</span>.vector&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Bezier</span>.vector&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.vector&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.vector&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.t<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;anchor1&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.vector<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;control1&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.vector<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;control2&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.vector<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;anchor2&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.vector<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;interpolate&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.vector<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tangent&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.vector<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Math</span>.vector&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Bezier</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;anchor1&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;control1&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;control2&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;anchor2&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;interpolate&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tangent&nbsp;:&nbsp;<span class="constructor">Bezier</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Math</span>.vector<br>
 <span class="keyword">end</span></code></body></html>

@@ -46,9 +46,6 @@
 </div>
 <hr width="100%">
 <h3 id="2_Shapes">Shapes</h3>
-<pre><span id="TYPEvector"><span class="keyword">type</span> <code class="type"></code>vector</span> = <code class="type"><a href="Math.Vector.html#TYPEt">Math.Vector.t</a></code> </pre>
-
-
 <pre><span id="TYPEtag"><span class="keyword">type</span> <code class="type"></code>tag</span> = ..</pre>
 <div class="info ">
 <div class="info-desc">
@@ -73,7 +70,7 @@
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTvertex.MoveTo"><span class="constructor">MoveTo</span></span> <span class="keyword">of</span> <code class="type"><a href="Shape.html#TYPEvector">vector</a></code></code></td>
+<code><span id="TYPEELTvertex.MoveTo"><span class="constructor">MoveTo</span></span> <span class="keyword">of</span> <code class="type"><a href="Math.html#TYPEvector">Math.vector</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
 <div class="info-desc">
 <p><code class="code">MoveTo vec</code> picks up the pen and places it down at <code class="code">vec</code>.</p>
@@ -85,7 +82,7 @@
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTvertex.LineTo"><span class="constructor">LineTo</span></span> <span class="keyword">of</span> <code class="type"><a href="Shape.html#TYPEvector">vector</a></code></code></td>
+<code><span id="TYPEELTvertex.LineTo"><span class="constructor">LineTo</span></span> <span class="keyword">of</span> <code class="type"><a href="Math.html#TYPEvector">Math.vector</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
 <div class="info-desc">
 <p><code class="code">LineTo vec</code> draws from the pen location to <code class="code">vec</code>.</p>
@@ -97,7 +94,7 @@
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTvertex.BezierTo"><span class="constructor">BezierTo</span></span> <span class="keyword">of</span> <code class="type"><a href="Shape.html#TYPEvector">vector</a> * <a href="Shape.html#TYPEvector">vector</a> * <a href="Shape.html#TYPEvector">vector</a></code></code></td>
+<code><span id="TYPEELTvertex.BezierTo"><span class="constructor">BezierTo</span></span> <span class="keyword">of</span> <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> * <a href="Math.html#TYPEvector">Math.vector</a> * <a href="Math.html#TYPEvector">Math.vector</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
 <div class="info-desc">
 <p><code class="code">BezierTo v2 v3 v4</code> draws from the pen location, using the pen location
@@ -111,7 +108,7 @@
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTvertex.Arc"><span class="constructor">Arc</span></span> <span class="keyword">of</span> <code class="type"><a href="Shape.html#TYPEvector">vector</a> * <a href="Shape.html#TYPEvector">vector</a> * float * float * float</code></code></td>
+<code><span id="TYPEELTvertex.Arc"><span class="constructor">Arc</span></span> <span class="keyword">of</span> <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> * <a href="Math.html#TYPEvector">Math.vector</a> * float * float * float</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
 <div class="info-desc">
 <p><code class="code">Arc center size phi theta1 theta2</code> draws an arc centered at <code class="code">center</code>
@@ -237,57 +234,57 @@
 </div>
 
 <h3 id="2_ConstructingBasicShapes">Constructing Basic Shapes</h3>
-<pre><span id="VALpoly"><span class="keyword">val</span> poly</span> : <code class="type">?close:[ `Close | `Open ] -> <a href="Shape.html#TYPEvector">vector</a> list -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALpoly"><span class="keyword">val</span> poly</span> : <code class="type">?close:[ `Close | `Open ] -> <a href="Math.html#TYPEvector">Math.vector</a> list -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">poly vertices</code> is the shape representing the polygon with <code class="code">vertices</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALpoint"><span class="keyword">val</span> point</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALpoint"><span class="keyword">val</span> point</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">point vertex</code> is the shape representing the point at position <code class="code">vertex</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALline"><span class="keyword">val</span> line</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALline"><span class="keyword">val</span> line</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">line v1 v2</code> is the shape representing the line between <code class="code">v1</code> and <code class="code">v2</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALrect"><span class="keyword">val</span> rect</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> ?align:[ `Center | `Corner ] -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALrect"><span class="keyword">val</span> rect</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> ?align:[ `Center | `Corner ] -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">rect point size</code> is the shape representing the rectangle with corner at
     <code class="code">point</code> and dimensions <code class="code">size</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALquad"><span class="keyword">val</span> quad</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALquad"><span class="keyword">val</span> quad</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">quad v1 v2 v3 v3</code> is <code class="code">polygon [v1; v2; v3; v4]</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALtriangle"><span class="keyword">val</span> triangle</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALtriangle"><span class="keyword">val</span> triangle</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">triangle v1 v2 v3</code> is <code class="code">polygon [v1; v2; v3]</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALellipse"><span class="keyword">val</span> ellipse</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> ?align:[ `Center | `Corner ] -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALellipse"><span class="keyword">val</span> ellipse</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> ?align:[ `Center | `Corner ] -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">ellipse point size</code> is the shape representing the ellipse centered at
     <code class="code">point</code> and inscribed in <code class="code">rect point ~align:`Center size</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALcircle"><span class="keyword">val</span> circle</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> ?align:[ `Center | `Corner ] -> float -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALcircle"><span class="keyword">val</span> circle</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> ?align:[ `Center | `Corner ] -> float -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">circle point radius</code> is <code class="code">ellipse point (radius, radius)</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALarc"><span class="keyword">val</span> arc</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -><br>       ?align:[ `Center | `Corner ] -><br>       <a href="Shape.html#TYPEvector">vector</a> -><br>       ?stroke_mode:[ `Closed | `Open ] -><br>       ?fill_mode:[ `Chord | `Pie ] -> ?phi:float -> float -> float -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALarc"><span class="keyword">val</span> arc</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -><br>       ?align:[ `Center | `Corner ] -><br>       <a href="Math.html#TYPEvector">Math.vector</a> -><br>       ?stroke_mode:[ `Closed | `Open ] -><br>       ?fill_mode:[ `Chord | `Pie ] -> ?phi:float -> float -> float -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">arc point size theta1 theta2</code> is the shape representing the arc (portion
     of a full ellipse) centered at <code class="code">point</code> and inscribed in
@@ -307,7 +304,7 @@
 </div>
 </div>
 
-<pre><span id="VALshape"><span class="keyword">val</span> shape</span> : <code class="type"><a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALshape"><span class="keyword">val</span> shape</span> : <code class="type"><a href="Shape.html#TYPEt">t</a> -> <a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">shape sh tr</code> is the shape <code class="code">sh</code> translated by <code class="code">tr</code>.</p>
 </div>
@@ -408,7 +405,7 @@
 </div>
 </div>
 
-<pre><span id="VALfind_tag"><span class="keyword">val</span> find_tag</span> : <code class="type"><a href="Shape.html#TYPEtag">tag</a> -> <a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEt">t</a> option</code></pre><div class="info ">
+<pre><span id="VALfind_tag"><span class="keyword">val</span> find_tag</span> : <code class="type">?eq:(<a href="Shape.html#TYPEtag">tag</a> -> <a href="Shape.html#TYPEtag">tag</a> -> bool) -><br>       <a href="Shape.html#TYPEtag">tag</a> -> <a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEt">t</a> option</code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">find_tag tag shape</code> is <code class="code">Some found</code> where <code class="code">found</code> is the first shape tagged
     with <code class="code">tag</code> in <code class="code">shape</code>, or <code class="code">None</code> if <code class="code">shape</code> contains no shapes tagged
@@ -416,20 +413,20 @@
 </div>
 </div>
 
-<pre><span id="VALfind_tags"><span class="keyword">val</span> find_tags</span> : <code class="type"><a href="Shape.html#TYPEtag">tag</a> -> <a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEt">t</a> list</code></pre><div class="info ">
+<pre><span id="VALfind_tags"><span class="keyword">val</span> find_tags</span> : <code class="type">?eq:(<a href="Shape.html#TYPEtag">tag</a> -> <a href="Shape.html#TYPEtag">tag</a> -> bool) -> <a href="Shape.html#TYPEtag">tag</a> -> <a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEt">t</a> list</code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">find_tags tag shape</code> is the list of all shapes in <code class="code">shape</code> that are tagged
     with <code class="code">tag</code>.</p>
 </div>
 </div>
 <h3 id="2_Transformations">Transformations</h3>
-<pre><span id="VALtranslate"><span class="keyword">val</span> translate</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALtranslate"><span class="keyword">val</span> translate</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">translate tr shape</code> is <code class="code">shape</code> translated by offset <code class="code">tr</code>.</p>
 </div>
 </div>
 
-<pre><span id="VALscale"><span class="keyword">val</span> scale</span> : <code class="type"><a href="Shape.html#TYPEvector">vector</a> -> <a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALscale"><span class="keyword">val</span> scale</span> : <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> -> <a href="Shape.html#TYPEt">t</a> -> <a href="Shape.html#TYPEt">t</a></code></pre><div class="info ">
 <div class="info-desc">
 <p><code class="code">scale (scale_x, scale_y) shape</code> is <code class="code">shape</code> scaled by factors of <code class="code">scale_x</code>
     and <code class="code">scale_y</code> in the x and y directions, respectively, about the origin.
