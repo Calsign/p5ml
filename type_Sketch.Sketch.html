@@ -1,0 +1,56 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html">
+<link title="Renderer" rel="Chapter" href="Renderer.html">
+<link title="Graph" rel="Chapter" href="Graph.html">
+<link title="Gtk_cairo" rel="Chapter" href="Gtk_cairo.html">
+<link title="Sketch" rel="Chapter" href="Sketch.html">
+<link title="Runner" rel="Chapter" href="Runner.html">
+<link title="P5" rel="Chapter" href="P5.html"><title>Sketch.Sketch</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;state<br>
+&nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">R</span>&nbsp;:&nbsp;<span class="constructor">Renderer</span>.<span class="constructor">Renderer</span><br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;display&nbsp;:&nbsp;<span class="constructor">Renderer</span>.display<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;setup&nbsp;:&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;loop&nbsp;:&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;draw&nbsp;:&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Shape</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mouse_pressed&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mouse_released&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mouse_moved&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mouse_dragged&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mouse_clicked&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mouse_scrolled&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;key_pressed&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;key_released&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;key_typed&nbsp;:&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;window_resized&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;window_closed&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Config</span>.config&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Sketch</span>.<span class="constructor">Sketch</span>.state<br>
+<span class="keyword">end</span></code></body></html>

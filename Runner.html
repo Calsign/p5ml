@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Sketch.html">
+<link rel="next" href="P5.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html">
+<link title="Renderer" rel="Chapter" href="Renderer.html">
+<link title="Graph" rel="Chapter" href="Graph.html">
+<link title="Gtk_cairo" rel="Chapter" href="Gtk_cairo.html">
+<link title="Sketch" rel="Chapter" href="Sketch.html">
+<link title="Runner" rel="Chapter" href="Runner.html">
+<link title="P5" rel="Chapter" href="P5.html"><title>Runner</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Sketch.html" title="Sketch">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="P5.html" title="P5">Next</a>
+</div>
+<h1>Module <a href="type_Runner.html">Runner</a></h1>
+
+<pre><span id="MODULERunner"><span class="keyword">module</span> Runner</span>: <code class="code">sig</code> <a href="Runner.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p><code class="code">Runner</code> contains code for running sketches.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="MODULEDynamic"><span class="keyword">module</span> <a href="Runner.Dynamic.html">Dynamic</a></span>: <code class="code">sig</code> <a href="Runner.Dynamic.html">..</a> <code class="code">end</code></pre><div class="info">
+<p>Used internally by dynamic runner</p>
+
+</div>
+
+<pre><span id="MODULERunner"><span class="keyword">module</span> <a href="Runner.Runner.html">Runner</a></span>: <div class="sig_block"><code class="code">functor (</code><code class="code">S</code><code class="code"> : </code><code class="type"><a href="Sketch.Sketch.html">Sketch.Sketch</a></code><code class="code">) -&gt; </code><code class="code">sig</code> <a href="Runner.Runner.html">..</a> <code class="code">end</code></div></pre>
+<pre><span id="VALrun_sketch"><span class="keyword">val</span> run_sketch</span> : <code class="type">(module Sketch.Sketch) -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">run_sketch (module MySketch)</code> runs the sketch in the module
+   <code class="code">MySketch</code>.</p>
+</div>
+</div>
+</body></html>

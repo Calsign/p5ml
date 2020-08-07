@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Config.html">
+<link rel="next" href="Graph.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html">
+<link title="Renderer" rel="Chapter" href="Renderer.html">
+<link title="Graph" rel="Chapter" href="Graph.html">
+<link title="Gtk_cairo" rel="Chapter" href="Gtk_cairo.html">
+<link title="Sketch" rel="Chapter" href="Sketch.html">
+<link title="Runner" rel="Chapter" href="Runner.html">
+<link title="P5" rel="Chapter" href="P5.html"><title>Renderer</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Config.html" title="Config">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Graph.html" title="Graph">Next</a>
+</div>
+<h1>Module <a href="type_Renderer.html">Renderer</a></h1>
+
+<pre><span id="MODULERenderer"><span class="keyword">module</span> Renderer</span>: <code class="code">sig</code> <a href="Renderer.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p><code class="code">Renderer</code> contains the renderer interface and types for events
+   and display settings.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEmouse_coords"><span class="keyword">type</span> <code class="type"></code>mouse_coords</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmouse_coords.x">x</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmouse_coords.y">y</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+<div class="info ">
+<div class="info-desc">
+<p>A mouse position, with origin in the top-left corner.</p>
+</div>
+</div>
+
+
+<pre><code><span id="TYPEevent"><span class="keyword">type</span> <code class="type"></code>event</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.MouseMoved"><span class="constructor">MouseMoved</span></span> <span class="keyword">of</span> <code class="type"><a href="Renderer.html#TYPEmouse_coords">mouse_coords</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.MousePressed"><span class="constructor">MousePressed</span></span> <span class="keyword">of</span> <code class="type"><a href="Renderer.html#TYPEmouse_coords">mouse_coords</a> * [ `Center | `Left | `Right ]</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.MouseReleased"><span class="constructor">MouseReleased</span></span> <span class="keyword">of</span> <code class="type"><a href="Renderer.html#TYPEmouse_coords">mouse_coords</a> * [ `Center | `Left | `Right ]</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.MouseScrolled"><span class="constructor">MouseScrolled</span></span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.MouseEntered"><span class="constructor">MouseEntered</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.MouseExited"><span class="constructor">MouseExited</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.KeyPressed"><span class="constructor">KeyPressed</span></span> <span class="keyword">of</span> <code class="type">Stdlib.Uchar.t</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.KeyReleased"><span class="constructor">KeyReleased</span></span> <span class="keyword">of</span> <code class="type">Stdlib.Uchar.t</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.WindowResized"><span class="constructor">WindowResized</span></span> <span class="keyword">of</span> <code>{</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTRenderer.WindowResized.width">width</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTRenderer.WindowResized.height">height</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTevent.WindowClosed"><span class="constructor">WindowClosed</span></span></code></td>
+
+</tr></table>
+
+<div class="info ">
+<div class="info-desc">
+<p>A renderer event.</p>
+</div>
+</div>
+
+
+<pre><span id="TYPEdisplay"><span class="keyword">type</span> <code class="type"></code>display</span> = <code class="type">[ `FullScreen | `Size of int * int ]</code> </pre>
+<div class="info ">
+<div class="info-desc">
+<p>Display configuration.</p>
+</div>
+</div>
+
+
+<pre><span id="MODULETYPERenderer"><span class="keyword">module type</span> <a href="Renderer.Renderer.html">Renderer</a></span> = <code class="code">sig</code> <a href="Renderer.Renderer.html">..</a> <code class="code">end</code></pre><div class="info">
+<p>The interface of a renderer.</p>
+
+</div>
+</body></html>

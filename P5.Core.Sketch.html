@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="Up" href="P5.Core.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html">
+<link title="Renderer" rel="Chapter" href="Renderer.html">
+<link title="Graph" rel="Chapter" href="Graph.html">
+<link title="Gtk_cairo" rel="Chapter" href="Gtk_cairo.html">
+<link title="Sketch" rel="Chapter" href="Sketch.html">
+<link title="Runner" rel="Chapter" href="Runner.html">
+<link title="P5" rel="Chapter" href="P5.html"><link title="Main Functions" rel="Section" href="#2_MainFunctions">
+<link title="Mouse Event Functions" rel="Section" href="#2_MouseEventFunctions">
+<link title="Key Event Functions" rel="Section" href="#2_KeyEventFunctions">
+<link title="Window State Event Functions" rel="Section" href="#2_WindowStateEventFunctions">
+<title>P5.Core.Sketch</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="P5.Core.html" title="P5.Core">Up</a>
+&nbsp;</div>
+<h1>Module type <a href="type_P5.Core.Sketch.html">P5.Core.Sketch</a></h1>
+
+<pre><span id="MODULETYPESketch"><span class="keyword">module type</span> Sketch</span> = <code class="type"><a href="Sketch.Sketch.html">Sketch.Sketch</a></code></pre><hr width="100%">
+
+<pre><span id="TYPEstate"><span class="keyword">type</span> <code class="type"></code>state</span> </pre>
+<div class="info ">
+<div class="info-desc">
+<p>The type of the state, used for all information stored between
+     frames.</p>
+</div>
+</div>
+
+
+<pre><span id="MODULER"><span class="keyword">module</span> <a href="Sketch.Sketch.R.html">R</a></span>: <code class="type"><a href="Renderer.Renderer.html">Renderer.Renderer</a></code><code class="type"> </code></pre>
+<pre><span id="VALdisplay"><span class="keyword">val</span> display</span> : <code class="type"><a href="Renderer.html#TYPEdisplay">Renderer.display</a></code></pre><div class="info ">
+<div class="info-desc">
+<p>The type of the display, e.g. <code class="code">`Size (400, 400)</code>.</p>
+</div>
+</div>
+<h3 id="2_MainFunctions">Main Functions</h3>
+<pre><span id="VALsetup"><span class="keyword">val</span> setup</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">setup config</code> is the initial state.</p>
+</div>
+</div>
+
+<pre><span id="VALloop"><span class="keyword">val</span> loop</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">loop config state</code> is the state that results after advancing
+     <code class="code">state</code> through one time step.</p>
+</div>
+</div>
+
+<pre><span id="VALdraw"><span class="keyword">val</span> draw</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Shape.html#TYPEt">Shape.t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">draw config state</code> is the shape that should be drawn in the
+     given <code class="code">state</code>.</p>
+</div>
+</div>
+<h3 id="2_MouseEventFunctions">Mouse Event Functions</h3>
+<pre><span id="VALmouse_pressed"><span class="keyword">val</span> mouse_pressed</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mouse_pressed config state</code> is the state that results after the
+     mouse is pressed in <code class="code">state</code>. Mouse information can be obtained
+     from <code class="code">config</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmouse_released"><span class="keyword">val</span> mouse_released</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mouse_released config state</code> is the state results after the
+     mouse is released in <code class="code">state</code>. Mouse information can be obtained
+     from <code class="code">config</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmouse_moved"><span class="keyword">val</span> mouse_moved</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mouse_moved config state</code> is the state that results after the
+     mouse is moved in <code class="code">state</code>. Mouse information can be obtained from
+     <code class="code">config</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmouse_dragged"><span class="keyword">val</span> mouse_dragged</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mouse_dragged config state</code> is the state that results after the
+     mouse is dragged (moved while pressed) in <code class="code">state</code>. Mouse
+     information can be obtained from <code class="code">config</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmouse_clicked"><span class="keyword">val</span> mouse_clicked</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mouse_clicked config state</code> is the state that results after the
+     mouse is clicked (pressed and then released) in <code class="code">state</code>. Mouse
+     information can be obtained from <code class="code">config</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALmouse_scrolled"><span class="keyword">val</span> mouse_scrolled</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">mouse_scrolled config state</code> is the state that results after
+     the mouse is scrolled in <code class="code">state</code>. Mouse information can be
+     obtained from <code class="code">config</code>.</p>
+</div>
+</div>
+<h3 id="2_KeyEventFunctions">Key Event Functions</h3>
+<pre><span id="VALkey_pressed"><span class="keyword">val</span> key_pressed</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">key_pressed config state</code> is the state that results after a key
+     is pressed in <code class="code">state</code>. Key information can be obtained from
+     <code class="code">config</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALkey_released"><span class="keyword">val</span> key_released</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">key_released config state</code> is the state that results after a
+     key is released in <code class="code">state</code>. Key information can be obtained from
+     <code class="code">config</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALkey_typed"><span class="keyword">val</span> key_typed</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">key_typed config state</code> is the state that results after a key
+     is typed (pressed and released) in <code class="code">state</code>. Key information can
+     be obtained from <code class="code">config</code>.</p>
+</div>
+</div>
+<h3 id="2_WindowStateEventFunctions">Window State Event Functions</h3>
+<pre><span id="VALwindow_resized"><span class="keyword">val</span> window_resized</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">window_resized config state</code> is the state that results after
+     the window is resized in <code class="code">state</code>. Window information can be
+     obtained from <code class="code">config</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALwindow_closed"><span class="keyword">val</span> window_closed</span> : <code class="type"><a href="Config.html#TYPEconfig">Config.config</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a> -> <a href="Sketch.Sketch.html#TYPEstate">state</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">window_closed config state</code> is the state that results after the
+     window is closed in <code class="code">state</code>. Window information can be obtained
+     from <code class="code">config</code>. The default action is to raise <code class="code">Exit</code>.</p>
+</div>
+</div>
+</body></html>

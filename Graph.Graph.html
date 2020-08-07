@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="Up" href="Graph.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of extensions" rel=Appendix href="index_extensions.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Misc" rel="Chapter" href="Misc.html">
+<link title="Color" rel="Chapter" href="Color.html">
+<link title="Paint" rel="Chapter" href="Paint.html">
+<link title="Math" rel="Chapter" href="Math.html">
+<link title="Bezier" rel="Chapter" href="Bezier.html">
+<link title="Shape" rel="Chapter" href="Shape.html">
+<link title="Key" rel="Chapter" href="Key.html">
+<link title="Config" rel="Chapter" href="Config.html">
+<link title="Renderer" rel="Chapter" href="Renderer.html">
+<link title="Graph" rel="Chapter" href="Graph.html">
+<link title="Gtk_cairo" rel="Chapter" href="Gtk_cairo.html">
+<link title="Sketch" rel="Chapter" href="Sketch.html">
+<link title="Runner" rel="Chapter" href="Runner.html">
+<link title="P5" rel="Chapter" href="P5.html"><title>Graph.Graph</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="Graph.html" title="Graph">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Graph.Graph.html">Graph.Graph</a></h1>
+
+<pre><span id="MODULEGraph"><span class="keyword">module</span> Graph</span>: <code class="code">sig</code> <a href="Graph.Graph.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>An implementation of Renderer using the OCaml Graphics library as
+   a backend. This renderer is lacking some p5ml features and mainly
+   exists in case GTK+ or cairo2 are not available.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEbuffer"><span class="keyword">type</span> <code class="type"></code>buffer</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbuffer.mouse_pressed">mouse_pressed</span>&nbsp;: <code class="type">bool Stdlib.ref</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbuffer.mouse_coords_prev">mouse_coords_prev</span>&nbsp;: <code class="type"><a href="Renderer.html#TYPEmouse_coords">Renderer.mouse_coords</a> Stdlib.ref</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbuffer.window_dim_prev">window_dim_prev</span>&nbsp;: <code class="type">(int * int) Stdlib.ref</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbuffer.pen_down">pen_down</span>&nbsp;: <code class="type"><a href="Math.html#TYPEvector">Math.vector</a> option Stdlib.ref</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+
+
+<pre><span id="VALcreate_buffer"><span class="keyword">val</span> create_buffer</span> : <code class="type">'a -> [< `FullScreen | `Size of int * int ] -> <a href="Graph.Graph.html#TYPEbuffer">buffer</a></code></pre>
+<pre><span id="VALbegin_draw"><span class="keyword">val</span> begin_draw</span> : <code class="type"><a href="Graph.Graph.html#TYPEbuffer">buffer</a> -> unit</code></pre>
+<pre><span id="VALend_draw"><span class="keyword">val</span> end_draw</span> : <code class="type">'a -> unit</code></pre>
+<pre><span id="VALclear"><span class="keyword">val</span> clear</span> : <code class="type">'a -> unit</code></pre>
+<pre><span id="VALwidth"><span class="keyword">val</span> width</span> : <code class="type">'a -> int</code></pre>
+<pre><span id="VALheight"><span class="keyword">val</span> height</span> : <code class="type">'a -> int</code></pre>
+<pre><span id="VALtransform_coords"><span class="keyword">val</span> transform_coords</span> : <code class="type">'a * int -> 'a * int</code></pre>
+<pre><span id="VALtransform_coords_f"><span class="keyword">val</span> transform_coords_f</span> : <code class="type">float * float -> int * int</code></pre>
+<pre><span id="VALget_mouse_coords"><span class="keyword">val</span> get_mouse_coords</span> : <code class="type">unit -> <a href="Renderer.html#TYPEmouse_coords">Renderer.mouse_coords</a></code></pre>
+<pre><span id="VALevent_queue"><span class="keyword">val</span> event_queue</span> : <code class="type"><a href="Graph.Graph.html#TYPEbuffer">buffer</a> -> <a href="Renderer.html#TYPEevent">Renderer.event</a> list</code></pre>
+<pre><span id="VALtransform_color"><span class="keyword">val</span> transform_color</span> : <code class="type"><a href="Color.html#TYPEcolor">Color.color</a> -> Graphics.color</code></pre>
+<pre><span id="VALstroke_action"><span class="keyword">val</span> stroke_action</span> : <code class="type"><a href="Paint.html#TYPEpaint">Paint.paint</a> -> (unit -> unit) -> unit</code></pre>
+<pre><span id="VALfill_action"><span class="keyword">val</span> fill_action</span> : <code class="type"><a href="Paint.html#TYPEpaint">Paint.paint</a> -> (unit -> unit) -> unit</code></pre>
+<pre><span id="VALuncurry"><span class="keyword">val</span> uncurry</span> : <code class="type">(int -> int -> 'a) -> float * float -> 'a</code></pre>
+<pre><span id="VALhandle_vertex"><span class="keyword">val</span> handle_vertex</span> : <code class="type"><a href="Graph.Graph.html#TYPEbuffer">buffer</a> -> <a href="Paint.html#TYPEpaint">Paint.paint</a> -> <a href="Shape.html#TYPEvertex">Shape.vertex</a> -> unit</code></pre>
+<pre><span id="VALhandle_shape"><span class="keyword">val</span> handle_shape</span> : <code class="type"><a href="Graph.Graph.html#TYPEbuffer">buffer</a> -> <a href="Paint.html#TYPEpaint">Paint.paint</a> -> <a href="Shape.html#TYPEt">Shape.t</a> -> unit</code></pre>
+<pre><span id="VALrender"><span class="keyword">val</span> render</span> : <code class="type"><a href="Graph.Graph.html#TYPEbuffer">buffer</a> -> <a href="Shape.html#TYPEt">Shape.t</a> -> unit</code></pre></body></html>

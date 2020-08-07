@@ -9,6 +9,7 @@
 <link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Misc" rel="Chapter" href="Misc.html">
 <link title="Color" rel="Chapter" href="Color.html">
 <link title="Paint" rel="Chapter" href="Paint.html">
@@ -16,7 +17,13 @@
 <link title="Bezier" rel="Chapter" href="Bezier.html">
 <link title="Shape" rel="Chapter" href="Shape.html">
 <link title="Key" rel="Chapter" href="Key.html">
-<link title="Config" rel="Chapter" href="Config.html"><title>Index of values</title>
+<link title="Config" rel="Chapter" href="Config.html">
+<link title="Renderer" rel="Chapter" href="Renderer.html">
+<link title="Graph" rel="Chapter" href="Graph.html">
+<link title="Gtk_cairo" rel="Chapter" href="Gtk_cairo.html">
+<link title="Sketch" rel="Chapter" href="Sketch.html">
+<link title="Runner" rel="Chapter" href="Runner.html">
+<link title="P5" rel="Chapter" href="P5.html"><title>Index of values</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
@@ -146,6 +153,12 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALapply_color">apply_color</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALapply_dynamic_hotswap">apply_dynamic_hotswap</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALapply_handler">apply_handler</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Paint.html#VALapply_paint_update">apply_paint_update</a> [<a href="Paint.html">Paint</a>]</td>
 <td><div class="info">
 <p><code class="code">apply_paint_update update paint</code> is <code class="code">paint</code> with <code class="code">update</code> applied.</p>
@@ -189,6 +202,16 @@
 <td></td></tr>
 <tr><td><a href="Key.Key.html#VALbackspace">backspace</a> [<a href="Key.Key.html">Key.Key</a>]</td>
 <td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALbegin_draw">begin_draw</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALbegin_draw">begin_draw</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Renderer.Renderer.html#VALbegin_draw">begin_draw</a> [<a href="Renderer.Renderer.html">Renderer.Renderer</a>]</td>
+<td><div class="info">
+<p><code class="code">begin_draw ()</code> is called before <code class="code">draw</code> begins.</p>
+
+</div>
+</td></tr>
 <tr><td><a href="Shape.html#VALbezier">bezier</a> [<a href="Shape.html">Shape</a>]</td>
 <td><div class="info">
 <p><code class="code">bezier bez</code> is the shape representing the Bezier curve <code class="code">bez</code>.</p>
@@ -202,6 +225,8 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALbuild_mouse_coords">build_mouse_coords</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
 <tr><td align="left"><div>C</div></td></tr>
 <tr><td><a href="Key.KeyUnicode.html#VALcaps_lock">caps_lock</a> [<a href="Key.KeyUnicode.html">Key.KeyUnicode</a>]</td>
 <td></td></tr>
@@ -236,6 +261,20 @@
 <tr><td><a href="Shape.html#VALcircle">circle</a> [<a href="Shape.html">Shape</a>]</td>
 <td><div class="info">
 <p><code class="code">circle point radius</code> is <code class="code">ellipse point (radius, radius)</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALclear">clear</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td><div class="info">
+<p><code class="code">clear buffer</code> does not modify the buffer.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Graph.Graph.html#VALclear">clear</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Renderer.Renderer.html#VALclear">clear</a> [<a href="Renderer.Renderer.html">Renderer.Renderer</a>]</td>
+<td><div class="info">
+<p><code class="code">clear buffer</code> removes all rendered shapes from <code class="code">buffer</code>.</p>
 
 </div>
 </td></tr>
@@ -293,6 +332,17 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALcreate_buffer">create_buffer</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALcreate_buffer">create_buffer</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Renderer.Renderer.html#VALcreate_buffer">create_buffer</a> [<a href="Renderer.Renderer.html">Renderer.Renderer</a>]</td>
+<td><div class="info">
+<p><code class="code">create_buffer frame_rate display</code> is a new buffer with the
+     specified frame rate and display settings.</p>
+
+</div>
+</td></tr>
 <tr><td align="left"><div>D</div></td></tr>
 <tr><td><a href="Math.Math.html#VALdegrees">degrees</a> [<a href="Math.Math.html">Math.Math</a>]</td>
 <td><div class="info">
@@ -303,6 +353,14 @@
 <tr><td><a href="Key.KeyUnicode.html#VALdelete">delete</a> [<a href="Key.KeyUnicode.html">Key.KeyUnicode</a>]</td>
 <td></td></tr>
 <tr><td><a href="Key.Key.html#VALdelete">delete</a> [<a href="Key.Key.html">Key.Key</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALdisplay">display</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p>The type of the display, e.g.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALdisplay">display</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
 <td></td></tr>
 <tr><td><a href="Math.Vector.html#VALdist">dist</a> [<a href="Math.Vector.html">Math.Vector</a>]</td>
 <td><div class="info">
@@ -339,6 +397,19 @@
 </td></tr>
 <tr><td><a href="Key.KeyUnicode.html#VALdown">down</a> [<a href="Key.KeyUnicode.html">Key.KeyUnicode</a>]</td>
 <td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALdraw">draw</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">draw config state</code> is the shape that should be drawn in the
+     given <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALdraw">draw</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALdraw_path">draw_path</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALdraw_path_sep">draw_path_sep</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
 <tr><td align="left"><div>E</div></td></tr>
 <tr><td><a href="Math.Math.html#VALe">e</a> [<a href="Math.Math.html">Math.Math</a>]</td>
 <td><div class="info">
@@ -359,6 +430,16 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALend_draw">end_draw</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALend_draw">end_draw</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Renderer.Renderer.html#VALend_draw">end_draw</a> [<a href="Renderer.Renderer.html">Renderer.Renderer</a>]</td>
+<td><div class="info">
+<p><code class="code">end_draw ()</code> is called after <code class="code">draw</code> ends.</p>
+
+</div>
+</td></tr>
 <tr><td><a href="Key.KeyUnicode.html#VALenter">enter</a> [<a href="Key.KeyUnicode.html">Key.KeyUnicode</a>]</td>
 <td></td></tr>
 <tr><td><a href="Key.Key.html#VALenter">enter</a> [<a href="Key.Key.html">Key.Key</a>]</td>
@@ -366,6 +447,21 @@
 <tr><td><a href="Key.KeyUnicode.html#VALesc">esc</a> [<a href="Key.KeyUnicode.html">Key.KeyUnicode</a>]</td>
 <td></td></tr>
 <tr><td><a href="Key.Key.html#VALesc">esc</a> [<a href="Key.Key.html">Key.Key</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALevent_notifiers">event_notifiers</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALevent_queue">event_queue</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALevent_queue">event_queue</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Renderer.Renderer.html#VALevent_queue">event_queue</a> [<a href="Renderer.Renderer.html">Renderer.Renderer</a>]</td>
+<td><div class="info">
+<p><code class="code">event_queue buffer</code> retrieves and removes the list of queued
+     events for <code class="code">buffer</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALexpose">expose</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
 <td></td></tr>
 <tr><td align="left"><div>F</div></td></tr>
 <tr><td><a href="Shape.html#VALfill">fill</a> [<a href="Shape.html">Shape</a>]</td>
@@ -375,6 +471,8 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Graph.Graph.html#VALfill_action">fill_action</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
 <tr><td><a href="Shape.html#VALfind_name">find_name</a> [<a href="Shape.html">Shape</a>]</td>
 <td><div class="info">
 <p><code class="code">find_name name shape</code> is <code class="code">Some found</code> where <code class="code">found</code> is the first shape
@@ -413,6 +511,8 @@
 </div>
 </td></tr>
 <tr><td align="left"><div>G</div></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALget_key">get_key</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
 <tr><td><a href="Config.html#VALget_keys">get_keys</a> [<a href="Config.html">Config</a>]</td>
 <td><div class="info">
 <p><code class="code">get_keys config</code> is the list of all keys that are currently pressed in
@@ -427,6 +527,10 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALget_mouse_button">get_mouse_button</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALget_mouse_coords">get_mouse_coords</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
 <tr><td><a href="Color.html#VALgray">gray</a> [<a href="Color.html">Color</a>]</td>
 <td><div class="info">
 <p><code class="code">gray val</code> is the opaque color represented by the grayscale value <code class="code">val</code>,
@@ -453,9 +557,51 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_apply_shape">handle_apply_shape</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_apply_vertex">handle_apply_vertex</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_key_pressed">handle_key_pressed</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_key_released">handle_key_released</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_mouse_moved">handle_mouse_moved</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_mouse_pressed">handle_mouse_pressed</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_mouse_released">handle_mouse_released</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_mouse_scroll">handle_mouse_scroll</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALhandle_shape">handle_shape</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALhandle_vertex">handle_vertex</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_window_delete">handle_window_delete</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_window_enter">handle_window_enter</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_window_leave">handle_window_leave</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALhandle_window_resized">handle_window_resized</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALhas_changed">has_changed</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALhas_dynamic_hotswap">has_dynamic_hotswap</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Math.Vector.html#VALheading">heading</a> [<a href="Math.Vector.html">Math.Vector</a>]</td>
 <td><div class="info">
 <p><code class="code">heading vec</code> is the heading of <code class="code">vec</code>, i.e.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALheight">height</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALheight">height</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Renderer.Renderer.html#VALheight">height</a> [<a href="Renderer.Renderer.html">Renderer.Renderer</a>]</td>
+<td><div class="info">
+<p><code class="code">height buffer</code> is the height of <code class="code">buffer</code>.</p>
 
 </div>
 </td></tr>
@@ -486,6 +632,38 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALis_dynamic">is_dynamic</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALis_initialized">is_initialized</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
+<tr><td align="left"><div>K</div></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALkey_pressed">key_pressed</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">key_pressed config state</code> is the state that results after a key
+     is pressed in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALkey_pressed">key_pressed</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALkey_released">key_released</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">key_released config state</code> is the state that results after a
+     key is released in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALkey_released">key_released</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALkey_typed">key_typed</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">key_typed config state</code> is the state that results after a key
+     is typed (pressed and released) in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALkey_typed">key_typed</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
 <tr><td align="left"><div>L</div></td></tr>
 <tr><td><a href="Key.KeyUnicode.html#VALleft">left</a> [<a href="Key.KeyUnicode.html">Key.KeyUnicode</a>]</td>
 <td></td></tr>
@@ -523,12 +701,23 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Runner.Runner.html#VALload_dynamic_module">load_dynamic_module</a> [<a href="Runner.Runner.html">Runner.Runner</a>]</td>
+<td></td></tr>
 <tr><td><a href="Math.Math.html#VALlog">log</a> [<a href="Math.Math.html">Math.Math</a>]</td>
 <td><div class="info">
 <p><code class="code">log f b</code> is the base-<code class="code">b</code> logarithm of <code class="code">f</code>.</p>
 
 </div>
 </td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALloop">loop</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">loop config state</code> is the state that results after advancing
+     <code class="code">state</code> through one time step.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALloop">loop</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
 <tr><td align="left"><div>M</div></td></tr>
 <tr><td><a href="Math.Vector.html#VALmag">mag</a> [<a href="Math.Vector.html">Math.Vector</a>]</td>
 <td><div class="info">
@@ -596,6 +785,60 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALmouse_clicked">mouse_clicked</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">mouse_clicked config state</code> is the state that results after the
+     mouse is clicked (pressed and then released) in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALmouse_clicked">mouse_clicked</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALmouse_dragged">mouse_dragged</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">mouse_dragged config state</code> is the state that results after the
+     mouse is dragged (moved while pressed) in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALmouse_dragged">mouse_dragged</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALmouse_moved">mouse_moved</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">mouse_moved config state</code> is the state that results after the
+     mouse is moved in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALmouse_moved">mouse_moved</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALmouse_pressed">mouse_pressed</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">mouse_pressed config state</code> is the state that results after the
+     mouse is pressed in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALmouse_pressed">mouse_pressed</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALmouse_released">mouse_released</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">mouse_released config state</code> is the state results after the
+     mouse is released in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALmouse_released">mouse_released</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALmouse_scrolled">mouse_scrolled</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">mouse_scrolled config state</code> is the state that results after
+     the mouse is scrolled in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALmouse_scrolled">mouse_scrolled</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
 <tr><td><a href="Math.Vector.html#VALmult">mult</a> [<a href="Math.Vector.html">Math.Vector</a>]</td>
 <td><div class="info">
 <p><code class="code">mult vec f</code> is the scalar multiplication of <code class="code">vec</code> by <code class="code">f</code>.</p>
@@ -686,6 +929,8 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALqueue_event">queue_event</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
 <tr><td align="left"><div>R</div></td></tr>
 <tr><td><a href="Math.Math.html#VALradians">radians</a> [<a href="Math.Math.html">Math.Math</a>]</td>
 <td><div class="info">
@@ -718,6 +963,18 @@
 <td><div class="info">
 <p><code class="code">rect point size</code> is the shape representing the rectangle with corner at
     <code class="code">point</code> and dimensions <code class="code">size</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALredraw_trigger">redraw_trigger</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALrender">render</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALrender">render</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Renderer.Renderer.html#VALrender">render</a> [<a href="Renderer.Renderer.html">Renderer.Renderer</a>]</td>
+<td><div class="info">
+<p><code class="code">render buffer shape</code> draws <code class="code">shape</code> to <code class="code">buffer</code>.</p>
 
 </div>
 </td></tr>
@@ -758,11 +1015,34 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Runner.Runner.html#VALrun">run</a> [<a href="Runner.Runner.html">Runner.Runner</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.html#VALrun_sketch">run_sketch</a> [<a href="Runner.html">Runner</a>]</td>
+<td><div class="info">
+<p><code class="code">run_sketch (module MySketch)</code> runs the sketch in the module
+   <code class="code">MySketch</code>.</p>
+
+</div>
+</td></tr>
 <tr><td align="left"><div>S</div></td></tr>
 <tr><td><a href="Shape.html#VALscale">scale</a> [<a href="Shape.html">Shape</a>]</td>
 <td><div class="info">
 <p><code class="code">scale (scale_x, scale_y) shape</code> is <code class="code">shape</code> scaled by factors of <code class="code">scale_x</code>
     and <code class="code">scale_y</code> in the x and y directions, respectively, about the origin.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALset_change_notifier">set_change_notifier</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALset_dynamic_handler">set_dynamic_handler</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALset_dynamic_hotswap">set_dynamic_hotswap</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Runner.Dynamic.html#VALset_initialized">set_initialized</a> [<a href="Runner.Dynamic.html">Runner.Dynamic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALsetup">setup</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">setup config</code> is the initial state.</p>
 
 </div>
 </td></tr>
@@ -801,6 +1081,8 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Graph.Graph.html#VALstroke_action">stroke_action</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
 <tr><td><a href="Shape.html#VALstroke_cap">stroke_cap</a> [<a href="Shape.html">Shape</a>]</td>
 <td><div class="info">
 <p><code class="code">stroke_cap c shape</code> is <code class="code">shape</code> with stroke cap <code class="code">c</code>, the way that the ends
@@ -860,6 +1142,12 @@
 
 </div>
 </td></tr>
+<tr><td><a href="Graph.Graph.html#VALtransform_color">transform_color</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALtransform_coords">transform_coords</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALtransform_coords_f">transform_coords_f</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
 <tr><td><a href="Shape.html#VALtranslate">translate</a> [<a href="Shape.html">Shape</a>]</td>
 <td><div class="info">
 <p><code class="code">translate tr shape</code> is <code class="code">shape</code> translated by offset <code class="code">tr</code>.</p>
@@ -879,9 +1167,39 @@
 </div>
 </td></tr>
 <tr><td align="left"><div>U</div></td></tr>
+<tr><td><a href="Graph.Graph.html#VALuncurry">uncurry</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
 <tr><td><a href="Key.KeyUnicode.html#VALup">up</a> [<a href="Key.KeyUnicode.html">Key.KeyUnicode</a>]</td>
 <td></td></tr>
 <tr><td align="left"><div>W</div></td></tr>
+<tr><td><a href="Gtk_cairo.Gtk_cairo.html#VALwidth">width</a> [<a href="Gtk_cairo.Gtk_cairo.html">Gtk_cairo.Gtk_cairo</a>]</td>
+<td></td></tr>
+<tr><td><a href="Graph.Graph.html#VALwidth">width</a> [<a href="Graph.Graph.html">Graph.Graph</a>]</td>
+<td></td></tr>
+<tr><td><a href="Renderer.Renderer.html#VALwidth">width</a> [<a href="Renderer.Renderer.html">Renderer.Renderer</a>]</td>
+<td><div class="info">
+<p><code class="code">width buffer</code> is the width of <code class="code">buffer</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALwindow_closed">window_closed</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">window_closed config state</code> is the state that results after the
+     window is closed in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALwindow_closed">window_closed</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
+<tr><td><a href="Sketch.Sketch.html#VALwindow_resized">window_resized</a> [<a href="Sketch.Sketch.html">Sketch.Sketch</a>]</td>
+<td><div class="info">
+<p><code class="code">window_resized config state</code> is the state that results after
+     the window is resized in <code class="code">state</code>.</p>
+
+</div>
+</td></tr>
+<tr><td><a href="Sketch.Base.html#VALwindow_resized">window_resized</a> [<a href="Sketch.Base.html">Sketch.Base</a>]</td>
+<td></td></tr>
 <tr><td><a href="Math.Vector.html#VALwith_mag">with_mag</a> [<a href="Math.Vector.html">Math.Vector</a>]</td>
 <td><div class="info">
 <p><code class="code">with_mag vec f</code> is <code class="code">vec</code> with a magnitude of <code class="code">f</code>, which is equivalent
