@@ -1,21 +1,21 @@
 
 module Math = struct
-  let pi = 2. *. Pervasives.asin 1.
+  let pi = 2. *. Stdlib.asin 1.
   let half_pi = pi /. 2.
   let two_pi = pi *. 2.
 
-  let e = Pervasives.exp 1.
+  let e = Stdlib.exp 1.
 
-  let abs = Pervasives.abs
-  let absf = Pervasives.abs_float
-  let ceil v = Pervasives.ceil v |> int_of_float
-  let ceilf = Pervasives.ceil
-  let floor v = Pervasives.floor v |> int_of_float
-  let floorf = Pervasives.floor
+  let abs = Stdlib.abs
+  let absf = Stdlib.abs_float
+  let ceil v = Stdlib.ceil v |> int_of_float
+  let ceilf = Stdlib.ceil
+  let floor v = Stdlib.floor v |> int_of_float
+  let floorf = Stdlib.floor
   let constrain (v : int) lower upper =
-    Pervasives.max v lower |> Pervasives.min upper
+    Stdlib.max v lower |> Stdlib.min upper
   let constrainf (v : float) lower upper =
-    Pervasives.max v lower |> Pervasives.min upper
+    Stdlib.max v lower |> Stdlib.min upper
   let distf x1 y1 x2 y2 = sqrt ((x2 -. x1) ** 2. +. (y2 -. y1) ** 2.)
   let dist x1 y1 x2 y2 = distf (float_of_int x1) (float_of_int y1)
       (float_of_int x2) (float_of_int y2)
@@ -30,24 +30,24 @@ module Math = struct
   let map v from_lower from_upper to_lower to_upper =
     mapf (float_of_int v) (float_of_int from_lower) (float_of_int from_upper)
       (float_of_int to_lower) (float_of_int to_upper) |> int_of_float
-  let max (a : int) (b : int) = Pervasives.max a b
-  let maxf (a : float) (b : float) = Pervasives.max a b
-  let min (a : int) (b : int) = Pervasives.min a b
-  let minf (a : float) (b : float) = Pervasives.min a b
+  let max (a : int) (b : int) = Stdlib.max a b
+  let maxf (a : float) (b : float) = Stdlib.max a b
+  let min (a : int) (b : int) = Stdlib.min a b
+  let minf (a : float) (b : float) = Stdlib.min a b
   let normf v lower upper = mapf v lower upper 0. 1.
   let norm v lower upper = normf (float_of_int v)
       (float_of_int lower) (float_of_int upper)
-  let round v = Pervasives.floor (v +. (if v >= 0. then 0.5 else -0.5))
+  let round v = Stdlib.floor (v +. (if v >= 0. then 0.5 else -0.5))
                 |> int_of_float
-  let sqrt = Pervasives.sqrt
+  let sqrt = Stdlib.sqrt
 
-  let acos = Pervasives.acos
-  let asin = Pervasives.asin
-  let atan = Pervasives.atan
-  let atan2 = Pervasives.atan2
-  let cos = Pervasives.cos
-  let sin = Pervasives.sin
-  let tan = Pervasives.tan
+  let acos = Stdlib.acos
+  let asin = Stdlib.asin
+  let atan = Stdlib.atan
+  let atan2 = Stdlib.atan2
+  let cos = Stdlib.cos
+  let sin = Stdlib.sin
+  let tan = Stdlib.tan
   let degrees r = r *. 180. /. pi
   let radians d = d *. pi /. 180.
 

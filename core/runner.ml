@@ -1,3 +1,4 @@
+(** [Runner] contains code for running sketches. *)
 
 open Config
 open Shape
@@ -227,6 +228,8 @@ end = struct
       end
 end
 
+(** [run_sketch (module MySketch)] runs the sketch in the module
+   [MySketch]. *)
 let run_sketch (sketch : (module Sketch)) : unit =
   let module Run = Runner (val sketch : Sketch) in
   begin

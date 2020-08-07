@@ -1,3 +1,4 @@
+(** A renderer using the OCaml Graphics library. *)
 
 open Color
 open Paint
@@ -6,6 +7,9 @@ open Vector
 open Shape
 open Renderer
 
+(** An implementation of Renderer using the OCaml Graphics library as
+   a backend. This renderer is lacking some p5ml features and mainly
+   exists in case GTK+ or cairo2 are not available. *)
 module Graph : Renderer = struct
   type buffer =
     {

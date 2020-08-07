@@ -1,3 +1,4 @@
+(** A renderer using GTK+/cairo2. *)
 
 open Gtk
 open Cairo_gtk
@@ -10,6 +11,9 @@ open Math
 open Shape
 open Renderer
 
+(** An implementation of Renderer using GTK+ and cairo2 as the
+   backend. This is the main renderer that supports all p5ml
+   features. *)
 module Gtk_cairo : Renderer = struct
   type buffer =
     {

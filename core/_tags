@@ -1,2 +1,2 @@
-true: package(oUnit), package(graphics), package(threads), package(cairo2), package(lablgtk2), package(cairo2-gtk)
+true: package(oUnit), package(graphics), package(threads), package(cairo2), package(lablgtk2), package(cairo2-gtk), package(stdlib-shims)
 true: thread

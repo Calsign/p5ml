@@ -36,7 +36,7 @@ docs: docs-public docs-private
 docs-public: build
 	mkdir -p doc.public
 	ocamlfind ocamldoc -I _build -thread -package $(PKGS) \
-		-html -stars -d doc.public $(MLIS)
+		-html -stars -d doc.public $(MLIS) $(RAW_MLS:=.ml)
 
 docs-private: build
 	mkdir -p doc.private
