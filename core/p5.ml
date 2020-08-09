@@ -28,10 +28,10 @@ module Maker (R : Renderer.Renderer) = struct
   module Base = Sketch.Base (R)
 end
 
-(** [Graph] is the p5ml core module instantiated with the GTK+/cairo2
+(** [Graph] is the p5ml core module instantiated with the Graphics
    renderer. *)
 module Graph = Maker (Graph.Graph)
 
-(** [Gtkc] is the p5ml core module instantiated with the Graphics
+(** [Gtkc] is the p5ml core module instantiated with the GTK+/cairo2
    renderer. *)
 module Gtkc = Maker (Gtk_cairo.Gtk_cairo)
